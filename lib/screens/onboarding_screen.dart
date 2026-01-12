@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mandalahearts/repository/auth_repository.dart';
 import 'package:mandalahearts/widgets/ui/agree_to_signup.dart';
 import 'package:mandalahearts/widgets/ui/google_button.dart';
 import 'package:mandalahearts/widgets/ui/icon_text_button.dart';
@@ -13,6 +15,7 @@ class OnBoardingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final authRepo = context.read<AuthRepository>();
 
     return Scaffold(
       body: SafeArea(
@@ -61,8 +64,6 @@ class OnBoardingScreen extends StatelessWidget {
                   ],
                 ),
               ),
-
-              /// BOTTOM ACTIONS
               Padding(
                 padding: const EdgeInsets.only(bottom: 24),
                 child: Column(
@@ -73,7 +74,9 @@ class OnBoardingScreen extends StatelessWidget {
                     GoogleButton(
                       text: 'Continue with Google',
                       borderRadius: 24,
-                      onPressed: () {},
+                      onPressed: () {
+                        authRepo.signInWithGoogle();
+                      },
                     ),
 
                     const SizedBox(height: 12),

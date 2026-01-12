@@ -1,13 +1,39 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mandalahearts/auth/bloc/auth_bloc.dart';
+import 'package:mandalahearts/auth/bloc/auth_event.dart';
 import 'package:mandalahearts/l10n/app_localizations.dart';
+import 'package:mandalahearts/repository/auth_repository.dart';
 import 'package:mandalahearts/routes.dart';
 import 'package:mandalahearts/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MandalaHearts());
+  await Firebase.initializeApp();
+
+  runApp(
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<AuthRepository>(
+          create: (_) => AuthRepository(firebaseAuth: FirebaseAuth.instance),
+        ),
+      ],
+      child: Builder(
+        builder: (context) {
+          return BlocProvider<AuthBloc>(
+            create: (_) =>
+                AuthBloc(authRepository: context.read<AuthRepository>())
+                  ..add(const AuthEvent.started()),
+            child: const MandalaHearts(),
+          );
+        },
+      ),
+    ),
+  );
 }
 
 class MandalaHearts extends StatefulWidget {

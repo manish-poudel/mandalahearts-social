@@ -1,3 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mandalahearts/repository/auth_repository.dart';
 import 'package:mandalahearts/widgets/ui/agree_to_signup.dart';
 import 'package:mandalahearts/widgets/ui/google_button.dart';
 import 'package:mandalahearts/widgets/ui/or_divider.dart';
@@ -12,20 +15,10 @@ class SignInScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final router = GoRouter.of(context);
 
     InputDecoration inputDecoration(String label) {
-      return InputDecoration(
-        labelText: label,
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: colorScheme.onSurface.withValues(alpha: 80),
-            width: 1,
-          ),
-        ),
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: colorScheme.primary, width: 1.5),
-        ),
-      );
+      return InputDecoration(labelText: label);
     }
 
     return Scaffold(
@@ -56,7 +49,7 @@ class SignInScreen extends StatelessWidget {
                     Text('or ', style: textTheme.bodyMedium),
                     GestureDetector(
                       onTap: () {
-                        context.replaceNamed("sign_up");
+                        context.replace("/sign_up");
                       },
                       child: Text(
                         'Join MandalaHearts',
@@ -75,7 +68,14 @@ class SignInScreen extends StatelessWidget {
                 GoogleButton(
                   text: 'Sign in with Google',
                   borderRadius: 24,
-                  onPressed: () {},
+                  onPressed: () async {
+                    UserCredential userCredential = await context
+                        .read<AuthRepository>()
+                        .signInWithGoogle();
+                    if (userCredential.user != null) {
+                      router.pop();
+                    }
+                  },
                 ),
 
                 const SizedBox(height: 12),

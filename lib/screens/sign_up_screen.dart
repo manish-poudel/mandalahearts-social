@@ -1,3 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mandalahearts/repository/auth_repository.dart';
 import 'package:mandalahearts/widgets/ui/agree_to_signup.dart';
 import 'package:mandalahearts/widgets/ui/google_button.dart';
 import 'package:mandalahearts/widgets/ui/or_divider.dart';
@@ -20,24 +23,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final router = GoRouter.of(context);
 
     InputDecoration inputDecoration({
       required String label,
       Widget? suffixIcon,
     }) {
-      return InputDecoration(
-        labelText: label,
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: colorScheme.onSurface.withValues(alpha: 80),
-            width: 1,
-          ),
-        ),
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: colorScheme.primary, width: 1.5),
-        ),
-        suffixIcon: suffixIcon,
-      );
+      return InputDecoration(labelText: label);
     }
 
     return Scaffold(
@@ -51,8 +43,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 24),
-
-                /// TITLE
                 Text(
                   'Sign up',
                   style: textTheme.headlineSmall?.copyWith(
@@ -68,7 +58,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Text('or ', style: textTheme.bodyMedium),
                     GestureDetector(
                       onTap: () {
-                        context.replaceNamed('sign_in');
+                        context.replace('/sign_in');
                       },
                       child: Text(
                         'Sign in to MandalaHearts',
@@ -137,7 +127,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                 const SizedBox(height: 28),
 
-                /// AGREE TO TERMS
                 AgreeToSignUp(textAlign: TextAlign.start),
 
                 const SizedBox(height: 16),
@@ -170,9 +159,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 GoogleButton(
                   text: 'Continue with Google',
                   borderRadius: 24,
-                  onPressed: () {},
+                  onPressed: () async {
+                    UserCredential userCredential = await context
+                        .read<AuthRepository>()
+                        .signInWithGoogle();
+                    if (userCredential.user != null) {
+                      router.pop();
+                    }
+                  },
                 ),
-
                 const SizedBox(height: 32),
               ],
             ),

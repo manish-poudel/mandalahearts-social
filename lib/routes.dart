@@ -1,3 +1,7 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mandalahearts/auth/cubits/sign_in_cubit.dart';
+import 'package:mandalahearts/repository/auth_repository.dart';
+import 'package:mandalahearts/screens/mandalaheart_app.dart';
 import 'package:mandalahearts/screens/onboarding_screen.dart';
 import 'package:mandalahearts/screens/sign_in_screen.dart';
 import 'package:mandalahearts/screens/sign_up_screen.dart';
@@ -18,8 +22,15 @@ class FadeTransitionPage<T> extends CustomTransitionPage<T> {
 
 /// The route configuration.
 final GoRouter routes = GoRouter(
-  initialLocation: '/onboarding',
+  initialLocation: '/',
   routes: <RouteBase>[
+    GoRoute(
+      name: 'mandalaheartapp',
+      path: '/',
+      builder: (BuildContext context, GoRouterState state) {
+        return MandalaHeartApp();
+      },
+    ),
     GoRoute(
       name: 'onboarding',
       path: '/onboarding',
@@ -28,10 +39,12 @@ final GoRouter routes = GoRouter(
       },
     ),
     GoRoute(
-      name: 'sign_in',
       path: '/sign_in',
-      builder: (BuildContext context, GoRouterState state) {
-        return SignInScreen();
+      builder: (context, state) {
+        return BlocProvider(
+          create: (_) => SignInCubit(context.read<AuthRepository>()),
+          child: const SignInScreen(),
+        );
       },
     ),
     GoRoute(

@@ -68,13 +68,13 @@ final AppBarTheme lightAppBarTheme = const AppBarTheme(
   iconTheme: IconThemeData(color: Color(0xFF1E2A26)),
 );
 
-/// ✍️ Inputs — soft focus, no harsh borders
 final InputDecorationThemeData lightInputDecorationTheme =
     InputDecorationThemeData(
       hintStyle: TextStyle(color: Color(0xFF8FA6A0), fontSize: 15),
       labelStyle: TextStyle(color: Color(0xFF1E2A26)),
       floatingLabelStyle: TextStyle(color: Color(0xFF2F6F59)),
-      border: InputBorder.none,
+      border: UnderlineInputBorder(borderSide: BorderSide()),
+      focusColor: lightColorScheme.primary,
     );
 
 /// 🎯 Final ThemeData
