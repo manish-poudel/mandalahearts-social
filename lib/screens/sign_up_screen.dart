@@ -1,12 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mandalahearts/repository/auth_repository.dart';
-import 'package:mandalahearts/widgets/ui/agree_to_signup.dart';
-import 'package:mandalahearts/widgets/ui/google_button.dart';
-import 'package:mandalahearts/widgets/ui/or_divider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mandalahearts/auth/cubits/sign_up/sign_up_cubit.dart';
+import 'package:mandalahearts/auth/cubits/sign_up/sign_up_state.dart';
+import 'package:mandalahearts/repository/auth_repository.dart';
+import 'package:mandalahearts/widgets/ui/agree_to_signup.dart';
+import 'package:mandalahearts/widgets/ui/email_password_form.dart';
+import 'package:mandalahearts/widgets/ui/google_button.dart';
+import 'package:mandalahearts/widgets/ui/or_divider.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -16,8 +18,19 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  bool _obscurePassword = true;
-  bool _obscureConfirmPassword = true;
+  final _formKey = GlobalKey<FormState>();
+
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,151 +38,137 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final textTheme = Theme.of(context).textTheme;
     final router = GoRouter.of(context);
 
-    InputDecoration inputDecoration({
-      required String label,
-      Widget? suffixIcon,
-    }) {
-      return InputDecoration(labelText: label);
-    }
+    return BlocListener<SignUpCubit, SignUpState>(
+      listener: (context, state) {
+        state.whenOrNull(
+          success: () {
+            context.pop();
+          },
+          error: (message) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(message)));
+          },
+        );
+      },
+      child: Scaffold(
+        appBar: AppBar(),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 24),
 
-    return Scaffold(
-      appBar: AppBar(),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 24),
-                Text(
-                  'Sign up',
-                  style: textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
+                  Text(
+                    'Sign up',
+                    style: textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
 
-                const SizedBox(height: 6),
+                  const SizedBox(height: 6),
 
-                /// SIGN IN LINK
-                Row(
-                  children: [
-                    Text('or ', style: textTheme.bodyMedium),
-                    GestureDetector(
-                      onTap: () {
-                        context.replace('/sign_in');
-                      },
-                      child: Text(
-                        'Sign in to MandalaHearts',
-                        style: textTheme.bodyMedium?.copyWith(
-                          color: colorScheme.primary,
-                          fontWeight: FontWeight.w600,
+                  Row(
+                    children: [
+                      Text('or ', style: textTheme.bodyMedium),
+                      GestureDetector(
+                        onTap: () => context.replace('/sign_in'),
+                        child: Text(
+                          'Sign in to MandalaHearts',
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 32),
-
-                /// EMAIL
-                TextField(
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: inputDecoration(label: 'Email'),
-                ),
-
-                const SizedBox(height: 20),
-
-                /// PASSWORD
-                TextField(
-                  obscureText: _obscurePassword,
-                  decoration: inputDecoration(
-                    label: 'Password',
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscurePassword
-                            ? Icons.visibility_off_outlined
-                            : Icons.visibility_outlined,
-                        size: 20,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _obscurePassword = !_obscurePassword;
-                        });
-                      },
-                    ),
+                    ],
                   ),
-                ),
 
-                const SizedBox(height: 20),
+                  const SizedBox(height: 28),
 
-                /// CONFIRM PASSWORD
-                TextField(
-                  obscureText: _obscureConfirmPassword,
-                  decoration: inputDecoration(
-                    label: 'Confirm password',
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscureConfirmPassword
-                            ? Icons.visibility_off_outlined
-                            : Icons.visibility_outlined,
-                        size: 20,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _obscureConfirmPassword = !_obscureConfirmPassword;
-                        });
-                      },
-                    ),
+                  EmailPasswordForm(
+                    formKey: _formKey,
+                    emailController: _emailController,
+                    passwordController: _passwordController,
+                    confirmPasswordController: _confirmPasswordController,
+                    showConfirmPassword: true,
                   ),
-                ),
 
-                const SizedBox(height: 28),
+                  const SizedBox(height: 28),
+                  AgreeToSignUp(textAlign: TextAlign.start),
+                  const SizedBox(height: 16),
 
-                AgreeToSignUp(textAlign: TextAlign.start),
+                  /// ✅ BUTTON (FIXED)
+                  BlocBuilder<SignUpCubit, SignUpState>(
+                    builder: (context, state) {
+                      print(state);
+                      final isLoading = state.maybeWhen(
+                        loading: () => true,
+                        orElse: () => false,
+                      );
 
-                const SizedBox(height: 16),
-
-                /// AGREE & JOIN BUTTON
-                SizedBox(
-                  width: double.infinity,
-                  height: 48,
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Agree & Join',
-                      style: GoogleFonts.roboto(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 0.25,
-                      ),
-                    ),
+                      return SizedBox(
+                        width: double.infinity,
+                        height: 48,
+                        child: OutlinedButton(
+                          onPressed: isLoading
+                              ? null
+                              : () {
+                                  if (!_formKey.currentState!.validate()) {
+                                    return;
+                                  }
+                                  context.read<SignUpCubit>().signUpWithEmail(
+                                    email: _emailController.text.trim(),
+                                    password: _passwordController.text.trim(),
+                                  );
+                                },
+                          child: isLoading
+                              ? SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    color: colorScheme.surface,
+                                    strokeWidth: 2,
+                                  ),
+                                )
+                              : Text(
+                                  'Agree & Join',
+                                  style: GoogleFonts.roboto(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    letterSpacing: 0.25,
+                                  ),
+                                ),
+                        ),
+                      );
+                    },
                   ),
-                ),
 
-                const SizedBox(height: 20),
+                  const SizedBox(height: 20),
+                  const OrDivider(),
+                  const SizedBox(height: 20),
 
-                /// OR DIVIDER
-                const OrDivider(),
+                  GoogleButton(
+                    text: 'Continue with Google',
+                    borderRadius: 24,
+                    onPressed: () async {
+                      final userCredential = await context
+                          .read<AuthRepository>()
+                          .signInWithGoogle();
 
-                const SizedBox(height: 20),
+                      if (userCredential.user != null) {
+                        router.pop();
+                      }
+                    },
+                  ),
 
-                /// GOOGLE SIGN-UP
-                GoogleButton(
-                  text: 'Continue with Google',
-                  borderRadius: 24,
-                  onPressed: () async {
-                    UserCredential userCredential = await context
-                        .read<AuthRepository>()
-                        .signInWithGoogle();
-                    if (userCredential.user != null) {
-                      router.pop();
-                    }
-                  },
-                ),
-                const SizedBox(height: 32),
-              ],
+                  const SizedBox(height: 32),
+                ],
+              ),
             ),
           ),
         ),

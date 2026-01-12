@@ -1,26 +1,40 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mandalahearts/repository/auth_repository.dart';
-import 'package:mandalahearts/widgets/ui/agree_to_signup.dart';
-import 'package:mandalahearts/widgets/ui/google_button.dart';
-import 'package:mandalahearts/widgets/ui/or_divider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mandalahearts/auth/cubits/sign_in/sign_in_cubit.dart';
+import 'package:mandalahearts/auth/cubits/sign_in/sign_in_state.dart';
+import 'package:mandalahearts/repository/auth_repository.dart';
+import 'package:mandalahearts/widgets/ui/agree_to_signup.dart';
+import 'package:mandalahearts/widgets/ui/email_password_form.dart';
+import 'package:mandalahearts/widgets/ui/google_button.dart';
+import 'package:mandalahearts/widgets/ui/or_divider.dart';
 
-class SignInScreen extends StatelessWidget {
+class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
+
+  @override
+  State<SignInScreen> createState() => _SignInScreenState();
+}
+
+class _SignInScreenState extends State<SignInScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final router = GoRouter.of(context);
-
-    InputDecoration inputDecoration(String label) {
-      return InputDecoration(labelText: label);
-    }
-
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -89,69 +103,79 @@ class SignInScreen extends StatelessWidget {
                 const SizedBox(height: 24),
 
                 /// OR DIVIDER
-                OrDivider(),
+                const OrDivider(),
                 const SizedBox(height: 24),
 
-                /// EMAIL
-                TextField(
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: inputDecoration('Email'),
+                /// EMAIL + PASSWORD FORM
+                EmailPasswordForm(
+                  formKey: _formKey,
+                  emailController: _emailController,
+                  passwordController: _passwordController,
+                  showConfirmPassword: false,
                 ),
 
-                const SizedBox(height: 20),
-
-                /// PASSWORD
-                TextField(
-                  obscureText: true,
-                  decoration: inputDecoration('Password'),
-                ),
-
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    Transform.translate(
-                      offset: const Offset(
-                        -8,
-                        0,
-                      ), // removes left padding visually
-                      child: Checkbox(
-                        value: false,
-                        onChanged: (_) {},
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        visualDensity: VisualDensity.compact,
-                      ),
+                const SizedBox(height: 24),
+                GestureDetector(
+                  onTap: () {},
+                  child: Text(
+                    'Forgot password?',
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.primary,
+                      fontWeight: FontWeight.w600,
                     ),
-                    Text('Remember me', style: textTheme.bodyMedium),
-                    const Spacer(),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Text(
-                        'Forgot password?',
-                        style: textTheme.bodyMedium?.copyWith(
-                          color: colorScheme.primary,
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
 
                 const SizedBox(height: 28),
 
                 /// CONTINUE BUTTON
-                SizedBox(
-                  width: double.infinity,
-                  height: 48,
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Continue',
-                      style: GoogleFonts.roboto(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 0.25,
+                BlocConsumer<SignInCubit, SignInState>(
+                  listener: (context, state) {
+                    state.maybeWhen(
+                      success: () {
+                        router.pop();
+                      },
+                      error: (message) {
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(SnackBar(content: Text(message)));
+                      },
+                      orElse: () {},
+                    );
+                  },
+                  builder: (context, state) {
+                    return SizedBox(
+                      width: double.infinity,
+                      height: 48,
+                      child: OutlinedButton(
+                        onPressed: () {
+                          if (!_formKey.currentState!.validate()) return;
+                          context.read<SignInCubit>().signInWithEmail(
+                            _emailController.text.trim(),
+                            _passwordController.text.trim(),
+                          );
+                        },
+                        child: state.maybeWhen(
+                          loading: () => SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              color: colorScheme.surface,
+                              strokeWidth: 2,
+                            ),
+                          ),
+                          orElse: () => Text(
+                            'Continue',
+                            style: GoogleFonts.roboto(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 0.25,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
 
                 const SizedBox(height: 24),

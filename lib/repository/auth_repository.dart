@@ -18,10 +18,19 @@ class AuthRepository {
     await _auth.signInWithEmailAndPassword(email: email, password: password);
   }
 
+  Future<void> signUpWithEmail({
+    required String email,
+    required String password,
+  }) async {
+    await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+  }
+
   Future<UserCredential> signInWithGoogle() async {
     await _googleSignIn.initialize();
-    final GoogleSignInAccount? googleUser = await _googleSignIn.authenticate();
-    if (googleUser == null) throw Exception("Google sign-in cancelled");
+    final GoogleSignInAccount googleUser = await _googleSignIn.authenticate();
     final GoogleSignInAuthentication googleAuth = googleUser.authentication;
     final authorizationClient = googleUser.authorizationClient;
     GoogleSignInClientAuthorization? authorization = await authorizationClient

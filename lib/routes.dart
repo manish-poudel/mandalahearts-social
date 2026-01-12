@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mandalahearts/auth/cubits/sign_in_cubit.dart';
+import 'package:mandalahearts/auth/cubits/sign_in/sign_in_cubit.dart';
+import 'package:mandalahearts/auth/cubits/sign_up/sign_up_cubit.dart';
 import 'package:mandalahearts/repository/auth_repository.dart';
 import 'package:mandalahearts/screens/mandalaheart_app.dart';
 import 'package:mandalahearts/screens/onboarding_screen.dart';
@@ -47,11 +48,14 @@ final GoRouter routes = GoRouter(
         );
       },
     ),
+
     GoRoute(
-      name: 'sign_up',
       path: '/sign_up',
-      builder: (BuildContext context, GoRouterState state) {
-        return SignUpScreen();
+      builder: (context, state) {
+        return BlocProvider(
+          create: (_) => SignUpCubit(context.read<AuthRepository>()),
+          child: const SignUpScreen(),
+        );
       },
     ),
   ],
