@@ -1,15 +1,15 @@
-import 'package:mandalahearts/firebase/firestore/user_firestore_service.dart';
+import 'package:mandalahearts/core/exceptions/firestore_exceptions.dart';
+import 'package:mandalahearts/core/services/firestore/firestore_user_service.dart';
 import 'package:mandalahearts/models/app_user/app_user.dart';
 
 class AppUserRepository {
-  AppUserRepository({required UserFirestoreService firestoreService})
+  AppUserRepository({required FirestoreUserService firestoreService})
     : _firestoreService = firestoreService;
 
-  final UserFirestoreService _firestoreService;
+  final FirestoreUserService _firestoreService;
 
   // Cache variable
   AppUser? _appUser;
-  String? name;
 
   // Getter for easy access
   AppUser? get currentUser => _appUser;
@@ -25,6 +25,7 @@ class AppUserRepository {
 
   Future<void> updateUser(AppUser user) async {
     try {
+      print(user.toJson());
       await _firestoreService.updateUser(userId: user.uid, json: user.toJson());
       _appUser = user;
     } catch (e) {
@@ -38,7 +39,6 @@ class AppUserRepository {
         _appUser = null;
         return null;
       }
-      // Update cache whenever the stream emits a new value
       final user = AppUser.fromJson(snapshot.data()!);
       _appUser = user;
       return user;
@@ -47,20 +47,23 @@ class AppUserRepository {
 
   Future<AppUser?> getUser(String userId, {bool forceRefresh = false}) async {
     try {
+      // Return cached user if available
       if (_appUser != null && !forceRefresh) {
         return _appUser;
       }
+
+      // Fetch from Firestore
       final snapshot = await _firestoreService.getUser(userId);
+
       if (!snapshot.exists || snapshot.data() == null) {
         _appUser = null;
-        name = "Manish";
         return null;
       }
-      _appUser = AppUser.fromJson(snapshot.data()!);
-
+      final data = snapshot.data()!;
+      _appUser = AppUser.fromJson(data);
       return _appUser;
     } catch (e) {
-      rethrow;
+      rethrow; // Let the Cubit/UI handle the exception
     }
   }
 

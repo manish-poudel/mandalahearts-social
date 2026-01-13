@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mandalahearts/auth/cubits/sign_up/sign_up_state.dart';
+import 'package:mandalahearts/features/sign_up/cubits/sign_up_state.dart';
 import 'package:mandalahearts/repository/auth_repository.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mandalahearts/widgets/ui/password_textfield.dart';
+import 'package:mandalahearts/core/widgets/password_textfield.dart';
 
 class EmailPasswordForm extends StatelessWidget {
   final GlobalKey<FormState> formKey;

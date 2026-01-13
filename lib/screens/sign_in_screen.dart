@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mandalahearts/auth/cubits/sign_in/sign_in_cubit.dart';
-import 'package:mandalahearts/auth/cubits/sign_in/sign_in_state.dart';
+import 'package:mandalahearts/app/app_routes.dart';
+import 'package:mandalahearts/core/widgets/google_button.dart';
+import 'package:mandalahearts/core/widgets/or_divider.dart';
+import 'package:mandalahearts/features/sign_in/cubits/sign_in_cubit.dart';
+import 'package:mandalahearts/features/sign_in/cubits/sign_in_state.dart';
 import 'package:mandalahearts/repository/auth_repository.dart';
-import 'package:mandalahearts/widgets/ui/agree_to_signup.dart';
-import 'package:mandalahearts/widgets/ui/email_password_form.dart';
-import 'package:mandalahearts/widgets/ui/google_button.dart';
-import 'package:mandalahearts/widgets/ui/or_divider.dart';
+import 'package:mandalahearts/core/widgets/agree_to_signup.dart';
+import 'package:mandalahearts/core/widgets/email_password_form.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -63,7 +64,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     Text('or ', style: textTheme.bodyMedium),
                     GestureDetector(
                       onTap: () {
-                        context.replace("/sign_up");
+                        context.replace(AppRoute.signUp.path);
                       },
                       child: Text(
                         'Join MandalaHearts',

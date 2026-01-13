@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mandalahearts/app/app_routes.dart';
+import 'package:mandalahearts/core/widgets/google_button.dart';
+import 'package:mandalahearts/core/widgets/icon_text_button.dart';
+import 'package:mandalahearts/core/widgets/or_divider.dart';
 import 'package:mandalahearts/repository/auth_repository.dart';
-import 'package:mandalahearts/widgets/ui/agree_to_signup.dart';
-import 'package:mandalahearts/widgets/ui/google_button.dart';
-import 'package:mandalahearts/widgets/ui/icon_text_button.dart';
-import 'package:mandalahearts/widgets/ui/or_divider.dart';
+import 'package:mandalahearts/core/widgets/agree_to_signup.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({super.key});
@@ -83,7 +84,7 @@ class OnBoardingScreen extends StatelessWidget {
 
                     IconTextButton(
                       onPressed: () {
-                        context.push("/sign_in");
+                        context.push(AppRoute.signIn.path);
                       },
                       text: 'Sign in with email',
                       icon: const Icon(

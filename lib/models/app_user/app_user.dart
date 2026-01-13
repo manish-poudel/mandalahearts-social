@@ -3,21 +3,42 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'app_user.freezed.dart';
 part 'app_user.g.dart';
 
-@freezed
+@Freezed(toJson: true)
 abstract class AppUser with _$AppUser {
   const factory AppUser({
     required String uid,
     required String username,
-    required String firstName,
-    required String secondName,
-    required DateTime dob,
-    required String gender,
-    required String? bio,
-    required String? guruName,
-    required String? spiritualOrganisation,
-    required String? spiritualPractice,
+    BasicDetails? basicDetails,
+    String? bio,
+    SpiritualDetails? spiritualDetails,
   }) = _AppUser;
 
   factory AppUser.fromJson(Map<String, dynamic> json) =>
       _$AppUserFromJson(json);
+}
+
+@freezed
+abstract class BasicDetails with _$BasicDetails {
+  const factory BasicDetails({
+    required String firstName,
+    required String secondName,
+    required DateTime dob,
+    required String gender,
+    String? profilePictureUrl,
+  }) = _BasicDetails;
+
+  factory BasicDetails.fromJson(Map<String, dynamic> json) =>
+      _$BasicDetailsFromJson(json);
+}
+
+@freezed
+abstract class SpiritualDetails with _$SpiritualDetails {
+  const factory SpiritualDetails({
+    String? guruName,
+    String? spiritualOrganisation,
+    String? spiritualPractice,
+  }) = _SpiritualDetails;
+
+  factory SpiritualDetails.fromJson(Map<String, dynamic> json) =>
+      _$SpiritualDetailsFromJson(json);
 }
