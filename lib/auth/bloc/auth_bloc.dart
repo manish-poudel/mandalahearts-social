@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mandalahearts/models/app_user/app_user.dart';
+import 'package:mandalahearts/repository/app_user_repository.dart';
 import 'package:mandalahearts/repository/auth_repository.dart';
 
 import 'auth_event.dart';
@@ -9,15 +11,16 @@ import 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthRepository authRepository;
+  AppUserRepository appUserRepository;
   StreamSubscription<User?>? _authSubscription;
 
-  AuthBloc({required this.authRepository}) : super(const AuthState.initial()) {
+  AuthBloc({required this.authRepository, required this.appUserRepository})
+    : super(const AuthState.initial()) {
     on<AuthEvent>(_onAuthEvent);
   }
 
   Future<void> _onAuthEvent(AuthEvent event, Emitter<AuthState> emit) async {
     await event.when(
-      /// 🔹 App start → listen to Firebase auth changes
       started: () async {
         emit(const AuthState.loading());
         await _authSubscription?.cancel();
@@ -25,11 +28,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           add(AuthEvent.onAuthStateChange(user: user));
         });
       },
-      onAuthStateChange: (user) {
+      onAuthStateChange: (user) async {
+        print("Chnage in auth....");
         if (user == null) {
           emit(const AuthState.unauthenticated());
         } else {
-          emit(const AuthState.authenticated(hasProfile: true));
+          AppUser? appUser = await appUserRepository.getUser(
+            user.uid,
+            forceRefresh: true,
+          );
+          bool hasProfile = appUser != null;
+          emit(AuthState.authenticated(hasProfile: hasProfile));
         }
       },
     );

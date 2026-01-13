@@ -3,7 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mandalahearts/auth/bloc/auth_bloc.dart';
 import 'package:mandalahearts/auth/bloc/auth_event.dart';
+import 'package:mandalahearts/firebase/firestore/user_firestore_service.dart';
 import 'package:mandalahearts/l10n/app_localizations.dart';
+import 'package:mandalahearts/repository/app_user_repository.dart';
 import 'package:mandalahearts/repository/auth_repository.dart';
 import 'package:mandalahearts/routes.dart';
 import 'package:mandalahearts/theme/app_theme.dart';
@@ -21,13 +23,18 @@ Future<void> main() async {
         RepositoryProvider<AuthRepository>(
           create: (_) => AuthRepository(firebaseAuth: FirebaseAuth.instance),
         ),
+        RepositoryProvider<AppUserRepository>(
+          create: (_) =>
+              AppUserRepository(firestoreService: UserFirestoreService()),
+        ),
       ],
       child: Builder(
         builder: (context) {
           return BlocProvider<AuthBloc>(
-            create: (_) =>
-                AuthBloc(authRepository: context.read<AuthRepository>())
-                  ..add(const AuthEvent.started()),
+            create: (_) => AuthBloc(
+              authRepository: context.read<AuthRepository>(),
+              appUserRepository: context.read<AppUserRepository>(),
+            )..add(const AuthEvent.started()),
             child: const MandalaHearts(),
           );
         },

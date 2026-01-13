@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mandalahearts/repository/auth_repository.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -19,13 +20,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _user = FirebaseAuth.instance.currentUser;
   }
 
-  Future<void> _signOut() async {
+  Future<void> _signOut(BuildContext bc) async {
+    print("sign out");
     try {
+      print("signout");
       await context.read<AuthRepository>().signOut();
-      // Navigate back to login after sign-out
-      if (mounted) {
-        Navigator.of(context).pushReplacementNamed('/sign_in');
-      }
+      final router = GoRouter.of(context);
+      router.pushReplacement("/");
     } catch (e) {
       // Show error
       if (mounted) {
@@ -40,9 +41,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dashboard'),
+        title: Text(""),
         actions: [
-          IconButton(icon: const Icon(Icons.logout), onPressed: _signOut),
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () => _signOut(context),
+          ),
         ],
       ),
       body: Center(
@@ -57,7 +61,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                   const SizedBox(height: 16),
                   ElevatedButton(
-                    onPressed: _signOut,
+                    onPressed: () => _signOut(context),
                     child: const Text('Log Out'),
                   ),
                 ],
