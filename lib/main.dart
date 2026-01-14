@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mandalahearts/features/auth/bloc/auth_bloc.dart';
-import 'package:mandalahearts/features/auth/bloc/auth_event.dart';
 import 'package:mandalahearts/core/services/firestore/firestore_user_service.dart';
 import 'package:mandalahearts/l10n/app_localizations.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';

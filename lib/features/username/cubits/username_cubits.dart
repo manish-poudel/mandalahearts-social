@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mandalahearts/core/exceptions/firestore_exceptions.dart';
+import 'package:mandalahearts/core/exceptions/database_exceptions.dart';
 import 'package:mandalahearts/core/services/database/username_db.dart';
 import 'package:mandalahearts/features/username/cubits/username_state.dart';
 

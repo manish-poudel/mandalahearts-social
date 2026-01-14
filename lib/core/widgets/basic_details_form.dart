@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mandalahearts/core/widgets/chip_selector_form_field.dart';
+import 'package:mandalahearts/core/widgets/country_selector.dart';
 import 'package:mandalahearts/core/widgets/date_picker.dart';
 
 class BasicDetailsForm extends StatelessWidget {
@@ -9,9 +9,9 @@ class BasicDetailsForm extends StatelessWidget {
     required this.firstNameController,
     required this.lastNameController,
     required this.onDobChanged,
-    required this.onOptionChanged,
+    required this.onCountryChanged,
     this.initialDob,
-    this.initialOption,
+    this.initialCountry,
   });
 
   final GlobalKey<FormState> formKey;
@@ -19,27 +19,10 @@ class BasicDetailsForm extends StatelessWidget {
   final TextEditingController lastNameController;
 
   final ValueChanged<DateTime?> onDobChanged;
-  final ValueChanged<String?> onOptionChanged;
+  final ValueChanged<String?> onCountryChanged;
 
   final DateTime? initialDob;
-  final String? initialOption;
-
-  static const List<ChipOption<String>> _genderOptions = [
-    ChipOption(value: 'male', label: 'Male'),
-    ChipOption(value: 'female', label: 'Female'),
-    ChipOption(value: 'non_binary', label: 'Non-binary'),
-    ChipOption(value: 'prefer_not_say', label: 'Prefer not to say'),
-  ];
-
-  ChipOption<String>? _mapGenderToOption(String? value) {
-    if (value == null || value.isEmpty) return null;
-
-    try {
-      return _genderOptions.firstWhere((o) => o.value == value);
-    } catch (_) {
-      return null; // ✅ safe fallback
-    }
-  }
+  final String? initialCountry;
 
   int _calculateAge(DateTime dob) {
     final today = DateTime.now();
@@ -59,6 +42,7 @@ class BasicDetailsForm extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          /// First Name
           TextFormField(
             controller: firstNameController,
             decoration: const InputDecoration(labelText: 'First name'),
@@ -68,6 +52,7 @@ class BasicDetailsForm extends StatelessWidget {
 
           const SizedBox(height: 20),
 
+          /// Last Name
           TextFormField(
             controller: lastNameController,
             decoration: const InputDecoration(labelText: 'Last name'),
@@ -77,6 +62,7 @@ class BasicDetailsForm extends StatelessWidget {
 
           const SizedBox(height: 20),
 
+          /// Date of Birth
           DatePicker(
             initialDate: initialDob,
             onChanged: onDobChanged,
@@ -90,20 +76,9 @@ class BasicDetailsForm extends StatelessWidget {
           ),
 
           const SizedBox(height: 32),
-
-          ChipSelectorFormField<String>(
-            label: 'Gender',
-            options: _genderOptions,
-
-            /// ✅ SAFE: null when empty or invalid
-            initialValue: _mapGenderToOption(initialOption),
-
-            validator: (v) => v == null ? 'Select your gender' : null,
-
-            /// MODEL → VALUE
-            onChanged: (option) {
-              onOptionChanged(option?.value);
-            },
+          CountrySelector(
+            initialCountry: initialCountry,
+            onCountryChanged: (country) => onCountryChanged(country?.code),
           ),
         ],
       ),

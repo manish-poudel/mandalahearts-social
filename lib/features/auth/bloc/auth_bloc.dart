@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mandalahearts/app/app_routes.dart';
+import 'package:mandalahearts/features/auth/enums/user_profile_state.dart';
 import 'package:mandalahearts/models/app_user/app_user.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
 import 'package:mandalahearts/repository/auth_repository.dart';
@@ -37,18 +37,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             user.uid,
             forceRefresh: true,
           );
-          print("here i amm");
+
           bool hasProfile = appUser != null;
           if (!hasProfile) {
-            emit(AuthState.authenticated(navigateTo: AppRoute.username));
+            emit(
+              AuthState.authenticated(profileState: UserProfileState.noProfile),
+            );
             return;
           }
           if (appUser.basicDetails == null) {
-            print("go to add profile..");
-            emit(AuthState.authenticated(navigateTo: AppRoute.addProfile));
+            emit(
+              AuthState.authenticated(
+                profileState: UserProfileState.noBasicDetails,
+              ),
+            );
             return;
           }
-          emit(AuthState.authenticated(navigateTo: AppRoute.dashboard));
+          emit(AuthState.authenticated(profileState: UserProfileState.allSet));
         }
       },
     );

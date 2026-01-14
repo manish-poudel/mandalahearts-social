@@ -1,4 +1,3 @@
-import 'package:mandalahearts/core/exceptions/firestore_exceptions.dart';
 import 'package:mandalahearts/core/services/firestore/firestore_user_service.dart';
 import 'package:mandalahearts/models/app_user/app_user.dart';
 
@@ -25,7 +24,6 @@ class AppUserRepository {
 
   Future<void> updateUser(AppUser user) async {
     try {
-      print(user.toJson());
       await _firestoreService.updateUser(userId: user.uid, json: user.toJson());
       _appUser = user;
     } catch (e) {

@@ -16,7 +16,6 @@ class SignInCubit extends Cubit<SignInState> {
 
       emit(const SignInState.success());
     } on FirebaseAuthException catch (e) {
-      print(e.code);
       emit(SignInState.error(message: _mapFirebaseError(e.code)));
     } catch (_) {
       emit(

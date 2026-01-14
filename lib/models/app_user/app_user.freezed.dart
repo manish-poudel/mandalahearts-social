@@ -338,7 +338,7 @@ $SpiritualDetailsCopyWith<$Res>? get spiritualDetails {
 /// @nodoc
 mixin _$BasicDetails {
 
- String get firstName; String get secondName; DateTime get dob; String get gender; String? get profilePictureUrl;
+ String get firstName; String get secondName; DateTime get dob; String get country; String? get profilePictureUrl;
 /// Create a copy of BasicDetails
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -351,16 +351,16 @@ $BasicDetailsCopyWith<BasicDetails> get copyWith => _$BasicDetailsCopyWithImpl<B
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BasicDetails&&(identical(other.firstName, firstName) || other.firstName == firstName)&&(identical(other.secondName, secondName) || other.secondName == secondName)&&(identical(other.dob, dob) || other.dob == dob)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.profilePictureUrl, profilePictureUrl) || other.profilePictureUrl == profilePictureUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BasicDetails&&(identical(other.firstName, firstName) || other.firstName == firstName)&&(identical(other.secondName, secondName) || other.secondName == secondName)&&(identical(other.dob, dob) || other.dob == dob)&&(identical(other.country, country) || other.country == country)&&(identical(other.profilePictureUrl, profilePictureUrl) || other.profilePictureUrl == profilePictureUrl));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,firstName,secondName,dob,gender,profilePictureUrl);
+int get hashCode => Object.hash(runtimeType,firstName,secondName,dob,country,profilePictureUrl);
 
 @override
 String toString() {
-  return 'BasicDetails(firstName: $firstName, secondName: $secondName, dob: $dob, gender: $gender, profilePictureUrl: $profilePictureUrl)';
+  return 'BasicDetails(firstName: $firstName, secondName: $secondName, dob: $dob, country: $country, profilePictureUrl: $profilePictureUrl)';
 }
 
 
@@ -371,7 +371,7 @@ abstract mixin class $BasicDetailsCopyWith<$Res>  {
   factory $BasicDetailsCopyWith(BasicDetails value, $Res Function(BasicDetails) _then) = _$BasicDetailsCopyWithImpl;
 @useResult
 $Res call({
- String firstName, String secondName, DateTime dob, String gender, String? profilePictureUrl
+ String firstName, String secondName, DateTime dob, String country, String? profilePictureUrl
 });
 
 
@@ -388,12 +388,12 @@ class _$BasicDetailsCopyWithImpl<$Res>
 
 /// Create a copy of BasicDetails
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? firstName = null,Object? secondName = null,Object? dob = null,Object? gender = null,Object? profilePictureUrl = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? firstName = null,Object? secondName = null,Object? dob = null,Object? country = null,Object? profilePictureUrl = freezed,}) {
   return _then(_self.copyWith(
 firstName: null == firstName ? _self.firstName : firstName // ignore: cast_nullable_to_non_nullable
 as String,secondName: null == secondName ? _self.secondName : secondName // ignore: cast_nullable_to_non_nullable
 as String,dob: null == dob ? _self.dob : dob // ignore: cast_nullable_to_non_nullable
-as DateTime,gender: null == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
+as DateTime,country: null == country ? _self.country : country // ignore: cast_nullable_to_non_nullable
 as String,profilePictureUrl: freezed == profilePictureUrl ? _self.profilePictureUrl : profilePictureUrl // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
@@ -480,10 +480,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String firstName,  String secondName,  DateTime dob,  String gender,  String? profilePictureUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String firstName,  String secondName,  DateTime dob,  String country,  String? profilePictureUrl)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _BasicDetails() when $default != null:
-return $default(_that.firstName,_that.secondName,_that.dob,_that.gender,_that.profilePictureUrl);case _:
+return $default(_that.firstName,_that.secondName,_that.dob,_that.country,_that.profilePictureUrl);case _:
   return orElse();
 
 }
@@ -501,10 +501,10 @@ return $default(_that.firstName,_that.secondName,_that.dob,_that.gender,_that.pr
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String firstName,  String secondName,  DateTime dob,  String gender,  String? profilePictureUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String firstName,  String secondName,  DateTime dob,  String country,  String? profilePictureUrl)  $default,) {final _that = this;
 switch (_that) {
 case _BasicDetails():
-return $default(_that.firstName,_that.secondName,_that.dob,_that.gender,_that.profilePictureUrl);case _:
+return $default(_that.firstName,_that.secondName,_that.dob,_that.country,_that.profilePictureUrl);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -521,10 +521,10 @@ return $default(_that.firstName,_that.secondName,_that.dob,_that.gender,_that.pr
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String firstName,  String secondName,  DateTime dob,  String gender,  String? profilePictureUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String firstName,  String secondName,  DateTime dob,  String country,  String? profilePictureUrl)?  $default,) {final _that = this;
 switch (_that) {
 case _BasicDetails() when $default != null:
-return $default(_that.firstName,_that.secondName,_that.dob,_that.gender,_that.profilePictureUrl);case _:
+return $default(_that.firstName,_that.secondName,_that.dob,_that.country,_that.profilePictureUrl);case _:
   return null;
 
 }
@@ -536,13 +536,13 @@ return $default(_that.firstName,_that.secondName,_that.dob,_that.gender,_that.pr
 @JsonSerializable()
 
 class _BasicDetails implements BasicDetails {
-  const _BasicDetails({required this.firstName, required this.secondName, required this.dob, required this.gender, this.profilePictureUrl});
+  const _BasicDetails({required this.firstName, required this.secondName, required this.dob, required this.country, this.profilePictureUrl});
   factory _BasicDetails.fromJson(Map<String, dynamic> json) => _$BasicDetailsFromJson(json);
 
 @override final  String firstName;
 @override final  String secondName;
 @override final  DateTime dob;
-@override final  String gender;
+@override final  String country;
 @override final  String? profilePictureUrl;
 
 /// Create a copy of BasicDetails
@@ -558,16 +558,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BasicDetails&&(identical(other.firstName, firstName) || other.firstName == firstName)&&(identical(other.secondName, secondName) || other.secondName == secondName)&&(identical(other.dob, dob) || other.dob == dob)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.profilePictureUrl, profilePictureUrl) || other.profilePictureUrl == profilePictureUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BasicDetails&&(identical(other.firstName, firstName) || other.firstName == firstName)&&(identical(other.secondName, secondName) || other.secondName == secondName)&&(identical(other.dob, dob) || other.dob == dob)&&(identical(other.country, country) || other.country == country)&&(identical(other.profilePictureUrl, profilePictureUrl) || other.profilePictureUrl == profilePictureUrl));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,firstName,secondName,dob,gender,profilePictureUrl);
+int get hashCode => Object.hash(runtimeType,firstName,secondName,dob,country,profilePictureUrl);
 
 @override
 String toString() {
-  return 'BasicDetails(firstName: $firstName, secondName: $secondName, dob: $dob, gender: $gender, profilePictureUrl: $profilePictureUrl)';
+  return 'BasicDetails(firstName: $firstName, secondName: $secondName, dob: $dob, country: $country, profilePictureUrl: $profilePictureUrl)';
 }
 
 
@@ -578,7 +578,7 @@ abstract mixin class _$BasicDetailsCopyWith<$Res> implements $BasicDetailsCopyWi
   factory _$BasicDetailsCopyWith(_BasicDetails value, $Res Function(_BasicDetails) _then) = __$BasicDetailsCopyWithImpl;
 @override @useResult
 $Res call({
- String firstName, String secondName, DateTime dob, String gender, String? profilePictureUrl
+ String firstName, String secondName, DateTime dob, String country, String? profilePictureUrl
 });
 
 
@@ -595,12 +595,12 @@ class __$BasicDetailsCopyWithImpl<$Res>
 
 /// Create a copy of BasicDetails
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? firstName = null,Object? secondName = null,Object? dob = null,Object? gender = null,Object? profilePictureUrl = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? firstName = null,Object? secondName = null,Object? dob = null,Object? country = null,Object? profilePictureUrl = freezed,}) {
   return _then(_BasicDetails(
 firstName: null == firstName ? _self.firstName : firstName // ignore: cast_nullable_to_non_nullable
 as String,secondName: null == secondName ? _self.secondName : secondName // ignore: cast_nullable_to_non_nullable
 as String,dob: null == dob ? _self.dob : dob // ignore: cast_nullable_to_non_nullable
-as DateTime,gender: null == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
+as DateTime,country: null == country ? _self.country : country // ignore: cast_nullable_to_non_nullable
 as String,profilePictureUrl: freezed == profilePictureUrl ? _self.profilePictureUrl : profilePictureUrl // ignore: cast_nullable_to_non_nullable
 as String?,
   ));

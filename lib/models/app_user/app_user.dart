@@ -23,7 +23,7 @@ abstract class BasicDetails with _$BasicDetails {
     required String firstName,
     required String secondName,
     required DateTime dob,
-    required String gender,
+    required String country,
     String? profilePictureUrl,
   }) = _BasicDetails;
 

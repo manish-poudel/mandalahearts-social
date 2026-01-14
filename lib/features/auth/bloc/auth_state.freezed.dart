@@ -128,12 +128,12 @@ return unauthenticated(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( AppRoute navigateTo)?  authenticated,TResult Function()?  unauthenticated,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( UserProfileState profileState)?  authenticated,TResult Function()?  unauthenticated,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
 return loading();case _Authenticated() when authenticated != null:
-return authenticated(_that.navigateTo);case _Unauthenticated() when unauthenticated != null:
+return authenticated(_that.profileState);case _Unauthenticated() when unauthenticated != null:
 return unauthenticated();case _:
   return orElse();
 
@@ -152,12 +152,12 @@ return unauthenticated();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( AppRoute navigateTo)  authenticated,required TResult Function()  unauthenticated,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( UserProfileState profileState)  authenticated,required TResult Function()  unauthenticated,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case _Loading():
 return loading();case _Authenticated():
-return authenticated(_that.navigateTo);case _Unauthenticated():
+return authenticated(_that.profileState);case _Unauthenticated():
 return unauthenticated();case _:
   throw StateError('Unexpected subclass');
 
@@ -175,12 +175,12 @@ return unauthenticated();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( AppRoute navigateTo)?  authenticated,TResult? Function()?  unauthenticated,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( UserProfileState profileState)?  authenticated,TResult? Function()?  unauthenticated,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
 return loading();case _Authenticated() when authenticated != null:
-return authenticated(_that.navigateTo);case _Unauthenticated() when unauthenticated != null:
+return authenticated(_that.profileState);case _Unauthenticated() when unauthenticated != null:
 return unauthenticated();case _:
   return null;
 
@@ -257,10 +257,10 @@ String toString() {
 
 
 class _Authenticated implements AuthState {
-  const _Authenticated({required this.navigateTo});
+  const _Authenticated({required this.profileState});
   
 
- final  AppRoute navigateTo;
+ final  UserProfileState profileState;
 
 /// Create a copy of AuthState
 /// with the given fields replaced by the non-null parameter values.
@@ -272,16 +272,16 @@ _$AuthenticatedCopyWith<_Authenticated> get copyWith => __$AuthenticatedCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Authenticated&&(identical(other.navigateTo, navigateTo) || other.navigateTo == navigateTo));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Authenticated&&(identical(other.profileState, profileState) || other.profileState == profileState));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,navigateTo);
+int get hashCode => Object.hash(runtimeType,profileState);
 
 @override
 String toString() {
-  return 'AuthState.authenticated(navigateTo: $navigateTo)';
+  return 'AuthState.authenticated(profileState: $profileState)';
 }
 
 
@@ -292,7 +292,7 @@ abstract mixin class _$AuthenticatedCopyWith<$Res> implements $AuthStateCopyWith
   factory _$AuthenticatedCopyWith(_Authenticated value, $Res Function(_Authenticated) _then) = __$AuthenticatedCopyWithImpl;
 @useResult
 $Res call({
- AppRoute navigateTo
+ UserProfileState profileState
 });
 
 
@@ -309,10 +309,10 @@ class __$AuthenticatedCopyWithImpl<$Res>
 
 /// Create a copy of AuthState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? navigateTo = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? profileState = null,}) {
   return _then(_Authenticated(
-navigateTo: null == navigateTo ? _self.navigateTo : navigateTo // ignore: cast_nullable_to_non_nullable
-as AppRoute,
+profileState: null == profileState ? _self.profileState : profileState // ignore: cast_nullable_to_non_nullable
+as UserProfileState,
   ));
 }
 

@@ -33,7 +33,7 @@ _BasicDetails _$BasicDetailsFromJson(Map<String, dynamic> json) =>
       firstName: json['firstName'] as String,
       secondName: json['secondName'] as String,
       dob: DateTime.parse(json['dob'] as String),
-      gender: json['gender'] as String,
+      country: json['country'] as String,
       profilePictureUrl: json['profilePictureUrl'] as String?,
     );
 
@@ -42,7 +42,7 @@ Map<String, dynamic> _$BasicDetailsToJson(_BasicDetails instance) =>
       'firstName': instance.firstName,
       'secondName': instance.secondName,
       'dob': instance.dob.toIso8601String(),
-      'gender': instance.gender,
+      'country': instance.country,
       'profilePictureUrl': instance.profilePictureUrl,
     };
 

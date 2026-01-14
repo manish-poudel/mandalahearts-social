@@ -22,7 +22,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
   final _lastNameController = TextEditingController();
 
   DateTime? _dob;
-  String? _selectedOption;
+  String? _selectedCountryOption;
 
   bool _didAutofill = false;
 
@@ -39,13 +39,13 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
     final firstName = _firstNameController.text.trim();
     final lastName = _lastNameController.text.trim();
     final dob = _dob!;
-    final option = _selectedOption!;
+    final option = _selectedCountryOption!;
 
     context.read<ProfileDetailsCubit>().save(
       firstName: firstName,
       lastName: lastName,
       dob: dob,
-      gender: option,
+      countryName: option,
     );
   }
 
@@ -63,8 +63,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
     if (basic != null) {
       _firstNameController.text = basic.firstName;
       _lastNameController.text = basic.secondName;
-      _dob = basic.dob;
-      _selectedOption = basic.gender;
+      _selectedCountryOption = basic.country;
       _didAutofill = true;
     }
   }
@@ -145,12 +144,13 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                           firstNameController: _firstNameController,
                           lastNameController: _lastNameController,
                           initialDob: _dob,
-                          initialOption: _selectedOption,
+                          initialCountry: _selectedCountryOption,
                           onDobChanged: (date) => _dob = date,
-                          onOptionChanged: (value) => _selectedOption = value,
+                          onCountryChanged: (value) =>
+                              _selectedCountryOption = value,
                         ),
 
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 48),
 
                         if (errorMessage != null) ...[
                           Text(

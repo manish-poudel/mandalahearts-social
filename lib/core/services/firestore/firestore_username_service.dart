@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mandalahearts/core/exceptions/firestore_exceptions.dart';
+import 'package:mandalahearts/core/exceptions/database_exceptions.dart';
 import 'package:mandalahearts/core/services/database/username_db.dart';
 
 class FirestoreUsernameService extends UsernameDB {

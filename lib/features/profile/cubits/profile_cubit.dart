@@ -47,7 +47,7 @@ class ProfileDetailsCubit extends Cubit<ProfileDetailsState> {
         firstName: firstName,
         secondName: lastName,
         dob: DateTime.now(),
-        gender: "",
+        country: "Nepal",
       );
 
       final updatedUser = appUser.copyWith(basicDetails: basicDetails);
@@ -64,7 +64,7 @@ class ProfileDetailsCubit extends Cubit<ProfileDetailsState> {
     required String firstName,
     required String lastName,
     required DateTime dob,
-    required String gender,
+    required String countryName,
   }) async {
     AppUser? user = _userRepository.currentUser;
     try {
@@ -75,12 +75,11 @@ class ProfileDetailsCubit extends Cubit<ProfileDetailsState> {
             firstName: firstName,
             secondName: lastName,
             dob: dob,
-            gender: gender,
+            country: countryName,
           ),
         );
       }
-
-      await Future.delayed(const Duration(seconds: 2));
+      print(user);
       await _userRepository.updateUser(user!);
       emit(ProfileDetailsState.success(user: user));
     } catch (e) {

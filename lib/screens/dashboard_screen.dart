@@ -21,9 +21,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Future<void> _signOut(BuildContext bc) async {
-    print("sign out");
     try {
-      print("signout");
       await context.read<AuthRepository>().signOut();
       final router = GoRouter.of(context);
       router.pushReplacement("/");
