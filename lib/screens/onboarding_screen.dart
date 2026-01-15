@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mandalahearts/app/app_routes.dart';
+import 'package:mandalahearts/core/widgets/app_logo.dart';
 import 'package:mandalahearts/core/widgets/google_button.dart';
 import 'package:mandalahearts/core/widgets/icon_text_button.dart';
 import 'package:mandalahearts/core/widgets/or_divider.dart';
+import 'package:mandalahearts/enums/app_release_tag.dart';
 import 'package:mandalahearts/repository/auth_repository.dart';
 import 'package:mandalahearts/core/widgets/agree_to_signup.dart';
 
@@ -29,16 +31,7 @@ class OnBoardingScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    /// APP NAME
-                    Text(
-                      'MandalaHearts',
-                      style: GoogleFonts.playfairDisplay(
-                        fontSize: 38,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 0.4,
-                        color: colorScheme.onSurface,
-                      ),
-                    ),
+                    AppLogo(tag: AppReleaseTag.beta),
 
                     const SizedBox(height: 4),
 
@@ -48,18 +41,18 @@ class OnBoardingScreen extends StatelessWidget {
                     Column(
                       children: [
                         Text(
-                          'An all inclusive app designed for the spiritual seekers',
+                          'An app designed for those seeking spiritual growth',
                           textAlign: TextAlign.center,
-                          style: textTheme.titleLarge?.copyWith(fontSize: 21),
+                          style: textTheme.titleLarge?.copyWith(fontSize: 19),
                         ),
                         const SizedBox(height: 8),
-                        Text(
-                          'Meditative Posts • Spiritual News • Tools & Support',
-                          textAlign: TextAlign.center,
-                          style: textTheme.bodySmall?.copyWith(
-                            color: Colors.grey,
-                          ),
-                        ),
+                        // Text(
+                        //   'Meditative Posts • Spiritual News • Tools & Support',
+                        //   textAlign: TextAlign.center,
+                        //   style: textTheme.bodySmall?.copyWith(
+                        //     color: Colors.grey,
+                        //   ),
+                        // ),
                       ],
                     ),
                   ],

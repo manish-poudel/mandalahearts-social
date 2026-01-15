@@ -53,6 +53,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             );
             return;
           }
+
           emit(AuthState.authenticated(profileState: UserProfileState.allSet));
         }
       },
