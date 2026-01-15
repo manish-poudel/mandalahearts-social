@@ -1,7 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mandalahearts/core/widgets/photo/image_picker_grid.dart';
 import 'package:mandalahearts/core/widgets/photo/interactive_image_viewer.dart';
+import 'package:mandalahearts/features/photo_picker/cubit/photo_picker_cubit.dart';
+import 'package:mandalahearts/features/photo_picker/cubit/photo_picker_state.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 class AddPostScreen extends StatefulWidget {
@@ -13,11 +16,14 @@ class AddPostScreen extends StatefulWidget {
 
 class _AddPostScreenState extends State<AddPostScreen> {
   AssetEntity? selectedImage;
+
   final ImageViewerController _viewerController = ImageViewerController();
   final TextEditingController _captionController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
 
   int _currentStep = 0;
   bool _isProcessing = false;
+  bool _lockScroll = false;
   Uint8List? _capturedBytes;
 
   /// Capture image bytes and go to writing step
@@ -25,13 +31,12 @@ class _AddPostScreenState extends State<AddPostScreen> {
     if (selectedImage == null) return;
 
     setState(() => _isProcessing = true);
-
     try {
       final bytes = await _viewerController.captureImageBytes();
       if (bytes != null) {
         setState(() {
           _capturedBytes = bytes;
-          _currentStep = 1; // go to writing step
+          _currentStep = 1;
         });
       }
     } finally {
@@ -44,16 +49,28 @@ class _AddPostScreenState extends State<AddPostScreen> {
     final caption = _captionController.text;
 
     if (_capturedBytes != null) {
-      // Upload bytes + caption to Firebase/Supabase
-      print(
+      debugPrint(
         "Uploading image with ${_capturedBytes!.length} bytes and caption: $caption",
       );
     }
   }
 
+  void _onImageSelected(AssetEntity image) {
+    _scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+
+    setState(() {
+      selectedImage = image;
+    });
+  }
+
   @override
   void dispose() {
     _captionController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -68,9 +85,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
             ? IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  setState(() {
-                    _currentStep = 0; // back to image selection
-                  });
+                  setState(() => _currentStep = 0);
                 },
               )
             : null,
@@ -95,68 +110,86 @@ class _AddPostScreenState extends State<AddPostScreen> {
           ),
         ],
       ),
+
       body: IndexedStack(
         index: _currentStep,
         children: [
-          // Step 0 → Image Selection
-          Stack(
-            children: [
-              Column(
-                children: [
-                  if (selectedImage != null)
-                    InteractiveImageViewer(
+          // ======================
+          // STEP 0: PICK IMAGE
+          // ======================
+          SingleChildScrollView(
+            controller: _scrollController,
+            physics: _lockScroll
+                ? const NeverScrollableScrollPhysics()
+                : const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                if (selectedImage != null)
+                  Listener(
+                    onPointerDown: (_) {
+                      setState(() => _lockScroll = true);
+                    },
+                    onPointerUp: (_) {
+                      setState(() => _lockScroll = false);
+                    },
+                    onPointerCancel: (_) {
+                      setState(() => _lockScroll = false);
+                    },
+                    child: InteractiveImageViewer(
                       image: selectedImage!,
                       controller: _viewerController,
                     ),
-                  Expanded(
-                    child: PhotoPickerGrid(
-                      onImageSelected: (image) {
-                        setState(() {
-                          selectedImage = image;
-                        });
-                      },
-                    ),
                   ),
-                ],
-              ),
-              if (_isProcessing)
-                Container(
-                  color: Colors.black54,
-                  child: const Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        CircularProgressIndicator(),
-                        SizedBox(height: 12),
-                        Text(
-                          "Processing image...",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
-                      ],
-                    ),
+
+                BlocProvider(
+                  create: (_) => PhotoPickerCubit(),
+                  child: BlocConsumer<PhotoPickerCubit, PhotoPickerState>(
+                    builder: (context, state) {
+                      return PhotoPickerGrid();
+                    },
+                    listener: (context, state) {
+                      if (state.selectedImage != null) {
+                        _onImageSelected(state.selectedImage!);
+                      }
+                    },
                   ),
                 ),
-            ],
+              ],
+            ),
           ),
 
-          // Step 1 → Writing Post
+          // ======================
+          // STEP 1: WRITE POST
+          // ======================
           SingleChildScrollView(
             child: Column(
               children: [
                 if (_capturedBytes != null)
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Image.memory(_capturedBytes!, height: 160),
+                    padding: const EdgeInsets.all(16),
+                    child: Image.memory(
+                      _capturedBytes!,
+                      height: 160,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16),
                   child: TextField(
                     controller: _captionController,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    minLines: 4,
                     decoration: const InputDecoration(
-                      labelText: 'Write a caption...',
-                      border: OutlineInputBorder(),
+                      hintText: 'Write a caption...',
+                      border: InputBorder.none, // ❌ remove underline
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
                     ),
-                    maxLines: 5,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      height: 1.4, // 👈 nicer paragraph spacing
+                    ),
                   ),
                 ),
               ],
