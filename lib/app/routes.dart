@@ -10,6 +10,7 @@ import 'package:mandalahearts/features/auth/bloc/auth_event.dart';
 import 'package:mandalahearts/features/profile/cubits/profile_cubit.dart';
 import 'package:mandalahearts/features/username/cubits/username_cubits.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
+import 'package:mandalahearts/screens/add_post_screen.dart';
 
 import 'package:mandalahearts/screens/sign_in_screen.dart';
 import 'package:mandalahearts/screens/sign_up_screen.dart';
@@ -107,6 +108,11 @@ final GoRouter routes = GoRouter(
       name: AppRoute.dashboard.name,
       path: AppRoute.dashboard.path,
       builder: (context, state) => DashboardScreen(),
+    ),
+    GoRoute(
+      name: AppRoute.addPostScreen.name,
+      path: AppRoute.addPostScreen.path,
+      builder: (context, state) => AddPostScreen(),
     ),
   ],
 );

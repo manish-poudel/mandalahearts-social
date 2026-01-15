@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mandalahearts/app/app_routes.dart';
 import 'package:mandalahearts/core/widgets/app_logo.dart';
 import 'package:mandalahearts/core/widgets/selectable_pill.dart';
@@ -33,7 +32,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
       appBar: AppBar(
         title: AppLogo(fontSize: 21, tag: AppReleaseTag.beta),
         actions: [
-          IconButton(icon: const Icon(Icons.add), onPressed: () {}),
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              context.push(AppRoute.addPostScreen.path);
+            },
+          ),
           Padding(
             padding: const EdgeInsets.only(right: 14),
             child: GestureDetector(
