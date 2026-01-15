@@ -53,6 +53,14 @@ class _PhotoPickerGridState extends State<PhotoPickerGrid>
     super.dispose();
   }
 
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _checkPermissionAndReload(); // ✅ only check when app comes back
+    }
+    super.didChangeAppLifecycleState(state);
+  }
+
   Future<void> _checkPermissionAndReload() async {
     final permission = await PhotoManager.requestPermissionExtend();
     if (permission.isAuth || permission.isLimited) {
@@ -97,6 +105,14 @@ class _PhotoPickerGridState extends State<PhotoPickerGrid>
 
     setState(() => _loading = false);
   }
+
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   if (state == AppLifecycleState.resumed) {
+  //     _checkPermissionAndReload(); // ✅ only check when app comes back
+  //   }
+  //   super.didChangeAppLifecycleState(state);
+  // }
 
   Future<void> _loadImages({bool reset = false}) async {
     if (_selectedAlbum == null) return;
@@ -146,7 +162,6 @@ class _PhotoPickerGridState extends State<PhotoPickerGrid>
   Widget build(BuildContext context) {
     if (_loading) return const Center(child: CircularProgressIndicator());
 
-    // ✅ Show inline permission message if denied
     if (_permissionDenied) {
       return Center(
         child: Padding(
@@ -168,7 +183,6 @@ class _PhotoPickerGridState extends State<PhotoPickerGrid>
               OutlinedButton(
                 onPressed: () async {
                   await PhotoManager.openSetting();
-                  _checkPermissionAndReload();
                 },
                 child: const Text("Open Settings"),
               ),

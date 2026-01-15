@@ -16,9 +16,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
   final ImageViewerController _viewerController = ImageViewerController();
   final TextEditingController _captionController = TextEditingController();
 
-  int _currentStep = 0; // 0 = image selection, 1 = writing
+  int _currentStep = 0;
   bool _isProcessing = false;
-  Uint8List? _capturedBytes; // stores captured bytes for step 1
+  Uint8List? _capturedBytes;
 
   /// Capture image bytes and go to writing step
   Future<void> _goToWritingStep() async {
