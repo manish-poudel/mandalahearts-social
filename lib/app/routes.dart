@@ -7,6 +7,7 @@ import 'package:mandalahearts/app/app_routes.dart';
 import 'package:mandalahearts/core/services/firestore/firestore_username_service.dart';
 import 'package:mandalahearts/features/auth/bloc/auth_bloc.dart';
 import 'package:mandalahearts/features/auth/bloc/auth_event.dart';
+import 'package:mandalahearts/features/photo_picker/cubit/photo_picker_cubit.dart';
 import 'package:mandalahearts/features/profile/cubits/profile_cubit.dart';
 import 'package:mandalahearts/features/username/cubits/username_cubits.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
@@ -112,7 +113,10 @@ final GoRouter routes = GoRouter(
     GoRoute(
       name: AppRoute.addPostScreen.name,
       path: AppRoute.addPostScreen.path,
-      builder: (context, state) => AddPostScreen(),
+      builder: (context, state) => BlocProvider(
+        create: (context) => PhotoPickerCubit(),
+        child: AddPostScreen(),
+      ),
     ),
   ],
 );

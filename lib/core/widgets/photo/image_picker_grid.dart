@@ -7,7 +7,8 @@ import 'package:mandalahearts/features/photo_picker/cubit/photo_picker_cubit.dar
 import 'package:mandalahearts/features/photo_picker/cubit/photo_picker_state.dart';
 
 class PhotoPickerGrid extends StatefulWidget {
-  const PhotoPickerGrid({super.key});
+  final Function(AssetEntity)? onImageSelected;
+  const PhotoPickerGrid({super.key, this.onImageSelected});
 
   @override
   State<PhotoPickerGrid> createState() => _PhotoPickerGridState();
@@ -21,15 +22,7 @@ class _PhotoPickerGridState extends State<PhotoPickerGrid>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-
     context.read<PhotoPickerCubit>().init();
-
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent - 200) {
-        context.read<PhotoPickerCubit>().loadMoreImages();
-      }
-    });
   }
 
   @override
@@ -74,7 +67,8 @@ class _PhotoPickerGridState extends State<PhotoPickerGrid>
                   ),
                   const SizedBox(height: 20),
                   OutlinedButton(
-                    onPressed: () => PhotoManager.openSetting(),
+                    onPressed: () =>
+                        context.read<PhotoPickerCubit>().openSettings(),
                     child: const Text("Open Settings"),
                   ),
                 ],
@@ -86,37 +80,43 @@ class _PhotoPickerGridState extends State<PhotoPickerGrid>
         return Column(
           children: [
             // Album Dropdown
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 18,
-                ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<AssetPathEntity>(
-                    value: state.selectedAlbum,
-                    items: state.albums.map((album) {
-                      return DropdownMenuItem(
-                        value: album,
-                        child: Text(
-                          album.name,
-                          style: const TextStyle(fontWeight: FontWeight.w500),
+            state.albums.isEmpty
+                ? SizedBox.shrink()
+                : Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 18,
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<AssetPathEntity>(
+                          value: state.selectedAlbum,
+                          items: state.albums.map((album) {
+                            return DropdownMenuItem(
+                              value: album,
+                              child: Text(
+                                album.name,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (album) {
+                            if (album != null) {
+                              context.read<PhotoPickerCubit>().selectAlbum(
+                                album,
+                              );
+                            }
+                          },
+                          icon: const Icon(Icons.keyboard_arrow_down, size: 20),
+                          isDense: true,
+                          alignment: AlignmentDirectional.centerStart,
                         ),
-                      );
-                    }).toList(),
-                    onChanged: (album) {
-                      if (album != null) {
-                        context.read<PhotoPickerCubit>().selectAlbum(album);
-                      }
-                    },
-                    icon: const Icon(Icons.keyboard_arrow_down, size: 20),
-                    isDense: true,
-                    alignment: AlignmentDirectional.centerStart,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
 
             // Grid of thumbnails
             Column(
@@ -138,7 +138,9 @@ class _PhotoPickerGridState extends State<PhotoPickerGrid>
                     return GestureDetector(
                       onTap: () {
                         context.read<PhotoPickerCubit>().selectImage(image);
-                        //widget.onImageSelected(state.selectedImage!);
+                        if (widget.onImageSelected != null) {
+                          widget.onImageSelected!(image);
+                        }
                       },
                       child: Stack(
                         children: [
@@ -171,7 +173,7 @@ class _PhotoPickerGridState extends State<PhotoPickerGrid>
                     child: Column(
                       children: [
                         const Text(
-                          "Photo access may be restricted. Please update your permissions in settings to access all photos.",
+                          "Photo access is limited. Manage which photos this app can access, or update permissions in Settings for full access.",
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
@@ -188,7 +190,7 @@ class _PhotoPickerGridState extends State<PhotoPickerGrid>
 
                 if (state.loadingMore)
                   const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
+                    padding: EdgeInsets.symmetric(vertical: 16),
                     child: CircularProgressIndicator(),
                   ),
               ],

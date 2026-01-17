@@ -6,45 +6,54 @@ import 'photo_picker_state.dart';
 class PhotoPickerCubit extends Cubit<PhotoPickerState> {
   PhotoPickerCubit() : super(const PhotoPickerState());
 
-  static const int _pageSize = 40;
+  static const int _pageSize = 30;
   int _currentPage = 0;
 
-  Future<void> init() async {
-    emit(state.copyWith(loading: true));
+  bool visitedSettings = false;
 
+  Future<void> init() async {
+    visitedSettings = false;
+    emit(state.copyWith(loading: true));
     final permission = await PhotoManager.requestPermissionExtend();
-    if (!(permission.isAuth || permission.isLimited)) {
+    if (permission.hasAccess) {
+      final albums = await PhotoManager.getAssetPathList(
+        type: RequestType.image,
+        onlyAll: false,
+        filterOption: FilterOptionGroup(
+          orders: [
+            const OrderOption(type: OrderOptionType.createDate, asc: false),
+          ],
+        ),
+      );
+
+      emit(
+        state.copyWith(
+          albums: albums,
+          selectedAlbum: albums.firstOrNull,
+          limitedAccess: permission.isLimited,
+          permissionDenied: false,
+        ),
+      );
+
+      await loadImages(reset: true);
+    } else {
       emit(state.copyWith(loading: false, permissionDenied: true));
       return;
     }
-
-    final albums = await PhotoManager.getAssetPathList(
-      type: RequestType.image,
-      onlyAll: false,
-      filterOption: FilterOptionGroup(
-        orders: [
-          const OrderOption(type: OrderOptionType.createDate, asc: false),
-        ],
-      ),
-    );
-
-    emit(
-      state.copyWith(
-        albums: albums,
-        selectedAlbum: albums.firstOrNull,
-        limitedAccess: permission.isLimited,
-        permissionDenied: false,
-      ),
-    );
-
-    await loadImages(reset: true);
   }
 
-  Future<void> reloadAfterPermission() async => init();
+  Future<void> reloadAfterPermission() async {
+    if (visitedSettings) {
+      init();
+    }
+  }
 
   Future<void> loadImages({bool reset = false}) async {
     final album = state.selectedAlbum;
-    if (album == null) return;
+    if (album == null) {
+      emit(state.copyWith(loading: false));
+      return;
+    }
 
     if (reset) {
       _currentPage = 0;
@@ -93,5 +102,10 @@ class PhotoPickerCubit extends Cubit<PhotoPickerState> {
 
   void selectImage(AssetEntity image) {
     emit(state.copyWith(selectedImage: image));
+  }
+
+  Future<void> openSettings() async {
+    visitedSettings = true;
+    PhotoManager.openSetting();
   }
 }

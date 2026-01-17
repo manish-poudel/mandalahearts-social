@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 final ColorScheme lightColorScheme = const ColorScheme(
   brightness: Brightness.light,
 
-  /// Primary actions & highlights
+  /// Primary actions & highlights Color(0xFF228B22)
   primary: Color(0xFF228B22), // sage green
   onPrimary: Colors.white,
 
