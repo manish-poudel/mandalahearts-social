@@ -11,7 +11,6 @@ class _AllPostScreenState extends State<AllPostScreen> {
   @override
   void initState() {
     super.initState();
-    print("AllPostScreen initialized");
   }
 
   @override

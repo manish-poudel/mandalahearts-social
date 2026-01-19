@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AddPostState {
 
- AssetEntity? get selectedImage; Uint8List? get capturedBytes; int get currentStep; bool get isProcessing; bool get lockScroll;
+ AssetEntity? get selectedImage; Uint8List? get capturedBytes; int get currentStep; bool get isProcessing; AsyncState get postState; bool get saved; bool get lockScroll;
 /// Create a copy of AddPostState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $AddPostStateCopyWith<AddPostState> get copyWith => _$AddPostStateCopyWithImpl<A
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AddPostState&&(identical(other.selectedImage, selectedImage) || other.selectedImage == selectedImage)&&const DeepCollectionEquality().equals(other.capturedBytes, capturedBytes)&&(identical(other.currentStep, currentStep) || other.currentStep == currentStep)&&(identical(other.isProcessing, isProcessing) || other.isProcessing == isProcessing)&&(identical(other.lockScroll, lockScroll) || other.lockScroll == lockScroll));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AddPostState&&(identical(other.selectedImage, selectedImage) || other.selectedImage == selectedImage)&&const DeepCollectionEquality().equals(other.capturedBytes, capturedBytes)&&(identical(other.currentStep, currentStep) || other.currentStep == currentStep)&&(identical(other.isProcessing, isProcessing) || other.isProcessing == isProcessing)&&(identical(other.postState, postState) || other.postState == postState)&&(identical(other.saved, saved) || other.saved == saved)&&(identical(other.lockScroll, lockScroll) || other.lockScroll == lockScroll));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,selectedImage,const DeepCollectionEquality().hash(capturedBytes),currentStep,isProcessing,lockScroll);
+int get hashCode => Object.hash(runtimeType,selectedImage,const DeepCollectionEquality().hash(capturedBytes),currentStep,isProcessing,postState,saved,lockScroll);
 
 @override
 String toString() {
-  return 'AddPostState(selectedImage: $selectedImage, capturedBytes: $capturedBytes, currentStep: $currentStep, isProcessing: $isProcessing, lockScroll: $lockScroll)';
+  return 'AddPostState(selectedImage: $selectedImage, capturedBytes: $capturedBytes, currentStep: $currentStep, isProcessing: $isProcessing, postState: $postState, saved: $saved, lockScroll: $lockScroll)';
 }
 
 
@@ -45,11 +45,11 @@ abstract mixin class $AddPostStateCopyWith<$Res>  {
   factory $AddPostStateCopyWith(AddPostState value, $Res Function(AddPostState) _then) = _$AddPostStateCopyWithImpl;
 @useResult
 $Res call({
- AssetEntity? selectedImage, Uint8List? capturedBytes, int currentStep, bool isProcessing, bool lockScroll
+ AssetEntity? selectedImage, Uint8List? capturedBytes, int currentStep, bool isProcessing, AsyncState postState, bool saved, bool lockScroll
 });
 
 
-
+$AsyncStateCopyWith<$Res> get postState;
 
 }
 /// @nodoc
@@ -62,17 +62,28 @@ class _$AddPostStateCopyWithImpl<$Res>
 
 /// Create a copy of AddPostState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? selectedImage = freezed,Object? capturedBytes = freezed,Object? currentStep = null,Object? isProcessing = null,Object? lockScroll = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? selectedImage = freezed,Object? capturedBytes = freezed,Object? currentStep = null,Object? isProcessing = null,Object? postState = null,Object? saved = null,Object? lockScroll = null,}) {
   return _then(_self.copyWith(
 selectedImage: freezed == selectedImage ? _self.selectedImage : selectedImage // ignore: cast_nullable_to_non_nullable
 as AssetEntity?,capturedBytes: freezed == capturedBytes ? _self.capturedBytes : capturedBytes // ignore: cast_nullable_to_non_nullable
 as Uint8List?,currentStep: null == currentStep ? _self.currentStep : currentStep // ignore: cast_nullable_to_non_nullable
 as int,isProcessing: null == isProcessing ? _self.isProcessing : isProcessing // ignore: cast_nullable_to_non_nullable
+as bool,postState: null == postState ? _self.postState : postState // ignore: cast_nullable_to_non_nullable
+as AsyncState,saved: null == saved ? _self.saved : saved // ignore: cast_nullable_to_non_nullable
 as bool,lockScroll: null == lockScroll ? _self.lockScroll : lockScroll // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
-
+/// Create a copy of AddPostState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AsyncStateCopyWith<$Res> get postState {
+  
+  return $AsyncStateCopyWith<$Res>(_self.postState, (value) {
+    return _then(_self.copyWith(postState: value));
+  });
+}
 }
 
 
@@ -154,10 +165,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( AssetEntity? selectedImage,  Uint8List? capturedBytes,  int currentStep,  bool isProcessing,  bool lockScroll)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( AssetEntity? selectedImage,  Uint8List? capturedBytes,  int currentStep,  bool isProcessing,  AsyncState postState,  bool saved,  bool lockScroll)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AddPostState() when $default != null:
-return $default(_that.selectedImage,_that.capturedBytes,_that.currentStep,_that.isProcessing,_that.lockScroll);case _:
+return $default(_that.selectedImage,_that.capturedBytes,_that.currentStep,_that.isProcessing,_that.postState,_that.saved,_that.lockScroll);case _:
   return orElse();
 
 }
@@ -175,10 +186,10 @@ return $default(_that.selectedImage,_that.capturedBytes,_that.currentStep,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( AssetEntity? selectedImage,  Uint8List? capturedBytes,  int currentStep,  bool isProcessing,  bool lockScroll)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( AssetEntity? selectedImage,  Uint8List? capturedBytes,  int currentStep,  bool isProcessing,  AsyncState postState,  bool saved,  bool lockScroll)  $default,) {final _that = this;
 switch (_that) {
 case _AddPostState():
-return $default(_that.selectedImage,_that.capturedBytes,_that.currentStep,_that.isProcessing,_that.lockScroll);case _:
+return $default(_that.selectedImage,_that.capturedBytes,_that.currentStep,_that.isProcessing,_that.postState,_that.saved,_that.lockScroll);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +206,10 @@ return $default(_that.selectedImage,_that.capturedBytes,_that.currentStep,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( AssetEntity? selectedImage,  Uint8List? capturedBytes,  int currentStep,  bool isProcessing,  bool lockScroll)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( AssetEntity? selectedImage,  Uint8List? capturedBytes,  int currentStep,  bool isProcessing,  AsyncState postState,  bool saved,  bool lockScroll)?  $default,) {final _that = this;
 switch (_that) {
 case _AddPostState() when $default != null:
-return $default(_that.selectedImage,_that.capturedBytes,_that.currentStep,_that.isProcessing,_that.lockScroll);case _:
+return $default(_that.selectedImage,_that.capturedBytes,_that.currentStep,_that.isProcessing,_that.postState,_that.saved,_that.lockScroll);case _:
   return null;
 
 }
@@ -210,13 +221,15 @@ return $default(_that.selectedImage,_that.capturedBytes,_that.currentStep,_that.
 
 
 class _AddPostState implements AddPostState {
-  const _AddPostState({this.selectedImage, this.capturedBytes, this.currentStep = 0, this.isProcessing = false, this.lockScroll = false});
+  const _AddPostState({this.selectedImage, this.capturedBytes, this.currentStep = 0, this.isProcessing = false, this.postState = const AsyncState.initial(), this.saved = false, this.lockScroll = false});
   
 
 @override final  AssetEntity? selectedImage;
 @override final  Uint8List? capturedBytes;
 @override@JsonKey() final  int currentStep;
 @override@JsonKey() final  bool isProcessing;
+@override@JsonKey() final  AsyncState postState;
+@override@JsonKey() final  bool saved;
 @override@JsonKey() final  bool lockScroll;
 
 /// Create a copy of AddPostState
@@ -229,16 +242,16 @@ _$AddPostStateCopyWith<_AddPostState> get copyWith => __$AddPostStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AddPostState&&(identical(other.selectedImage, selectedImage) || other.selectedImage == selectedImage)&&const DeepCollectionEquality().equals(other.capturedBytes, capturedBytes)&&(identical(other.currentStep, currentStep) || other.currentStep == currentStep)&&(identical(other.isProcessing, isProcessing) || other.isProcessing == isProcessing)&&(identical(other.lockScroll, lockScroll) || other.lockScroll == lockScroll));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AddPostState&&(identical(other.selectedImage, selectedImage) || other.selectedImage == selectedImage)&&const DeepCollectionEquality().equals(other.capturedBytes, capturedBytes)&&(identical(other.currentStep, currentStep) || other.currentStep == currentStep)&&(identical(other.isProcessing, isProcessing) || other.isProcessing == isProcessing)&&(identical(other.postState, postState) || other.postState == postState)&&(identical(other.saved, saved) || other.saved == saved)&&(identical(other.lockScroll, lockScroll) || other.lockScroll == lockScroll));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,selectedImage,const DeepCollectionEquality().hash(capturedBytes),currentStep,isProcessing,lockScroll);
+int get hashCode => Object.hash(runtimeType,selectedImage,const DeepCollectionEquality().hash(capturedBytes),currentStep,isProcessing,postState,saved,lockScroll);
 
 @override
 String toString() {
-  return 'AddPostState(selectedImage: $selectedImage, capturedBytes: $capturedBytes, currentStep: $currentStep, isProcessing: $isProcessing, lockScroll: $lockScroll)';
+  return 'AddPostState(selectedImage: $selectedImage, capturedBytes: $capturedBytes, currentStep: $currentStep, isProcessing: $isProcessing, postState: $postState, saved: $saved, lockScroll: $lockScroll)';
 }
 
 
@@ -249,11 +262,11 @@ abstract mixin class _$AddPostStateCopyWith<$Res> implements $AddPostStateCopyWi
   factory _$AddPostStateCopyWith(_AddPostState value, $Res Function(_AddPostState) _then) = __$AddPostStateCopyWithImpl;
 @override @useResult
 $Res call({
- AssetEntity? selectedImage, Uint8List? capturedBytes, int currentStep, bool isProcessing, bool lockScroll
+ AssetEntity? selectedImage, Uint8List? capturedBytes, int currentStep, bool isProcessing, AsyncState postState, bool saved, bool lockScroll
 });
 
 
-
+@override $AsyncStateCopyWith<$Res> get postState;
 
 }
 /// @nodoc
@@ -266,18 +279,29 @@ class __$AddPostStateCopyWithImpl<$Res>
 
 /// Create a copy of AddPostState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? selectedImage = freezed,Object? capturedBytes = freezed,Object? currentStep = null,Object? isProcessing = null,Object? lockScroll = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? selectedImage = freezed,Object? capturedBytes = freezed,Object? currentStep = null,Object? isProcessing = null,Object? postState = null,Object? saved = null,Object? lockScroll = null,}) {
   return _then(_AddPostState(
 selectedImage: freezed == selectedImage ? _self.selectedImage : selectedImage // ignore: cast_nullable_to_non_nullable
 as AssetEntity?,capturedBytes: freezed == capturedBytes ? _self.capturedBytes : capturedBytes // ignore: cast_nullable_to_non_nullable
 as Uint8List?,currentStep: null == currentStep ? _self.currentStep : currentStep // ignore: cast_nullable_to_non_nullable
 as int,isProcessing: null == isProcessing ? _self.isProcessing : isProcessing // ignore: cast_nullable_to_non_nullable
+as bool,postState: null == postState ? _self.postState : postState // ignore: cast_nullable_to_non_nullable
+as AsyncState,saved: null == saved ? _self.saved : saved // ignore: cast_nullable_to_non_nullable
 as bool,lockScroll: null == lockScroll ? _self.lockScroll : lockScroll // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
 
-
+/// Create a copy of AddPostState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AsyncStateCopyWith<$Res> get postState {
+  
+  return $AsyncStateCopyWith<$Res>(_self.postState, (value) {
+    return _then(_self.copyWith(postState: value));
+  });
+}
 }
 
 // dart format on

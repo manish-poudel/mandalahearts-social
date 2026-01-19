@@ -52,11 +52,8 @@ class _InteractiveImageViewerState extends State<InteractiveImageViewer> {
       // Capture the widget as an image
       final image = await boundary.toImage(pixelRatio: 3);
 
-      // Convert to PNG bytes
       final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       final bytes = byteData!.buffer.asUint8List();
-
-      // Return the bytes directly (no file needed)
       return bytes;
     } catch (e) {
       debugPrint("Error capturing image bytes: $e");

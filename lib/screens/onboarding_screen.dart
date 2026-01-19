@@ -41,7 +41,7 @@ class OnBoardingScreen extends StatelessWidget {
                     Column(
                       children: [
                         Text(
-                          'Join a community of people seeking spiritual growth',
+                          'Join an inclusive community of people seeking spiritual growth',
                           textAlign: TextAlign.center,
                           style: textTheme.titleLarge?.copyWith(fontSize: 19),
                         ),

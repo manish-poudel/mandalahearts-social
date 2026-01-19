@@ -7,6 +7,9 @@ import 'package:mandalahearts/features/add_post/cubits/add_post_cubit.dart';
 import 'package:mandalahearts/features/add_post/cubits/add_post_state.dart';
 import 'package:mandalahearts/features/photo_picker/cubit/photo_picker_cubit.dart';
 import 'package:mandalahearts/features/photo_picker/cubit/photo_picker_state.dart';
+import 'package:mandalahearts/models/async/async_state.dart';
+import 'package:mandalahearts/repository/auth_repository.dart';
+import 'package:mandalahearts/repository/post_repository.dart';
 
 class AddPostScreen extends StatefulWidget {
   const AddPostScreen({super.key});
@@ -36,7 +39,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return BlocProvider(
-      create: (_) => AddPostCubit(),
+      create: (_) => AddPostCubit(
+        postRepository: context.read<PostRepository>(),
+        creatorId: context.read<AuthRepository>().currentUser!.uid,
+      ),
       child: BlocConsumer<AddPostCubit, AddPostState>(
         listener: (context, state) {
           if (state.isProcessing) {
@@ -44,6 +50,22 @@ class _AddPostScreenState extends State<AddPostScreen> {
           } else {
             ProgressDialogBox.hide(context);
           }
+
+          state.postState.whenOrNull(
+            loading: () {
+              ProgressDialogBox.show(context, message: 'Saving post...');
+            },
+            success: () {
+              ProgressDialogBox.hide(context);
+              Navigator.of(context).pop();
+            },
+            error: (message) {
+              ProgressDialogBox.hide(context);
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(message)));
+            },
+          );
         },
         builder: (context, state) {
           final cubit = context.read<AddPostCubit>();
@@ -62,11 +84,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   onPressed: state.currentStep == 0
                       ? (state.selectedImage == null || state.isProcessing
                             ? null
-                            : () => cubit.goToWritingStep(
-                                _viewerController,
-                                () {},
-                              ))
+                            : () => cubit.goToWritingStep(_viewerController))
                       : () {
+                          cubit.savePost(_captionController.text.trim());
                           debugPrint(
                             "Upload ${state.capturedBytes?.length} bytes "
                             "Caption: ${_captionController.text}",
@@ -89,7 +109,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
             body: IndexedStack(
               index: state.currentStep,
               children: [
-                /// STEP 0
                 SingleChildScrollView(
                   controller: _scrollController,
                   physics: state.lockScroll

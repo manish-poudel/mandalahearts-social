@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mandalahearts/app/env/env.dart';
+import 'package:mandalahearts/core/services/firestore/firestore_user_post_service.dart';
 import 'package:mandalahearts/core/services/firestore/firestore_user_service.dart';
+import 'package:mandalahearts/core/services/supabase/supabase_file_storage.dart';
 import 'package:mandalahearts/l10n/app_localizations.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
 import 'package:mandalahearts/repository/auth_repository.dart';
@@ -10,10 +13,13 @@ import 'package:mandalahearts/app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mandalahearts/repository/post_repository.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await Supabase.initialize(url: Env.supabaseUrl, anonKey: Env.supabaseAnonKey);
 
   runApp(
     MultiRepositoryProvider(
@@ -24,6 +30,12 @@ Future<void> main() async {
         RepositoryProvider<AppUserRepository>(
           create: (_) =>
               AppUserRepository(firestoreService: FirestoreUserService()),
+        ),
+        RepositoryProvider<PostRepository>(
+          create: (_) => PostRepository(
+            postDb: FirestoreUserPostService(),
+            storage: SupabaseFileStorage(Supabase.instance.client),
+          ),
         ),
       ],
       child: MandalaHearts(),
