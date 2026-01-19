@@ -35,6 +35,7 @@ Future<void> main() async {
           create: (_) => PostRepository(
             postDb: FirestoreUserPostService(),
             storage: SupabaseFileStorage(Supabase.instance.client),
+            userService: FirestoreUserService(),
           ),
         ),
       ],

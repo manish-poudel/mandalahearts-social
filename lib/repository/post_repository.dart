@@ -1,25 +1,41 @@
 import 'dart:typed_data';
+
 import 'package:mandalahearts/core/services/database/post_db.dart';
+import 'package:mandalahearts/core/services/firestore/firestore_user_service.dart';
 import 'package:mandalahearts/core/services/storage/file_storage.dart';
-import 'package:mandalahearts/models/post/user_post.dart';
+import 'package:mandalahearts/models/app_user/app_user.dart';
+import 'package:mandalahearts/models/post_creator_cache/post_creator_cache.dart';
+import 'package:mandalahearts/models/post_feed_item/post_feed_item.dart';
+import 'package:mandalahearts/models/user_post/user_post.dart';
 
 class PostRepository {
-  PostRepository({required FileStorage storage, required PostDb postDb})
-    : _storage = storage,
-      _postDb = postDb;
+  PostRepository({
+    required FileStorage storage,
+    required PostDb postDb,
+    required FirestoreUserService userService,
+  }) : _storage = storage,
+       _postDb = postDb,
+       _userService = userService;
 
   final FileStorage _storage;
   final PostDb _postDb;
+  final FirestoreUserService _userService;
 
   static const String _postImageBucket = 'post-images';
-  static const int _signedUrlExpiry = 157680000;
+  static const int _signedUrlExpiry = 157680000; // 5 years
+  static const int _pageSize = 2;
 
-  static const int _pageSize = 20;
-  final List<UserPost> _cachedPosts = [];
+  /// Feed cache
+  final List<PostFeedItem> _cachedFeed = [];
+
+  /// Creator cache (uid -> minimal creator snapshot)
+  final Map<String, PostCreatorCache> _creatorCache = {};
+
   DateTime? _oldestPostTime;
+  DateTime? _newestPostTime;
   bool _hasMore = true;
 
-  List<UserPost> get posts => List.unmodifiable(_cachedPosts);
+  List<PostFeedItem> get feed => List.unmodifiable(_cachedFeed);
   bool get hasMore => _hasMore;
 
   Future<void> createPost({
@@ -28,6 +44,7 @@ class PostRepository {
     required String caption,
   }) async {
     final postId = _postDb.generateId();
+
     final imageUrl = await _savePostImage(
       postId: postId,
       imageBytes: imageBytes,
@@ -36,6 +53,7 @@ class PostRepository {
     if (imageUrl == null) {
       throw Exception('Failed to upload post image');
     }
+
     final post = UserPost(
       id: postId,
       caption: caption,
@@ -43,6 +61,7 @@ class PostRepository {
       createdAt: DateTime.now(),
       creatorId: creatorId,
     );
+
     await _postDb.savePost(post: post);
   }
 
@@ -68,9 +87,15 @@ class PostRepository {
     );
   }
 
+  /* -------------------------------------------------------------------------- */
+  /*                                FEED LOADING                                */
+  /* -------------------------------------------------------------------------- */
+
   Future<void> loadInitial() async {
-    _cachedPosts.clear();
+    _cachedFeed.clear();
+    _creatorCache.clear();
     _oldestPostTime = null;
+    _newestPostTime = null;
     _hasMore = true;
 
     final posts = await _postDb.fetchPosts(limit: _pageSize);
@@ -80,7 +105,10 @@ class PostRepository {
       return;
     }
 
-    _cachedPosts.addAll(posts);
+    final feedItems = await _buildFeedItems(posts);
+
+    _cachedFeed.addAll(feedItems);
+    _newestPostTime = posts.first.createdAt;
     _oldestPostTime = posts.last.createdAt;
   }
 
@@ -97,14 +125,71 @@ class PostRepository {
       return;
     }
 
-    final uniquePosts = _dedupe(posts);
+    final feedItems = await _buildFeedItems(posts);
+    final uniqueItems = _dedupe(feedItems);
 
-    _cachedPosts.addAll(uniquePosts);
-    _oldestPostTime = _cachedPosts.last.createdAt;
+    _cachedFeed.addAll(uniqueItems);
+    _oldestPostTime = _cachedFeed.last.post.createdAt;
   }
 
-  List<UserPost> _dedupe(List<UserPost> incoming) {
-    final existingIds = _cachedPosts.map((e) => e.id).toSet();
-    return incoming.where((p) => !existingIds.contains(p.id)).toList();
+  Future<void> refresh() async {
+    if (_newestPostTime == null) {
+      await loadInitial();
+      return;
+    }
+
+    final posts = await _postDb.fetchPosts(
+      limit: _pageSize,
+      newerThan: _newestPostTime,
+    );
+
+    if (posts.isEmpty) return;
+
+    final feedItems = await _buildFeedItems(posts);
+    final uniqueItems = _dedupe(feedItems);
+
+    _cachedFeed.insertAll(0, uniqueItems);
+    _newestPostTime = _cachedFeed.first.post.createdAt;
+  }
+
+  /* -------------------------------------------------------------------------- */
+  /*                               HELPER METHODS                               */
+  /* -------------------------------------------------------------------------- */
+
+  Future<List<PostFeedItem>> _buildFeedItems(List<UserPost> posts) async {
+    final creatorIds = posts.map((p) => p.creatorId).toSet();
+
+    final missingCreatorIds = creatorIds
+        .where((id) => !_creatorCache.containsKey(id))
+        .toList();
+
+    for (final creatorId in missingCreatorIds) {
+      final snapshot = await _userService.getUser(creatorId);
+      if (!snapshot.exists || snapshot.data() == null) continue;
+      final user = AppUser.fromJson(snapshot.data()!);
+      _creatorCache[creatorId] = PostCreatorCache(
+        id: user.uid,
+        name: user.username,
+        profileImageUrl: user.basicDetails?.profilePictureUrl,
+      );
+    }
+
+    return posts.map((post) {
+      final creator = _creatorCache[post.creatorId]!;
+
+      return PostFeedItem(
+        post: post,
+        creatorId: creator.id,
+        creatorName: creator.name,
+        creatorProfileImageUrl: creator.profileImageUrl,
+      );
+    }).toList();
+  }
+
+  List<PostFeedItem> _dedupe(List<PostFeedItem> incoming) {
+    final existingIds = _cachedFeed.map((e) => e.post.id).toSet();
+    return incoming
+        .where((item) => !existingIds.contains(item.post.id))
+        .toList();
   }
 }

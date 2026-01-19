@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:mandalahearts/core/converters/firestore_timestamp_converter.dart';
+
 part 'user_post.freezed.dart';
 part 'user_post.g.dart';
 
@@ -9,9 +11,12 @@ abstract class UserPost with _$UserPost {
     required String id,
     required String caption,
     required String imageUrl,
-    required DateTime createdAt,
+
+    @FirestoreDateTimeConverter() required DateTime createdAt,
+
     required String creatorId,
-    DateTime? updatedAt,
+
+    @FirestoreDateTimeConverter() DateTime? updatedAt,
   }) = _UserPost;
 
   factory UserPost.fromJson(Map<String, dynamic> json) =>

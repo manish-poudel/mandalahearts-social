@@ -32,7 +32,7 @@ _BasicDetails _$BasicDetailsFromJson(Map<String, dynamic> json) =>
     _BasicDetails(
       firstName: json['firstName'] as String,
       secondName: json['secondName'] as String,
-      dob: DateTime.parse(json['dob'] as String),
+      dob: const FirestoreDateTimeConverter().fromJson(json['dob'] as Object),
       country: json['country'] as String,
       profilePictureUrl: json['profilePictureUrl'] as String?,
     );
@@ -41,7 +41,7 @@ Map<String, dynamic> _$BasicDetailsToJson(_BasicDetails instance) =>
     <String, dynamic>{
       'firstName': instance.firstName,
       'secondName': instance.secondName,
-      'dob': instance.dob.toIso8601String(),
+      'dob': const FirestoreDateTimeConverter().toJson(instance.dob),
       'country': instance.country,
       'profilePictureUrl': instance.profilePictureUrl,
     };

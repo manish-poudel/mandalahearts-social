@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mandalahearts/core/services/database/post_db.dart';
-import 'package:mandalahearts/models/post/user_post.dart';
+import 'package:mandalahearts/models/user_post/user_post.dart';
 
 class FirestoreUserPostService implements PostDb {
   FirestoreUserPostService({FirebaseFirestore? firestore})
-      : _firestore = firestore ?? FirebaseFirestore.instance;
+    : _firestore = firestore ?? FirebaseFirestore.instance;
 
   final FirebaseFirestore _firestore;
 
@@ -24,6 +24,7 @@ class FirestoreUserPostService implements PostDb {
   Future<List<UserPost>> fetchPosts({
     required int limit,
     DateTime? olderThan,
+    DateTime? newerThan,
   }) async {
     Query query = _firestore
         .collection(_collection)
@@ -34,6 +35,13 @@ class FirestoreUserPostService implements PostDb {
       query = query.where(
         'createdAt',
         isLessThan: Timestamp.fromDate(olderThan),
+      );
+    }
+
+    if (newerThan != null) {
+      query = query.where(
+        'createdAt',
+        isGreaterThan: Timestamp.fromDate(newerThan),
       );
     }
 

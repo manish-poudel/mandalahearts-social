@@ -8,9 +8,11 @@ import 'package:mandalahearts/core/services/firestore/firestore_username_service
 import 'package:mandalahearts/features/auth/bloc/auth_bloc.dart';
 import 'package:mandalahearts/features/auth/bloc/auth_event.dart';
 import 'package:mandalahearts/features/photo_picker/cubit/photo_picker_cubit.dart';
+import 'package:mandalahearts/features/post_feed/post_feed_cubit.dart';
 import 'package:mandalahearts/features/profile/cubits/profile_cubit.dart';
 import 'package:mandalahearts/features/username/cubits/username_cubits.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
+import 'package:mandalahearts/repository/post_repository.dart';
 import 'package:mandalahearts/screens/add_post_screen.dart';
 
 import 'package:mandalahearts/screens/sign_in_screen.dart';
@@ -108,7 +110,10 @@ final GoRouter routes = GoRouter(
     GoRoute(
       name: AppRoute.dashboard.name,
       path: AppRoute.dashboard.path,
-      builder: (context, state) => DashboardScreen(),
+      builder: (context, state) => BlocProvider(
+        create: (context) => PostFeedCubit(context.read<PostRepository>()),
+        child: DashboardScreen(),
+      ),
     ),
     GoRoute(
       name: AppRoute.addPostScreen.name,

@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:mandalahearts/core/converters/firestore_timestamp_converter.dart';
 
 part 'app_user.freezed.dart';
 part 'app_user.g.dart';
@@ -22,7 +23,9 @@ abstract class BasicDetails with _$BasicDetails {
   const factory BasicDetails({
     required String firstName,
     required String secondName,
-    required DateTime dob,
+
+    @FirestoreDateTimeConverter() required DateTime dob,
+
     required String country,
     String? profilePictureUrl,
   }) = _BasicDetails;

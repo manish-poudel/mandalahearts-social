@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UserPost {
 
- String get id; String get caption; String get imageUrl; DateTime get createdAt; String get creatorId; DateTime? get updatedAt;
+ String get id; String get caption; String get imageUrl;@FirestoreDateTimeConverter() DateTime get createdAt; String get creatorId;@FirestoreDateTimeConverter() DateTime? get updatedAt;
 /// Create a copy of UserPost
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $UserPostCopyWith<$Res>  {
   factory $UserPostCopyWith(UserPost value, $Res Function(UserPost) _then) = _$UserPostCopyWithImpl;
 @useResult
 $Res call({
- String id, String caption, String imageUrl, DateTime createdAt, String creatorId, DateTime? updatedAt
+ String id, String caption, String imageUrl,@FirestoreDateTimeConverter() DateTime createdAt, String creatorId,@FirestoreDateTimeConverter() DateTime? updatedAt
 });
 
 
@@ -158,7 +158,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String caption,  String imageUrl,  DateTime createdAt,  String creatorId,  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String caption,  String imageUrl, @FirestoreDateTimeConverter()  DateTime createdAt,  String creatorId, @FirestoreDateTimeConverter()  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserPost() when $default != null:
 return $default(_that.id,_that.caption,_that.imageUrl,_that.createdAt,_that.creatorId,_that.updatedAt);case _:
@@ -179,7 +179,7 @@ return $default(_that.id,_that.caption,_that.imageUrl,_that.createdAt,_that.crea
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String caption,  String imageUrl,  DateTime createdAt,  String creatorId,  DateTime? updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String caption,  String imageUrl, @FirestoreDateTimeConverter()  DateTime createdAt,  String creatorId, @FirestoreDateTimeConverter()  DateTime? updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _UserPost():
 return $default(_that.id,_that.caption,_that.imageUrl,_that.createdAt,_that.creatorId,_that.updatedAt);case _:
@@ -199,7 +199,7 @@ return $default(_that.id,_that.caption,_that.imageUrl,_that.createdAt,_that.crea
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String caption,  String imageUrl,  DateTime createdAt,  String creatorId,  DateTime? updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String caption,  String imageUrl, @FirestoreDateTimeConverter()  DateTime createdAt,  String creatorId, @FirestoreDateTimeConverter()  DateTime? updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _UserPost() when $default != null:
 return $default(_that.id,_that.caption,_that.imageUrl,_that.createdAt,_that.creatorId,_that.updatedAt);case _:
@@ -214,15 +214,15 @@ return $default(_that.id,_that.caption,_that.imageUrl,_that.createdAt,_that.crea
 @JsonSerializable()
 
 class _UserPost implements UserPost {
-  const _UserPost({required this.id, required this.caption, required this.imageUrl, required this.createdAt, required this.creatorId, this.updatedAt});
+  const _UserPost({required this.id, required this.caption, required this.imageUrl, @FirestoreDateTimeConverter() required this.createdAt, required this.creatorId, @FirestoreDateTimeConverter() this.updatedAt});
   factory _UserPost.fromJson(Map<String, dynamic> json) => _$UserPostFromJson(json);
 
 @override final  String id;
 @override final  String caption;
 @override final  String imageUrl;
-@override final  DateTime createdAt;
+@override@FirestoreDateTimeConverter() final  DateTime createdAt;
 @override final  String creatorId;
-@override final  DateTime? updatedAt;
+@override@FirestoreDateTimeConverter() final  DateTime? updatedAt;
 
 /// Create a copy of UserPost
 /// with the given fields replaced by the non-null parameter values.
@@ -257,7 +257,7 @@ abstract mixin class _$UserPostCopyWith<$Res> implements $UserPostCopyWith<$Res>
   factory _$UserPostCopyWith(_UserPost value, $Res Function(_UserPost) _then) = __$UserPostCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String caption, String imageUrl, DateTime createdAt, String creatorId, DateTime? updatedAt
+ String id, String caption, String imageUrl,@FirestoreDateTimeConverter() DateTime createdAt, String creatorId,@FirestoreDateTimeConverter() DateTime? updatedAt
 });
 
 

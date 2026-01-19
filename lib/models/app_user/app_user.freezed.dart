@@ -338,7 +338,7 @@ $SpiritualDetailsCopyWith<$Res>? get spiritualDetails {
 /// @nodoc
 mixin _$BasicDetails {
 
- String get firstName; String get secondName; DateTime get dob; String get country; String? get profilePictureUrl;
+ String get firstName; String get secondName;@FirestoreDateTimeConverter() DateTime get dob; String get country; String? get profilePictureUrl;
 /// Create a copy of BasicDetails
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -371,7 +371,7 @@ abstract mixin class $BasicDetailsCopyWith<$Res>  {
   factory $BasicDetailsCopyWith(BasicDetails value, $Res Function(BasicDetails) _then) = _$BasicDetailsCopyWithImpl;
 @useResult
 $Res call({
- String firstName, String secondName, DateTime dob, String country, String? profilePictureUrl
+ String firstName, String secondName,@FirestoreDateTimeConverter() DateTime dob, String country, String? profilePictureUrl
 });
 
 
@@ -480,7 +480,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String firstName,  String secondName,  DateTime dob,  String country,  String? profilePictureUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String firstName,  String secondName, @FirestoreDateTimeConverter()  DateTime dob,  String country,  String? profilePictureUrl)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _BasicDetails() when $default != null:
 return $default(_that.firstName,_that.secondName,_that.dob,_that.country,_that.profilePictureUrl);case _:
@@ -501,7 +501,7 @@ return $default(_that.firstName,_that.secondName,_that.dob,_that.country,_that.p
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String firstName,  String secondName,  DateTime dob,  String country,  String? profilePictureUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String firstName,  String secondName, @FirestoreDateTimeConverter()  DateTime dob,  String country,  String? profilePictureUrl)  $default,) {final _that = this;
 switch (_that) {
 case _BasicDetails():
 return $default(_that.firstName,_that.secondName,_that.dob,_that.country,_that.profilePictureUrl);case _:
@@ -521,7 +521,7 @@ return $default(_that.firstName,_that.secondName,_that.dob,_that.country,_that.p
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String firstName,  String secondName,  DateTime dob,  String country,  String? profilePictureUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String firstName,  String secondName, @FirestoreDateTimeConverter()  DateTime dob,  String country,  String? profilePictureUrl)?  $default,) {final _that = this;
 switch (_that) {
 case _BasicDetails() when $default != null:
 return $default(_that.firstName,_that.secondName,_that.dob,_that.country,_that.profilePictureUrl);case _:
@@ -536,12 +536,12 @@ return $default(_that.firstName,_that.secondName,_that.dob,_that.country,_that.p
 @JsonSerializable()
 
 class _BasicDetails implements BasicDetails {
-  const _BasicDetails({required this.firstName, required this.secondName, required this.dob, required this.country, this.profilePictureUrl});
+  const _BasicDetails({required this.firstName, required this.secondName, @FirestoreDateTimeConverter() required this.dob, required this.country, this.profilePictureUrl});
   factory _BasicDetails.fromJson(Map<String, dynamic> json) => _$BasicDetailsFromJson(json);
 
 @override final  String firstName;
 @override final  String secondName;
-@override final  DateTime dob;
+@override@FirestoreDateTimeConverter() final  DateTime dob;
 @override final  String country;
 @override final  String? profilePictureUrl;
 
@@ -578,7 +578,7 @@ abstract mixin class _$BasicDetailsCopyWith<$Res> implements $BasicDetailsCopyWi
   factory _$BasicDetailsCopyWith(_BasicDetails value, $Res Function(_BasicDetails) _then) = __$BasicDetailsCopyWithImpl;
 @override @useResult
 $Res call({
- String firstName, String secondName, DateTime dob, String country, String? profilePictureUrl
+ String firstName, String secondName,@FirestoreDateTimeConverter() DateTime dob, String country, String? profilePictureUrl
 });
 
 
