@@ -35,7 +35,6 @@ class _AllPostScreenState extends State<AllPostScreen> {
     super.dispose();
   }
 
-  /// 🔥 Dynamically calculate how many shimmer cards fit on screen
   int _skeletonCount(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     const approxPostCardHeight = 420.0;
