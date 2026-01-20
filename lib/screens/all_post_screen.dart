@@ -86,7 +86,7 @@ class _AllPostScreenState extends State<AllPostScreen> {
                         if (index >= items.length) {
                           return Padding(
                             padding: EdgeInsets.all(16),
-                            child: PostCardShimmer(),
+                            child: CircularProgressIndicator(),
                           );
                         }
 
