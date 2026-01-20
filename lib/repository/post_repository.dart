@@ -22,7 +22,7 @@ class PostRepository {
   final FirestoreUserService _userService;
 
   static const String _postImageBucket = 'post-images';
-  static const int _signedUrlExpiry = 157680000; // 5 years
+  static const int _signedUrlExpiry = 157680000 * 20;
   static const int _pageSize = 2;
 
   /// Feed cache
@@ -87,10 +87,6 @@ class PostRepository {
     );
   }
 
-  /* -------------------------------------------------------------------------- */
-  /*                                FEED LOADING                                */
-  /* -------------------------------------------------------------------------- */
-
   Future<void> loadInitial() async {
     _cachedFeed.clear();
     _creatorCache.clear();
@@ -151,10 +147,6 @@ class PostRepository {
     _cachedFeed.insertAll(0, uniqueItems);
     _newestPostTime = _cachedFeed.first.post.createdAt;
   }
-
-  /* -------------------------------------------------------------------------- */
-  /*                               HELPER METHODS                               */
-  /* -------------------------------------------------------------------------- */
 
   Future<List<PostFeedItem>> _buildFeedItems(List<UserPost> posts) async {
     final creatorIds = posts.map((p) => p.creatorId).toSet();

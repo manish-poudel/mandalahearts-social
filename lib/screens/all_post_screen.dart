@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mandalahearts/core/widgets/post_card.dart';
+import 'package:mandalahearts/core/widgets/post_card_shimmer.dart';
 import 'package:mandalahearts/features/post_feed/post_feed_cubit.dart';
 import 'package:mandalahearts/features/post_feed/post_feed_state.dart';
 
@@ -33,6 +35,13 @@ class _AllPostScreenState extends State<AllPostScreen> {
     super.dispose();
   }
 
+  /// 🔥 Dynamically calculate how many shimmer cards fit on screen
+  int _skeletonCount(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    const approxPostCardHeight = 420.0;
+    return (height / approxPostCardHeight).ceil();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<PostFeedCubit, PostFeedState>(
@@ -49,49 +58,47 @@ class _AllPostScreenState extends State<AllPostScreen> {
           return state.when(
             initial: () => const SizedBox.shrink(),
 
-            loading: () => const Center(child: CircularProgressIndicator()),
+            loading: () {
+              final count = _skeletonCount(context);
 
+              return ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: count,
+                itemBuilder: (_, __) => const PostCardShimmer(),
+              );
+            },
+
+            /// ── INITIAL ERROR ───────────────────────────────
             initialError: (msg) =>
                 Center(child: Text(msg, textAlign: TextAlign.center)),
 
+            /// ── LOADED ──────────────────────────────────────
             loaded:
                 (items, hasMore, isLoadingMore, isRefreshing, loadMoreError) {
                   return RefreshIndicator(
                     onRefresh: () => context.read<PostFeedCubit>().refresh(),
                     child: ListView.builder(
                       controller: _scrollController,
+                      physics: const AlwaysScrollableScrollPhysics(),
                       itemCount: items.length + (isLoadingMore ? 1 : 0),
                       itemBuilder: (context, index) {
+                        /// Pagination loader
                         if (index >= items.length) {
-                          return const Padding(
+                          return Padding(
                             padding: EdgeInsets.all(16),
-                            child: Center(child: CircularProgressIndicator()),
+                            child: PostCardShimmer(),
                           );
                         }
 
                         final item = items[index];
                         final post = item.post;
 
-                        return ListTile(
-                          contentPadding: const EdgeInsets.all(12),
-                          leading: CircleAvatar(
-                            backgroundImage: item.creatorProfileImageUrl != null
-                                ? NetworkImage(item.creatorProfileImageUrl!)
-                                : null,
-                            child: item.creatorProfileImageUrl == null
-                                ? const Icon(Icons.person)
-                                : null,
-                          ),
-                          title: Text(item.creatorName),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 8),
-                              Image.network(post.imageUrl),
-                              const SizedBox(height: 8),
-                              Text(post.caption),
-                            ],
-                          ),
+                        return PostCard(
+                          username: item.creatorName,
+                          profileImageUrl: item.creatorProfileImageUrl,
+                          imageUrl: post.imageUrl,
+                          caption: post.caption,
+                          createdAt: post.createdAt,
                         );
                       },
                     ),
