@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mandalahearts/core/utils/time_formatter.dart';
-import 'package:mandalahearts/core/widgets/shimmer_box.dart';
 
 class PostCard extends StatelessWidget {
   final String username;
@@ -87,7 +86,16 @@ class PostCard extends StatelessWidget {
                     fit: BoxFit.cover,
                     loadingBuilder: (context, child, progress) {
                       if (progress == null) return child;
-                      return const ShimmerBox(borderRadius: 14);
+                      return Center(
+                        child: SizedBox(
+                          height: 50,
+                          width: 50,
+                          child: const CircularProgressIndicator(
+                            strokeWidth: 1,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      );
                     },
                   ),
                 ),

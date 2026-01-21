@@ -6,7 +6,8 @@ enum AppRoute {
   addProfile('/addprofile', 'addprofile'),
   dashboard('/dashboard', 'dashboard'),
   username('/username', 'username'),
-  addPostScreen('/add_post', 'add_post');
+  addPostScreen('/add_post', 'add_post'),
+  profileViewScreen('/profile_view', 'profile_view');
 
   final String path;
   final String name;

@@ -23,7 +23,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: AppLogo(fontSize: 21),
+        title: GestureDetector(
+          onTap: () {
+            context.read<AuthRepository>().signOut();
+            context.push(AppRoute.mandalaHeartApp.path);
+          },
+          child: AppLogo(fontSize: 21),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.add, size: 28),
@@ -35,8 +41,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             padding: const EdgeInsets.only(right: 14),
             child: GestureDetector(
               onTap: () {
-                context.read<AuthRepository>().signOut();
-                context.go(AppRoute.mandalaHeartApp.path);
+                //context.read<AuthRepository>().signOut();
+                context.push(AppRoute.profileViewScreen.path);
               },
               child: CircleAvatar(
                 radius: 18,

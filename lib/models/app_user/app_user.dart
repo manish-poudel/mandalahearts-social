@@ -11,7 +11,7 @@ abstract class AppUser with _$AppUser {
     required String username,
     BasicDetails? basicDetails,
     String? bio,
-    SpiritualDetails? spiritualDetails,
+    List<SpiritualDetails>? spiritualDetails,
   }) = _AppUser;
 
   factory AppUser.fromJson(Map<String, dynamic> json) =>
@@ -39,7 +39,7 @@ abstract class SpiritualDetails with _$SpiritualDetails {
   const factory SpiritualDetails({
     String? guruName,
     String? spiritualOrganisation,
-    String? spiritualPractice,
+    String? description,
   }) = _SpiritualDetails;
 
   factory SpiritualDetails.fromJson(Map<String, dynamic> json) =>

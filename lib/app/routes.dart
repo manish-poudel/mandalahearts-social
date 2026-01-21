@@ -14,6 +14,7 @@ import 'package:mandalahearts/features/username/cubits/username_cubits.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
 import 'package:mandalahearts/repository/post_repository.dart';
 import 'package:mandalahearts/screens/add_post_screen.dart';
+import 'package:mandalahearts/screens/profile_view_screen.dart';
 
 import 'package:mandalahearts/screens/sign_in_screen.dart';
 import 'package:mandalahearts/screens/sign_up_screen.dart';
@@ -122,6 +123,11 @@ final GoRouter routes = GoRouter(
         create: (context) => PhotoPickerCubit(),
         child: AddPostScreen(),
       ),
+    ),
+    GoRoute(
+      name: AppRoute.profileViewScreen.name,
+      path: AppRoute.profileViewScreen.path,
+      builder: (context, state) => ProfileViewScreen(),
     ),
   ],
 );

@@ -13,11 +13,9 @@ _AppUser _$AppUserFromJson(Map<String, dynamic> json) => _AppUser(
       ? null
       : BasicDetails.fromJson(json['basicDetails'] as Map<String, dynamic>),
   bio: json['bio'] as String?,
-  spiritualDetails: json['spiritualDetails'] == null
-      ? null
-      : SpiritualDetails.fromJson(
-          json['spiritualDetails'] as Map<String, dynamic>,
-        ),
+  spiritualDetails: (json['spiritualDetails'] as List<dynamic>?)
+      ?.map((e) => SpiritualDetails.fromJson(e as Map<String, dynamic>))
+      .toList(),
 );
 
 Map<String, dynamic> _$AppUserToJson(_AppUser instance) => <String, dynamic>{
@@ -25,7 +23,9 @@ Map<String, dynamic> _$AppUserToJson(_AppUser instance) => <String, dynamic>{
   'username': instance.username,
   'basicDetails': instance.basicDetails?.toJson(),
   'bio': instance.bio,
-  'spiritualDetails': instance.spiritualDetails?.toJson(),
+  'spiritualDetails': instance.spiritualDetails
+      ?.map((e) => e.toJson())
+      .toList(),
 };
 
 _BasicDetails _$BasicDetailsFromJson(Map<String, dynamic> json) =>
@@ -50,12 +50,12 @@ _SpiritualDetails _$SpiritualDetailsFromJson(Map<String, dynamic> json) =>
     _SpiritualDetails(
       guruName: json['guruName'] as String?,
       spiritualOrganisation: json['spiritualOrganisation'] as String?,
-      spiritualPractice: json['spiritualPractice'] as String?,
+      description: json['description'] as String?,
     );
 
 Map<String, dynamic> _$SpiritualDetailsToJson(_SpiritualDetails instance) =>
     <String, dynamic>{
       'guruName': instance.guruName,
       'spiritualOrganisation': instance.spiritualOrganisation,
-      'spiritualPractice': instance.spiritualPractice,
+      'description': instance.description,
     };

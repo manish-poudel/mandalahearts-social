@@ -82,10 +82,16 @@ class _AllPostScreenState extends State<AllPostScreen> {
                       itemCount: items.length + (isLoadingMore ? 1 : 0),
                       itemBuilder: (context, index) {
                         /// Pagination loader
+                        // todo: circular progress theme
                         if (index >= items.length) {
                           return Padding(
                             padding: EdgeInsets.all(16),
-                            child: CircularProgressIndicator(),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                strokeWidth: 1,
+                                color: Colors.grey,
+                              ),
+                            ),
                           );
                         }
 

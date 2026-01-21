@@ -25,12 +25,12 @@ $PostFeedItemCopyWith<PostFeedItem> get copyWith => _$PostFeedItemCopyWithImpl<P
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PostFeedItem&&const DeepCollectionEquality().equals(other.post, post)&&(identical(other.creatorId, creatorId) || other.creatorId == creatorId)&&(identical(other.creatorName, creatorName) || other.creatorName == creatorName)&&(identical(other.creatorProfileImageUrl, creatorProfileImageUrl) || other.creatorProfileImageUrl == creatorProfileImageUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PostFeedItem&&(identical(other.post, post) || other.post == post)&&(identical(other.creatorId, creatorId) || other.creatorId == creatorId)&&(identical(other.creatorName, creatorName) || other.creatorName == creatorName)&&(identical(other.creatorProfileImageUrl, creatorProfileImageUrl) || other.creatorProfileImageUrl == creatorProfileImageUrl));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(post),creatorId,creatorName,creatorProfileImageUrl);
+int get hashCode => Object.hash(runtimeType,post,creatorId,creatorName,creatorProfileImageUrl);
 
 @override
 String toString() {
@@ -49,7 +49,7 @@ $Res call({
 });
 
 
-
+$UserPostCopyWith<$Res> get post;
 
 }
 /// @nodoc
@@ -62,16 +62,25 @@ class _$PostFeedItemCopyWithImpl<$Res>
 
 /// Create a copy of PostFeedItem
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? post = freezed,Object? creatorId = null,Object? creatorName = null,Object? creatorProfileImageUrl = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? post = null,Object? creatorId = null,Object? creatorName = null,Object? creatorProfileImageUrl = freezed,}) {
   return _then(_self.copyWith(
-post: freezed == post ? _self.post : post // ignore: cast_nullable_to_non_nullable
+post: null == post ? _self.post : post // ignore: cast_nullable_to_non_nullable
 as UserPost,creatorId: null == creatorId ? _self.creatorId : creatorId // ignore: cast_nullable_to_non_nullable
 as String,creatorName: null == creatorName ? _self.creatorName : creatorName // ignore: cast_nullable_to_non_nullable
 as String,creatorProfileImageUrl: freezed == creatorProfileImageUrl ? _self.creatorProfileImageUrl : creatorProfileImageUrl // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
-
+/// Create a copy of PostFeedItem
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserPostCopyWith<$Res> get post {
+  
+  return $UserPostCopyWith<$Res>(_self.post, (value) {
+    return _then(_self.copyWith(post: value));
+  });
+}
 }
 
 
@@ -227,12 +236,12 @@ _$PostFeedItemCopyWith<_PostFeedItem> get copyWith => __$PostFeedItemCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PostFeedItem&&const DeepCollectionEquality().equals(other.post, post)&&(identical(other.creatorId, creatorId) || other.creatorId == creatorId)&&(identical(other.creatorName, creatorName) || other.creatorName == creatorName)&&(identical(other.creatorProfileImageUrl, creatorProfileImageUrl) || other.creatorProfileImageUrl == creatorProfileImageUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PostFeedItem&&(identical(other.post, post) || other.post == post)&&(identical(other.creatorId, creatorId) || other.creatorId == creatorId)&&(identical(other.creatorName, creatorName) || other.creatorName == creatorName)&&(identical(other.creatorProfileImageUrl, creatorProfileImageUrl) || other.creatorProfileImageUrl == creatorProfileImageUrl));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(post),creatorId,creatorName,creatorProfileImageUrl);
+int get hashCode => Object.hash(runtimeType,post,creatorId,creatorName,creatorProfileImageUrl);
 
 @override
 String toString() {
@@ -251,7 +260,7 @@ $Res call({
 });
 
 
-
+@override $UserPostCopyWith<$Res> get post;
 
 }
 /// @nodoc
@@ -264,9 +273,9 @@ class __$PostFeedItemCopyWithImpl<$Res>
 
 /// Create a copy of PostFeedItem
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? post = freezed,Object? creatorId = null,Object? creatorName = null,Object? creatorProfileImageUrl = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? post = null,Object? creatorId = null,Object? creatorName = null,Object? creatorProfileImageUrl = freezed,}) {
   return _then(_PostFeedItem(
-post: freezed == post ? _self.post : post // ignore: cast_nullable_to_non_nullable
+post: null == post ? _self.post : post // ignore: cast_nullable_to_non_nullable
 as UserPost,creatorId: null == creatorId ? _self.creatorId : creatorId // ignore: cast_nullable_to_non_nullable
 as String,creatorName: null == creatorName ? _self.creatorName : creatorName // ignore: cast_nullable_to_non_nullable
 as String,creatorProfileImageUrl: freezed == creatorProfileImageUrl ? _self.creatorProfileImageUrl : creatorProfileImageUrl // ignore: cast_nullable_to_non_nullable
@@ -274,7 +283,16 @@ as String?,
   ));
 }
 
-
+/// Create a copy of PostFeedItem
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserPostCopyWith<$Res> get post {
+  
+  return $UserPostCopyWith<$Res>(_self.post, (value) {
+    return _then(_self.copyWith(post: value));
+  });
+}
 }
 
 // dart format on
