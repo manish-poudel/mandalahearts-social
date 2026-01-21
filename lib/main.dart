@@ -28,8 +28,7 @@ Future<void> main() async {
           create: (_) => AuthRepository(firebaseAuth: FirebaseAuth.instance),
         ),
         RepositoryProvider<AppUserRepository>(
-          create: (_) =>
-              AppUserRepository(firestoreService: FirestoreUserService()),
+          create: (_) => AppUserRepository(userDB: FirestoreUserService()),
         ),
         RepositoryProvider<PostRepository>(
           create: (_) => PostRepository(

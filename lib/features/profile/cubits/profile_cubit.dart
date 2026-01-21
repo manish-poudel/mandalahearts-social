@@ -79,11 +79,9 @@ class ProfileDetailsCubit extends Cubit<ProfileDetailsState> {
           ),
         );
       }
-      print(user);
       await _userRepository.updateUser(user!);
       emit(ProfileDetailsState.success(user: user));
     } catch (e) {
-      print(e);
       emit(
         ProfileDetailsState.error(
           message: 'Failed to save profile details',

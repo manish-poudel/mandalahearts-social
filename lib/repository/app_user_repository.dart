@@ -1,68 +1,53 @@
-import 'package:mandalahearts/core/services/firestore/firestore_user_service.dart';
+import 'package:mandalahearts/core/services/database/user_db.dart';
 import 'package:mandalahearts/models/app_user/app_user.dart';
 
 class AppUserRepository {
-  AppUserRepository({required FirestoreUserService firestoreService})
-    : _firestoreService = firestoreService;
+  AppUserRepository({required UserDB userDB}) : _userDB = userDB;
 
-  final FirestoreUserService _firestoreService;
+  final UserDB _userDB;
 
-  // Cache variable
   AppUser? _appUser;
 
-  // Getter for easy access
   AppUser? get currentUser => _appUser;
 
   Future<void> createUser(AppUser user) async {
-    try {
-      await _firestoreService.createUser(userId: user.uid, json: user.toJson());
-      _appUser = user;
-    } catch (e) {
-      rethrow;
-    }
+    await _userDB.createUser(userId: user.uid, json: user.toJson());
+    _appUser = user;
   }
 
   Future<void> updateUser(AppUser user) async {
-    try {
-      await _firestoreService.updateUser(userId: user.uid, json: user.toJson());
-      _appUser = user;
-    } catch (e) {
-      rethrow;
-    }
+    await _userDB.updateUser(userId: user.uid, json: user.toJson());
+    _appUser = user;
   }
 
   Stream<AppUser?> streamUser(String userId) {
-    return _firestoreService.streamUser(userId).map((snapshot) {
-      if (!snapshot.exists || snapshot.data() == null) {
+    return _userDB.streamUser(userId).map((data) {
+      if (data == null) {
         _appUser = null;
         return null;
       }
-      final user = AppUser.fromJson(snapshot.data()!);
+
+      final user = AppUser.fromJson(data);
       _appUser = user;
       return user;
     });
   }
 
   Future<AppUser?> getUser(String userId, {bool forceRefresh = false}) async {
-    try {
-      // Return cached user if available
-      if (_appUser != null && !forceRefresh) {
-        return _appUser;
-      }
-
-      // Fetch from Firestore
-      final snapshot = await _firestoreService.getUser(userId);
-
-      if (!snapshot.exists || snapshot.data() == null) {
-        _appUser = null;
-        return null;
-      }
-      final data = snapshot.data()!;
-      _appUser = AppUser.fromJson(data);
+    if (_appUser != null && !forceRefresh) {
       return _appUser;
-    } catch (e) {
-      rethrow; // Let the Cubit/UI handle the exception
     }
+
+    final data = await _userDB.getUser(userId);
+
+    if (data == null) {
+      _appUser = null;
+      return null;
+    }
+
+    final user = AppUser.fromJson(data);
+    _appUser = user;
+    return user;
   }
 
   void clearCache() => _appUser = null;

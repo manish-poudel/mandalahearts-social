@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:mandalahearts/core/services/database/post_db.dart';
-import 'package:mandalahearts/core/services/firestore/firestore_user_service.dart';
+import 'package:mandalahearts/core/services/database/user_db.dart';
 import 'package:mandalahearts/core/services/storage/file_storage.dart';
 import 'package:mandalahearts/models/app_user/app_user.dart';
 import 'package:mandalahearts/models/post_creator_cache/post_creator_cache.dart';
@@ -12,14 +12,14 @@ class PostRepository {
   PostRepository({
     required FileStorage storage,
     required PostDb postDb,
-    required FirestoreUserService userService,
+    required UserDB userService,
   }) : _storage = storage,
        _postDb = postDb,
        _userService = userService;
 
   final FileStorage _storage;
   final PostDb _postDb;
-  final FirestoreUserService _userService;
+  final UserDB _userService;
 
   static const String _postImageBucket = 'post-images';
   static const int _signedUrlExpiry = 157680000 * 20;
@@ -156,9 +156,11 @@ class PostRepository {
         .toList();
 
     for (final creatorId in missingCreatorIds) {
-      final snapshot = await _userService.getUser(creatorId);
-      if (!snapshot.exists || snapshot.data() == null) continue;
-      final user = AppUser.fromJson(snapshot.data()!);
+      final data = await _userService.getUser(creatorId);
+      if (data == null) continue;
+
+      final user = AppUser.fromJson(data);
+
       _creatorCache[creatorId] = PostCreatorCache(
         id: user.uid,
         name: user.username,
