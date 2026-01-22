@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mandalahearts/models/app_user/app_user.dart';
-part 'profile_state.freezed.dart';
+part 'add_profile_state.freezed.dart';
 
 @freezed
 abstract class ProfileDetailsState with _$ProfileDetailsState {

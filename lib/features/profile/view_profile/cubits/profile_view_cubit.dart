@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mandalahearts/enums/profile_mode.dart';
-import 'package:mandalahearts/features/profile_view/cubits/profile_view_state.dart';
+import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_state.dart';
 import 'package:mandalahearts/models/app_user/app_user.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
 
-class ProfileCubit extends Cubit<ProfileViewState> {
-  ProfileCubit(this._repo) : super(const ProfileViewState.loading());
+class ProfileViewCubit extends Cubit<ProfileViewState> {
+  ProfileViewCubit(this._repo) : super(const ProfileViewState.loading());
 
   final AppUserRepository _repo;
   StreamSubscription<AppUser?>? _sub;

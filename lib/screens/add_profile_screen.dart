@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mandalahearts/app/app_routes.dart';
 import 'package:mandalahearts/core/widgets/basic_details_form.dart';
-import 'package:mandalahearts/features/profile/cubits/profile_cubit.dart';
-import 'package:mandalahearts/features/profile/cubits/profile_state.dart';
+import 'package:mandalahearts/features/profile/add_profile/cubits/add_profile_cubit.dart';
+import 'package:mandalahearts/features/profile/add_profile/cubits/add_profile_state.dart';
 import 'package:mandalahearts/repository/auth_repository.dart';
 
 class ProfileDetailsScreen extends StatefulWidget {

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mandalahearts/app/app_routes.dart';
 import 'package:mandalahearts/core/widgets/basic_profile_view.dart';
 import 'package:mandalahearts/core/widgets/post_grid_view.dart';
 import 'package:mandalahearts/core/widgets/spiritual_master_view.dart';
 import 'package:mandalahearts/enums/profile_mode.dart';
-import 'package:mandalahearts/features/profile_view/cubits/profile_view_cubit.dart';
-import 'package:mandalahearts/features/profile_view/cubits/profile_view_state.dart';
+import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_cubit.dart'
+    show ProfileViewCubit;
+import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_state.dart';
 
 class ProfileViewScreen extends StatelessWidget {
   const ProfileViewScreen({super.key});
@@ -40,7 +43,7 @@ class ProfileViewScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Column(
           children: [
-            BlocBuilder<ProfileCubit, ProfileViewState>(
+            BlocBuilder<ProfileViewCubit, ProfileViewState>(
               builder: (context, state) {
                 return state.when(
                   loading: () => const Padding(
@@ -55,7 +58,6 @@ class ProfileViewScreen extends StatelessWidget {
 
                   loaded: (user, mode) => Column(
                     children: [
-                      /// BASIC PROFILE
                       ProfileHeaderView(
                         firstName: user.basicDetails?.firstName ?? '',
                         lastName: user.basicDetails?.secondName ?? '',
@@ -66,12 +68,13 @@ class ProfileViewScreen extends StatelessWidget {
                             user.basicDetails?.profilePictureUrl ?? '',
                       ),
 
-                      /// EDIT BUTTON (current user only)
                       if (mode == ProfileMode.currentUser)
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 32),
                           child: OutlinedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              context.push(AppRoute.editProfileScreen.path);
+                            },
                             style: OutlinedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(
                                 vertical: 16.0,
@@ -94,7 +97,6 @@ class ProfileViewScreen extends StatelessWidget {
               },
             ),
 
-            /// 👇 POSTS ARE OUTSIDE CUBIT (STATIC)
             const SizedBox(height: 32),
 
             PostGridView(posts: posts),

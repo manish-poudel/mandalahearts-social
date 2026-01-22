@@ -63,15 +63,13 @@ class _AllPostScreenState extends State<AllPostScreen> {
               return ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: count,
-                itemBuilder: (_, __) => const PostCardShimmer(),
+                itemBuilder: (_, _) => const PostCardShimmer(),
               );
             },
 
-            /// ── INITIAL ERROR ───────────────────────────────
             initialError: (msg) =>
                 Center(child: Text(msg, textAlign: TextAlign.center)),
 
-            /// ── LOADED ──────────────────────────────────────
             loaded:
                 (items, hasMore, isLoadingMore, isRefreshing, loadMoreError) {
                   return RefreshIndicator(

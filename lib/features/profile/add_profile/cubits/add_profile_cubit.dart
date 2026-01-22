@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mandalahearts/features/profile/cubits/profile_state.dart';
+import 'package:mandalahearts/features/profile/add_profile/cubits/add_profile_state.dart';
 import 'package:mandalahearts/models/app_user/app_user.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
 

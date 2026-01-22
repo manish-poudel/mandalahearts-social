@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mandalahearts/core/widgets/profile_avatar.dart';
 
 class ProfileHeaderView extends StatelessWidget {
   final String firstName;
@@ -18,8 +19,6 @@ class ProfileHeaderView extends StatelessWidget {
     required this.profileImage,
   });
 
-  bool get _hasProfileImage => profileImage.trim().isNotEmpty;
-
   String get _fullName =>
       [firstName, lastName].where((e) => e.trim().isNotEmpty).join(' ');
 
@@ -34,32 +33,10 @@ class ProfileHeaderView extends StatelessWidget {
         child: Column(
           children: [
             // Avatar
-            Container(
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: theme.colorScheme.primary.withAlpha(120),
-                  width: 2,
-                ),
-              ),
-              child: CircleAvatar(
-                radius: 46,
-                backgroundColor: _hasProfileImage
-                    ? theme.colorScheme.surface
-                    : Colors.grey.shade300,
-                backgroundImage: _hasProfileImage
-                    ? NetworkImage(profileImage)
-                    : null,
-                child: !_hasProfileImage
-                    ? Icon(Icons.person, size: 40, color: Colors.grey.shade600)
-                    : null,
-              ),
-            ),
+            ProfileAvatar(imageUrl: profileImage, radius: 46),
 
             const SizedBox(height: 12),
 
-            // Full Name
             if (_fullName.isNotEmpty)
               Text(
                 _fullName,
@@ -68,16 +45,6 @@ class ProfileHeaderView extends StatelessWidget {
                 ),
               ),
 
-            // Username
-            // if (username.isNotEmpty) ...[
-            //   const SizedBox(height: 4),
-            //   Text(
-            //     '@$username',
-            //     style: theme.textTheme.bodyMedium?.copyWith(
-            //       fontWeight: FontWeight.w500,
-            //     ),
-            //   ),
-            // ],
             const SizedBox(height: 6),
 
             // Country

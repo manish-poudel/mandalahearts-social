@@ -10,12 +10,14 @@ import 'package:mandalahearts/features/auth/bloc/auth_bloc.dart';
 import 'package:mandalahearts/features/auth/bloc/auth_event.dart';
 import 'package:mandalahearts/features/photo_picker/cubit/photo_picker_cubit.dart';
 import 'package:mandalahearts/features/post_feed/post_feed_cubit.dart';
-import 'package:mandalahearts/features/profile/cubits/profile_cubit.dart';
-import 'package:mandalahearts/features/profile_view/cubits/profile_view_cubit.dart';
+import 'package:mandalahearts/features/profile/add_profile/cubits/add_profile_cubit.dart';
+import 'package:mandalahearts/features/profile/edit_profile/cubits/edit_profile_cubit.dart';
+import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_cubit.dart';
 import 'package:mandalahearts/features/username/cubits/username_cubits.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
 import 'package:mandalahearts/repository/post_repository.dart';
 import 'package:mandalahearts/screens/add_post_screen.dart';
+import 'package:mandalahearts/screens/edit_profile_screen.dart';
 import 'package:mandalahearts/screens/profile_view_screen.dart';
 
 import 'package:mandalahearts/screens/sign_in_screen.dart';
@@ -133,9 +135,22 @@ final GoRouter routes = GoRouter(
         final userId = context.read<AppUserRepository>().currentUser!.uid;
         return BlocProvider(
           create: (context) =>
-              ProfileCubit(context.read<AppUserRepository>())
+              ProfileViewCubit(context.read<AppUserRepository>())
                 ..init(userId: userId, mode: ProfileMode.currentUser),
           child: const ProfileViewScreen(),
+        );
+      },
+    ),
+
+    GoRoute(
+      name: AppRoute.editProfileScreen.name,
+      path: AppRoute.editProfileScreen.path,
+      builder: (context, state) {
+        return BlocProvider(
+          create: (context) => EditProfileCubit(
+            userRepository: context.read<AppUserRepository>(),
+          )..load(),
+          child: const EditProfileScreen(),
         );
       },
     ),

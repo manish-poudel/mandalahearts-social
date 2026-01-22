@@ -7,7 +7,10 @@ enum AppRoute {
   dashboard('/dashboard', 'dashboard'),
   username('/username', 'username'),
   addPostScreen('/add_post', 'add_post'),
-  profileViewScreen('/profile_view', 'profile_view');
+  profileViewScreen('/profile_view', 'profile_view'),
+  editProfileScreen('/edit_profile', 'edit_profile'),
+  editUsername('/edit_username', 'edit_username'),
+  editSpiritualDetails('/edit_spiritual_details', 'edit_spiritual_details');
 
   final String path;
   final String name;
