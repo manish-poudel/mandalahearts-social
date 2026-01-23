@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mandalahearts/models/app_user/app_user.dart';
 
 class SpiritualMastersView extends StatelessWidget {
-  final List<SpiritualMasters> spiritualMasters;
+  final List<SpiritualMaster> spiritualMasters;
 
   const SpiritualMastersView({super.key, required this.spiritualMasters});
 

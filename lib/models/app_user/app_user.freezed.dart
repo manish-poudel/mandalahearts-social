@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppUser {
 
- String get uid; String get username; BasicDetails? get basicDetails; String? get bio; List<SpiritualMasters>? get spiritualMasters;
+ String get uid; String get username; BasicDetails? get basicDetails; String? get bio; List<SpiritualMaster>? get spiritualMasters;
 /// Create a copy of AppUser
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $AppUserCopyWith<$Res>  {
   factory $AppUserCopyWith(AppUser value, $Res Function(AppUser) _then) = _$AppUserCopyWithImpl;
 @useResult
 $Res call({
- String uid, String username, BasicDetails? basicDetails, String? bio, List<SpiritualMasters>? spiritualMasters
+ String uid, String username, BasicDetails? basicDetails, String? bio, List<SpiritualMaster>? spiritualMasters
 });
 
 
@@ -72,7 +72,7 @@ as String,username: null == username ? _self.username : username // ignore: cast
 as String,basicDetails: freezed == basicDetails ? _self.basicDetails : basicDetails // ignore: cast_nullable_to_non_nullable
 as BasicDetails?,bio: freezed == bio ? _self.bio : bio // ignore: cast_nullable_to_non_nullable
 as String?,spiritualMasters: freezed == spiritualMasters ? _self.spiritualMasters : spiritualMasters // ignore: cast_nullable_to_non_nullable
-as List<SpiritualMasters>?,
+as List<SpiritualMaster>?,
   ));
 }
 /// Create a copy of AppUser
@@ -169,7 +169,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String uid,  String username,  BasicDetails? basicDetails,  String? bio,  List<SpiritualMasters>? spiritualMasters)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String uid,  String username,  BasicDetails? basicDetails,  String? bio,  List<SpiritualMaster>? spiritualMasters)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppUser() when $default != null:
 return $default(_that.uid,_that.username,_that.basicDetails,_that.bio,_that.spiritualMasters);case _:
@@ -190,7 +190,7 @@ return $default(_that.uid,_that.username,_that.basicDetails,_that.bio,_that.spir
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String uid,  String username,  BasicDetails? basicDetails,  String? bio,  List<SpiritualMasters>? spiritualMasters)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String uid,  String username,  BasicDetails? basicDetails,  String? bio,  List<SpiritualMaster>? spiritualMasters)  $default,) {final _that = this;
 switch (_that) {
 case _AppUser():
 return $default(_that.uid,_that.username,_that.basicDetails,_that.bio,_that.spiritualMasters);case _:
@@ -210,7 +210,7 @@ return $default(_that.uid,_that.username,_that.basicDetails,_that.bio,_that.spir
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String uid,  String username,  BasicDetails? basicDetails,  String? bio,  List<SpiritualMasters>? spiritualMasters)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String uid,  String username,  BasicDetails? basicDetails,  String? bio,  List<SpiritualMaster>? spiritualMasters)?  $default,) {final _that = this;
 switch (_that) {
 case _AppUser() when $default != null:
 return $default(_that.uid,_that.username,_that.basicDetails,_that.bio,_that.spiritualMasters);case _:
@@ -225,15 +225,15 @@ return $default(_that.uid,_that.username,_that.basicDetails,_that.bio,_that.spir
 @JsonSerializable()
 
 class _AppUser implements AppUser {
-  const _AppUser({required this.uid, required this.username, this.basicDetails, this.bio, final  List<SpiritualMasters>? spiritualMasters}): _spiritualMasters = spiritualMasters;
+  const _AppUser({required this.uid, required this.username, this.basicDetails, this.bio, final  List<SpiritualMaster>? spiritualMasters}): _spiritualMasters = spiritualMasters;
   factory _AppUser.fromJson(Map<String, dynamic> json) => _$AppUserFromJson(json);
 
 @override final  String uid;
 @override final  String username;
 @override final  BasicDetails? basicDetails;
 @override final  String? bio;
- final  List<SpiritualMasters>? _spiritualMasters;
-@override List<SpiritualMasters>? get spiritualMasters {
+ final  List<SpiritualMaster>? _spiritualMasters;
+@override List<SpiritualMaster>? get spiritualMasters {
   final value = _spiritualMasters;
   if (value == null) return null;
   if (_spiritualMasters is EqualUnmodifiableListView) return _spiritualMasters;
@@ -275,7 +275,7 @@ abstract mixin class _$AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
   factory _$AppUserCopyWith(_AppUser value, $Res Function(_AppUser) _then) = __$AppUserCopyWithImpl;
 @override @useResult
 $Res call({
- String uid, String username, BasicDetails? basicDetails, String? bio, List<SpiritualMasters>? spiritualMasters
+ String uid, String username, BasicDetails? basicDetails, String? bio, List<SpiritualMaster>? spiritualMasters
 });
 
 
@@ -299,7 +299,7 @@ as String,username: null == username ? _self.username : username // ignore: cast
 as String,basicDetails: freezed == basicDetails ? _self.basicDetails : basicDetails // ignore: cast_nullable_to_non_nullable
 as BasicDetails?,bio: freezed == bio ? _self.bio : bio // ignore: cast_nullable_to_non_nullable
 as String?,spiritualMasters: freezed == spiritualMasters ? _self._spiritualMasters : spiritualMasters // ignore: cast_nullable_to_non_nullable
-as List<SpiritualMasters>?,
+as List<SpiritualMaster>?,
   ));
 }
 
@@ -595,22 +595,22 @@ as String?,
 
 
 /// @nodoc
-mixin _$SpiritualMasters {
+mixin _$SpiritualMaster {
 
  String get guruName; String get spiritualOrganisation; String get description;
-/// Create a copy of SpiritualMasters
+/// Create a copy of SpiritualMaster
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$SpiritualMastersCopyWith<SpiritualMasters> get copyWith => _$SpiritualMastersCopyWithImpl<SpiritualMasters>(this as SpiritualMasters, _$identity);
+$SpiritualMasterCopyWith<SpiritualMaster> get copyWith => _$SpiritualMasterCopyWithImpl<SpiritualMaster>(this as SpiritualMaster, _$identity);
 
-  /// Serializes this SpiritualMasters to a JSON map.
+  /// Serializes this SpiritualMaster to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SpiritualMasters&&(identical(other.guruName, guruName) || other.guruName == guruName)&&(identical(other.spiritualOrganisation, spiritualOrganisation) || other.spiritualOrganisation == spiritualOrganisation)&&(identical(other.description, description) || other.description == description));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SpiritualMaster&&(identical(other.guruName, guruName) || other.guruName == guruName)&&(identical(other.spiritualOrganisation, spiritualOrganisation) || other.spiritualOrganisation == spiritualOrganisation)&&(identical(other.description, description) || other.description == description));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -619,15 +619,15 @@ int get hashCode => Object.hash(runtimeType,guruName,spiritualOrganisation,descr
 
 @override
 String toString() {
-  return 'SpiritualMasters(guruName: $guruName, spiritualOrganisation: $spiritualOrganisation, description: $description)';
+  return 'SpiritualMaster(guruName: $guruName, spiritualOrganisation: $spiritualOrganisation, description: $description)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $SpiritualMastersCopyWith<$Res>  {
-  factory $SpiritualMastersCopyWith(SpiritualMasters value, $Res Function(SpiritualMasters) _then) = _$SpiritualMastersCopyWithImpl;
+abstract mixin class $SpiritualMasterCopyWith<$Res>  {
+  factory $SpiritualMasterCopyWith(SpiritualMaster value, $Res Function(SpiritualMaster) _then) = _$SpiritualMasterCopyWithImpl;
 @useResult
 $Res call({
  String guruName, String spiritualOrganisation, String description
@@ -638,14 +638,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$SpiritualMastersCopyWithImpl<$Res>
-    implements $SpiritualMastersCopyWith<$Res> {
-  _$SpiritualMastersCopyWithImpl(this._self, this._then);
+class _$SpiritualMasterCopyWithImpl<$Res>
+    implements $SpiritualMasterCopyWith<$Res> {
+  _$SpiritualMasterCopyWithImpl(this._self, this._then);
 
-  final SpiritualMasters _self;
-  final $Res Function(SpiritualMasters) _then;
+  final SpiritualMaster _self;
+  final $Res Function(SpiritualMaster) _then;
 
-/// Create a copy of SpiritualMasters
+/// Create a copy of SpiritualMaster
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? guruName = null,Object? spiritualOrganisation = null,Object? description = null,}) {
   return _then(_self.copyWith(
@@ -659,8 +659,8 @@ as String,
 }
 
 
-/// Adds pattern-matching-related methods to [SpiritualMasters].
-extension SpiritualMastersPatterns on SpiritualMasters {
+/// Adds pattern-matching-related methods to [SpiritualMaster].
+extension SpiritualMasterPatterns on SpiritualMaster {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -673,10 +673,10 @@ extension SpiritualMastersPatterns on SpiritualMasters {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SpiritualMasters value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SpiritualMaster value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _SpiritualMasters() when $default != null:
+case _SpiritualMaster() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -695,10 +695,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SpiritualMasters value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SpiritualMaster value)  $default,){
 final _that = this;
 switch (_that) {
-case _SpiritualMasters():
+case _SpiritualMaster():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -716,10 +716,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SpiritualMasters value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SpiritualMaster value)?  $default,){
 final _that = this;
 switch (_that) {
-case _SpiritualMasters() when $default != null:
+case _SpiritualMaster() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -739,7 +739,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String guruName,  String spiritualOrganisation,  String description)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _SpiritualMasters() when $default != null:
+case _SpiritualMaster() when $default != null:
 return $default(_that.guruName,_that.spiritualOrganisation,_that.description);case _:
   return orElse();
 
@@ -760,7 +760,7 @@ return $default(_that.guruName,_that.spiritualOrganisation,_that.description);ca
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String guruName,  String spiritualOrganisation,  String description)  $default,) {final _that = this;
 switch (_that) {
-case _SpiritualMasters():
+case _SpiritualMaster():
 return $default(_that.guruName,_that.spiritualOrganisation,_that.description);case _:
   throw StateError('Unexpected subclass');
 
@@ -780,7 +780,7 @@ return $default(_that.guruName,_that.spiritualOrganisation,_that.description);ca
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String guruName,  String spiritualOrganisation,  String description)?  $default,) {final _that = this;
 switch (_that) {
-case _SpiritualMasters() when $default != null:
+case _SpiritualMaster() when $default != null:
 return $default(_that.guruName,_that.spiritualOrganisation,_that.description);case _:
   return null;
 
@@ -792,28 +792,28 @@ return $default(_that.guruName,_that.spiritualOrganisation,_that.description);ca
 /// @nodoc
 @JsonSerializable()
 
-class _SpiritualMasters implements SpiritualMasters {
-  const _SpiritualMasters({required this.guruName, required this.spiritualOrganisation, required this.description});
-  factory _SpiritualMasters.fromJson(Map<String, dynamic> json) => _$SpiritualMastersFromJson(json);
+class _SpiritualMaster implements SpiritualMaster {
+  const _SpiritualMaster({required this.guruName, required this.spiritualOrganisation, required this.description});
+  factory _SpiritualMaster.fromJson(Map<String, dynamic> json) => _$SpiritualMasterFromJson(json);
 
 @override final  String guruName;
 @override final  String spiritualOrganisation;
 @override final  String description;
 
-/// Create a copy of SpiritualMasters
+/// Create a copy of SpiritualMaster
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$SpiritualMastersCopyWith<_SpiritualMasters> get copyWith => __$SpiritualMastersCopyWithImpl<_SpiritualMasters>(this, _$identity);
+_$SpiritualMasterCopyWith<_SpiritualMaster> get copyWith => __$SpiritualMasterCopyWithImpl<_SpiritualMaster>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$SpiritualMastersToJson(this, );
+  return _$SpiritualMasterToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SpiritualMasters&&(identical(other.guruName, guruName) || other.guruName == guruName)&&(identical(other.spiritualOrganisation, spiritualOrganisation) || other.spiritualOrganisation == spiritualOrganisation)&&(identical(other.description, description) || other.description == description));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SpiritualMaster&&(identical(other.guruName, guruName) || other.guruName == guruName)&&(identical(other.spiritualOrganisation, spiritualOrganisation) || other.spiritualOrganisation == spiritualOrganisation)&&(identical(other.description, description) || other.description == description));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -822,15 +822,15 @@ int get hashCode => Object.hash(runtimeType,guruName,spiritualOrganisation,descr
 
 @override
 String toString() {
-  return 'SpiritualMasters(guruName: $guruName, spiritualOrganisation: $spiritualOrganisation, description: $description)';
+  return 'SpiritualMaster(guruName: $guruName, spiritualOrganisation: $spiritualOrganisation, description: $description)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$SpiritualMastersCopyWith<$Res> implements $SpiritualMastersCopyWith<$Res> {
-  factory _$SpiritualMastersCopyWith(_SpiritualMasters value, $Res Function(_SpiritualMasters) _then) = __$SpiritualMastersCopyWithImpl;
+abstract mixin class _$SpiritualMasterCopyWith<$Res> implements $SpiritualMasterCopyWith<$Res> {
+  factory _$SpiritualMasterCopyWith(_SpiritualMaster value, $Res Function(_SpiritualMaster) _then) = __$SpiritualMasterCopyWithImpl;
 @override @useResult
 $Res call({
  String guruName, String spiritualOrganisation, String description
@@ -841,17 +841,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$SpiritualMastersCopyWithImpl<$Res>
-    implements _$SpiritualMastersCopyWith<$Res> {
-  __$SpiritualMastersCopyWithImpl(this._self, this._then);
+class __$SpiritualMasterCopyWithImpl<$Res>
+    implements _$SpiritualMasterCopyWith<$Res> {
+  __$SpiritualMasterCopyWithImpl(this._self, this._then);
 
-  final _SpiritualMasters _self;
-  final $Res Function(_SpiritualMasters) _then;
+  final _SpiritualMaster _self;
+  final $Res Function(_SpiritualMaster) _then;
 
-/// Create a copy of SpiritualMasters
+/// Create a copy of SpiritualMaster
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? guruName = null,Object? spiritualOrganisation = null,Object? description = null,}) {
-  return _then(_SpiritualMasters(
+  return _then(_SpiritualMaster(
 guruName: null == guruName ? _self.guruName : guruName // ignore: cast_nullable_to_non_nullable
 as String,spiritualOrganisation: null == spiritualOrganisation ? _self.spiritualOrganisation : spiritualOrganisation // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable

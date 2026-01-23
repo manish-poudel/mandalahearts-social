@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mandalahearts/app/app_routes.dart';
 import 'package:mandalahearts/core/services/firestore/firestore_username_service.dart';
-import 'package:mandalahearts/core/widgets/photo/media_picker.dart';
 import 'package:mandalahearts/enums/profile_mode.dart';
 import 'package:mandalahearts/features/auth/bloc/auth_bloc.dart';
 import 'package:mandalahearts/features/auth/bloc/auth_event.dart';
@@ -31,6 +30,7 @@ import 'package:mandalahearts/screens/add_profile_screen.dart';
 import 'package:mandalahearts/features/sign_in/cubits/sign_in_cubit.dart';
 import 'package:mandalahearts/features/sign_up/cubits/sign_up_cubit.dart';
 import 'package:mandalahearts/repository/auth_repository.dart';
+import 'package:mandalahearts/screens/spiritual_master_screen.dart';
 import 'package:mandalahearts/screens/username_screen.dart';
 
 class FadeTransitionPage<T> extends CustomTransitionPage<T> {
@@ -164,6 +164,21 @@ final GoRouter routes = GoRouter(
           )..load(),
           child: const EditProfileScreen(),
         );
+      },
+    ),
+    GoRoute(
+      name: AppRoute.addSpiritualMater.name,
+      path: AppRoute.addSpiritualMater.path,
+      pageBuilder: (context, state) {
+        return MaterialPage(child: SpiritualMasterScreen.add());
+      },
+    ),
+
+    GoRoute(
+      name: AppRoute.editSpiritualMater.name,
+      path: AppRoute.editSpiritualMater.path,
+      pageBuilder: (context, state) {
+        return MaterialPage(child: SpiritualMasterScreen.edit(master: null));
       },
     ),
   ],

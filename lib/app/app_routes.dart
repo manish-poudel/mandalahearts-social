@@ -11,7 +11,9 @@ enum AppRoute {
   editProfileScreen('/edit_profile', 'edit_profile'),
   editUsername('/edit_username', 'edit_username'),
   editSpiritualDetails('/edit_spiritual_details', 'edit_spiritual_details'),
-  photoPicker('/photo_picker', 'photo_picker');
+  photoPicker('/photo_picker', 'photo_picker'),
+  addSpiritualMater('/add_spiritual_master', 'add_spiritual_master'),
+  editSpiritualMater('/edit_spiritual_master', 'edit_spiritual_master');
 
   final String path;
   final String name;

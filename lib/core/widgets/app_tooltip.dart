@@ -42,39 +42,50 @@ class _InfoTooltipState extends State<InfoTooltip> {
 
     _overlayEntry = OverlayEntry(
       builder: (context) {
-        return Positioned(
-          top: top,
-          left: left,
-          width: maxWidth,
-          child: GestureDetector(
-            onTap: () {
-              _overlayEntry?.remove();
-              _overlayEntry = null;
-            },
-            behavior: HitTestBehavior.translucent,
-            child: Material(
-              color: Colors.transparent,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.grey[900],
-                  borderRadius: BorderRadius.circular(6),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
+        return GestureDetector(
+          onTap: () {
+            _overlayEntry?.remove();
+            _overlayEntry = null;
+          },
+          behavior: HitTestBehavior.translucent,
+          child: Material(
+            color: Colors.transparent,
+            child: Stack(
+              children: [
+                // Tooltip container positioned relative to icon
+                Positioned(
+                  top: top,
+                  left: left,
+                  width: maxWidth,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[900],
+                        borderRadius: BorderRadius.circular(6),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        widget.message,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                        ),
+                      ),
                     ),
-                  ],
+                  ),
                 ),
-                child: Text(
-                  widget.message,
-                  style: const TextStyle(color: Colors.white, fontSize: 13),
-                ),
-              ),
+              ],
             ),
           ),
         );
