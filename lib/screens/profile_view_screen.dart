@@ -1,110 +1,108 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mandalahearts/app/app_routes.dart';
-import 'package:mandalahearts/core/widgets/basic_profile_view.dart';
-import 'package:mandalahearts/core/widgets/post_grid_view.dart';
-import 'package:mandalahearts/core/widgets/spiritual_master_view.dart';
-import 'package:mandalahearts/enums/profile_mode.dart';
-import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_cubit.dart'
-    show ProfileViewCubit;
-import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_state.dart';
 
-class ProfileViewScreen extends StatelessWidget {
-  const ProfileViewScreen({super.key});
+class InfoTooltip extends StatefulWidget {
+  final Widget child;
+  final String message;
+  final int durationSeconds;
+
+  const InfoTooltip({
+    super.key,
+    required this.child,
+    required this.message,
+    this.durationSeconds = 3, // default 3 seconds
+  });
+
+  @override
+  State<InfoTooltip> createState() => _InfoTooltipState();
+}
+
+class _InfoTooltipState extends State<InfoTooltip> {
+  OverlayEntry? _overlayEntry;
+
+  void _showTooltip() {
+    // Remove existing tooltip if any
+    _overlayEntry?.remove();
+
+    final renderBox = context.findRenderObject() as RenderBox;
+    final size = renderBox.size;
+    final offset = renderBox.localToGlobal(Offset.zero);
+
+    final screenSize = MediaQuery.of(context).size;
+    const maxWidth = 220.0;
+    const tooltipHeight = 60.0;
+
+    // Position tooltip above unless not enough space
+    double top = offset.dy - tooltipHeight - 32;
+    if (top < 0) top = offset.dy + size.height + 8;
+
+    double left = offset.dx;
+    if (left + maxWidth > screenSize.width - 8) {
+      left = screenSize.width - maxWidth - 8;
+    }
+
+    _overlayEntry = OverlayEntry(
+      builder: (context) {
+        return GestureDetector(
+          onTap: () {
+            _overlayEntry?.remove();
+            _overlayEntry = null;
+          },
+          behavior: HitTestBehavior.translucent,
+          child: Material(
+            color: Colors.transparent,
+            child: Stack(
+              children: [
+                // Tooltip container positioned relative to icon
+                Positioned(
+                  top: top,
+                  left: left,
+                  width: maxWidth,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[900],
+                        borderRadius: BorderRadius.circular(6),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        widget.message,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+
+    Overlay.of(context).insert(_overlayEntry!);
+
+    // Auto-dismiss after custom duration
+    Future.delayed(Duration(seconds: widget.durationSeconds), () {
+      _overlayEntry?.remove();
+      _overlayEntry = null;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    /// TEMP: dummy spiritual data (until backend ready)
-    final spiritualMasters = [
-      {
-        'master': 'Sadhguru',
-        'affiliation': 'Isha Foundation',
-        'description':
-            'Learning inner balance, awareness, and conscious living.',
-      },
-      {
-        'master': 'Thich Nhat Hanh',
-        'affiliation': 'Plum Village',
-        'description':
-            'Inspired by mindfulness, compassion, and present-moment awareness.',
-      },
-    ];
-
-    /// TEMP: static posts
-    final posts = List.generate(
-      9,
-      (index) => 'https://picsum.photos/300?random=$index',
-    );
-
-    return Scaffold(
-      appBar: AppBar(title: const Text('Profile'), centerTitle: true),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        child: Column(
-          children: [
-            BlocBuilder<ProfileViewCubit, ProfileViewState>(
-              builder: (context, state) {
-                return state.when(
-                  loading: () => const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 32),
-                    child: CircularProgressIndicator(),
-                  ),
-
-                  error: (message) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 32),
-                    child: Text(message),
-                  ),
-
-                  loaded: (user, mode) => Column(
-                    children: [
-                      ProfileHeaderView(
-                        firstName: user.basicDetails?.firstName ?? '',
-                        lastName: user.basicDetails?.secondName ?? '',
-                        username: user.username,
-                        country: user.basicDetails?.country ?? '',
-                        bio: user.bio ?? '',
-                        profileImage:
-                            user.basicDetails?.profilePictureUrl ?? '',
-                      ),
-
-                      if (mode == ProfileMode.currentUser)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 32),
-                          child: OutlinedButton(
-                            onPressed: () {
-                              context.push(AppRoute.editProfileScreen.path);
-                            },
-                            style: OutlinedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 16.0,
-                                horizontal: 64,
-                              ),
-                              minimumSize: Size.zero,
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              visualDensity: VisualDensity.compact,
-                            ),
-                            child: const Text('Edit profile'),
-                          ),
-                        ),
-
-                      const SizedBox(height: 24),
-
-                      SpiritualMastersView(items: spiritualMasters),
-                    ],
-                  ),
-                );
-              },
-            ),
-
-            const SizedBox(height: 32),
-
-            PostGridView(posts: posts),
-
-            const SizedBox(height: 24),
-          ],
-        ),
-      ),
-    );
+    return GestureDetector(onTap: _showTooltip, child: widget.child);
   }
 }

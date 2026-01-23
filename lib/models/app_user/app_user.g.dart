@@ -13,8 +13,8 @@ _AppUser _$AppUserFromJson(Map<String, dynamic> json) => _AppUser(
       ? null
       : BasicDetails.fromJson(json['basicDetails'] as Map<String, dynamic>),
   bio: json['bio'] as String?,
-  spiritualDetails: (json['spiritualDetails'] as List<dynamic>?)
-      ?.map((e) => SpiritualDetails.fromJson(e as Map<String, dynamic>))
+  spiritualMasters: (json['spiritualMasters'] as List<dynamic>?)
+      ?.map((e) => SpiritualMasters.fromJson(e as Map<String, dynamic>))
       .toList(),
 );
 
@@ -23,7 +23,7 @@ Map<String, dynamic> _$AppUserToJson(_AppUser instance) => <String, dynamic>{
   'username': instance.username,
   'basicDetails': instance.basicDetails?.toJson(),
   'bio': instance.bio,
-  'spiritualDetails': instance.spiritualDetails
+  'spiritualMasters': instance.spiritualMasters
       ?.map((e) => e.toJson())
       .toList(),
 };
@@ -46,14 +46,14 @@ Map<String, dynamic> _$BasicDetailsToJson(_BasicDetails instance) =>
       'profilePictureUrl': instance.profilePictureUrl,
     };
 
-_SpiritualDetails _$SpiritualDetailsFromJson(Map<String, dynamic> json) =>
-    _SpiritualDetails(
-      guruName: json['guruName'] as String?,
-      spiritualOrganisation: json['spiritualOrganisation'] as String?,
-      description: json['description'] as String?,
+_SpiritualMasters _$SpiritualMastersFromJson(Map<String, dynamic> json) =>
+    _SpiritualMasters(
+      guruName: json['guruName'] as String,
+      spiritualOrganisation: json['spiritualOrganisation'] as String,
+      description: json['description'] as String,
     );
 
-Map<String, dynamic> _$SpiritualDetailsToJson(_SpiritualDetails instance) =>
+Map<String, dynamic> _$SpiritualMastersToJson(_SpiritualMasters instance) =>
     <String, dynamic>{
       'guruName': instance.guruName,
       'spiritualOrganisation': instance.spiritualOrganisation,
