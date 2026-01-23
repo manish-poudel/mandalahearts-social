@@ -6,15 +6,15 @@ import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import 'package:mandalahearts/features/photo_picker/cubit/photo_picker_cubit.dart';
 import 'package:mandalahearts/features/photo_picker/cubit/photo_picker_state.dart';
 
-class PhotoPickerGrid extends StatefulWidget {
+class PhotoGalleryGrid extends StatefulWidget {
   final Function(AssetEntity)? onImageSelected;
-  const PhotoPickerGrid({super.key, this.onImageSelected});
+  const PhotoGalleryGrid({super.key, this.onImageSelected});
 
   @override
-  State<PhotoPickerGrid> createState() => _PhotoPickerGridState();
+  State<PhotoGalleryGrid> createState() => _PhotoGalleryGridState();
 }
 
-class _PhotoPickerGridState extends State<PhotoPickerGrid>
+class _PhotoGalleryGridState extends State<PhotoGalleryGrid>
     with WidgetsBindingObserver {
   final ScrollController _scrollController = ScrollController();
 

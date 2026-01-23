@@ -125,11 +125,11 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  loading,TResult Function( AppUser user,  bool isSaving)?  loaded,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  loading,TResult Function( AppUser user,  bool isSavingBasicDetails,  bool isSavingProfileImage)?  loaded,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Loading() when loading != null:
 return loading();case _Loaded() when loaded != null:
-return loaded(_that.user,_that.isSaving);case _Error() when error != null:
+return loaded(_that.user,_that.isSavingBasicDetails,_that.isSavingProfileImage);case _Error() when error != null:
 return error(_that.message);case _:
   return orElse();
 
@@ -148,11 +148,11 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  loading,required TResult Function( AppUser user,  bool isSaving)  loaded,required TResult Function( String message)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  loading,required TResult Function( AppUser user,  bool isSavingBasicDetails,  bool isSavingProfileImage)  loaded,required TResult Function( String message)  error,}) {final _that = this;
 switch (_that) {
 case _Loading():
 return loading();case _Loaded():
-return loaded(_that.user,_that.isSaving);case _Error():
+return loaded(_that.user,_that.isSavingBasicDetails,_that.isSavingProfileImage);case _Error():
 return error(_that.message);case _:
   throw StateError('Unexpected subclass');
 
@@ -170,11 +170,11 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  loading,TResult? Function( AppUser user,  bool isSaving)?  loaded,TResult? Function( String message)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  loading,TResult? Function( AppUser user,  bool isSavingBasicDetails,  bool isSavingProfileImage)?  loaded,TResult? Function( String message)?  error,}) {final _that = this;
 switch (_that) {
 case _Loading() when loading != null:
 return loading();case _Loaded() when loaded != null:
-return loaded(_that.user,_that.isSaving);case _Error() when error != null:
+return loaded(_that.user,_that.isSavingBasicDetails,_that.isSavingProfileImage);case _Error() when error != null:
 return error(_that.message);case _:
   return null;
 
@@ -219,11 +219,12 @@ String toString() {
 
 
 class _Loaded implements EditProfileState {
-  const _Loaded({required this.user, this.isSaving = false});
+  const _Loaded({required this.user, this.isSavingBasicDetails = false, this.isSavingProfileImage = false});
   
 
  final  AppUser user;
-@JsonKey() final  bool isSaving;
+@JsonKey() final  bool isSavingBasicDetails;
+@JsonKey() final  bool isSavingProfileImage;
 
 /// Create a copy of EditProfileState
 /// with the given fields replaced by the non-null parameter values.
@@ -235,16 +236,16 @@ _$LoadedCopyWith<_Loaded> get copyWith => __$LoadedCopyWithImpl<_Loaded>(this, _
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Loaded&&(identical(other.user, user) || other.user == user)&&(identical(other.isSaving, isSaving) || other.isSaving == isSaving));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Loaded&&(identical(other.user, user) || other.user == user)&&(identical(other.isSavingBasicDetails, isSavingBasicDetails) || other.isSavingBasicDetails == isSavingBasicDetails)&&(identical(other.isSavingProfileImage, isSavingProfileImage) || other.isSavingProfileImage == isSavingProfileImage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,user,isSaving);
+int get hashCode => Object.hash(runtimeType,user,isSavingBasicDetails,isSavingProfileImage);
 
 @override
 String toString() {
-  return 'EditProfileState.loaded(user: $user, isSaving: $isSaving)';
+  return 'EditProfileState.loaded(user: $user, isSavingBasicDetails: $isSavingBasicDetails, isSavingProfileImage: $isSavingProfileImage)';
 }
 
 
@@ -255,7 +256,7 @@ abstract mixin class _$LoadedCopyWith<$Res> implements $EditProfileStateCopyWith
   factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) _then) = __$LoadedCopyWithImpl;
 @useResult
 $Res call({
- AppUser user, bool isSaving
+ AppUser user, bool isSavingBasicDetails, bool isSavingProfileImage
 });
 
 
@@ -272,10 +273,11 @@ class __$LoadedCopyWithImpl<$Res>
 
 /// Create a copy of EditProfileState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? user = null,Object? isSaving = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? user = null,Object? isSavingBasicDetails = null,Object? isSavingProfileImage = null,}) {
   return _then(_Loaded(
 user: null == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
-as AppUser,isSaving: null == isSaving ? _self.isSaving : isSaving // ignore: cast_nullable_to_non_nullable
+as AppUser,isSavingBasicDetails: null == isSavingBasicDetails ? _self.isSavingBasicDetails : isSavingBasicDetails // ignore: cast_nullable_to_non_nullable
+as bool,isSavingProfileImage: null == isSavingProfileImage ? _self.isSavingProfileImage : isSavingProfileImage // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }

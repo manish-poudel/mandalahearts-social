@@ -75,7 +75,7 @@ class BasicDetailsForm extends StatelessWidget {
             },
           ),
 
-          const SizedBox(height: 32),
+          const SizedBox(height: 20),
           CountrySelector(
             initialCountry: countries
                 .firstWhere((c) => c.name == initialCountry)

@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mandalahearts/app/app_routes.dart';
 import 'package:mandalahearts/core/widgets/app_logo.dart';
+import 'package:mandalahearts/models/app_user/app_user.dart';
+import 'package:mandalahearts/repository/app_user_repository.dart';
 import 'package:mandalahearts/repository/auth_repository.dart';
 import 'package:mandalahearts/screens/all_post_screen.dart';
 
@@ -17,10 +19,14 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  final String? profileImageUrl = null;
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: GestureDetector(
@@ -41,18 +47,34 @@ class _DashboardScreenState extends State<DashboardScreen> {
             padding: const EdgeInsets.only(right: 14),
             child: GestureDetector(
               onTap: () {
-                //context.read<AuthRepository>().signOut();
                 context.push(AppRoute.profileViewScreen.path);
               },
-              child: CircleAvatar(
-                radius: 18,
-                backgroundColor: Colors.grey.shade300,
-                backgroundImage: profileImageUrl != null
-                    ? NetworkImage(profileImageUrl!)
-                    : null,
-                child: profileImageUrl == null
-                    ? Icon(Icons.person, size: 20, color: Colors.grey.shade600)
-                    : null,
+              child: ValueListenableBuilder<AppUser?>(
+                valueListenable: context.read<AppUserRepository>().userNotifier,
+                builder: (context, user, _) {
+                  final imageUrl = user?.basicDetails?.profilePictureUrl;
+
+                  return Container(
+                    padding: const EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: theme.colorScheme.primary.withAlpha(40),
+                        width: 2,
+                      ),
+                    ),
+                    child: CircleAvatar(
+                      radius: 14,
+                      backgroundColor: Colors.grey.shade300,
+                      backgroundImage: (imageUrl != null && imageUrl.isNotEmpty)
+                          ? NetworkImage(imageUrl)
+                          : null,
+                      child: (imageUrl == null || imageUrl.isEmpty)
+                          ? Icon(Icons.person, size: 20)
+                          : null,
+                    ),
+                  );
+                },
               ),
             ),
           ),

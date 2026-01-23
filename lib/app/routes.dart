@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mandalahearts/app/app_routes.dart';
 import 'package:mandalahearts/core/services/firestore/firestore_username_service.dart';
+import 'package:mandalahearts/core/widgets/photo/media_picker.dart';
 import 'package:mandalahearts/enums/profile_mode.dart';
 import 'package:mandalahearts/features/auth/bloc/auth_bloc.dart';
 import 'package:mandalahearts/features/auth/bloc/auth_event.dart';
@@ -18,6 +19,7 @@ import 'package:mandalahearts/repository/app_user_repository.dart';
 import 'package:mandalahearts/repository/post_repository.dart';
 import 'package:mandalahearts/screens/add_post_screen.dart';
 import 'package:mandalahearts/screens/edit_profile_screen.dart';
+import 'package:mandalahearts/screens/photo_picker_screen.dart';
 import 'package:mandalahearts/screens/profile_view_screen.dart';
 
 import 'package:mandalahearts/screens/sign_in_screen.dart';
@@ -128,6 +130,16 @@ final GoRouter routes = GoRouter(
         child: AddPostScreen(),
       ),
     ),
+
+    GoRoute(
+      name: AppRoute.photoPicker.name,
+      path: AppRoute.photoPicker.path,
+      builder: (context, state) => BlocProvider(
+        create: (context) => PhotoPickerCubit(),
+        child: Scaffold(body: PhotoPickerScreen()),
+      ),
+    ),
+
     GoRoute(
       name: AppRoute.profileViewScreen.name,
       path: AppRoute.profileViewScreen.path,

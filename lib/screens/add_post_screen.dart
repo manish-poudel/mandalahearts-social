@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mandalahearts/core/widgets/photo/image_picker_grid.dart';
 import 'package:mandalahearts/core/widgets/photo/interactive_image_viewer.dart';
+import 'package:mandalahearts/core/widgets/photo/media_picker.dart';
 import 'package:mandalahearts/core/widgets/progress_dialog_box.dart';
 import 'package:mandalahearts/features/add_post/cubits/add_post_cubit.dart';
 import 'package:mandalahearts/features/add_post/cubits/add_post_state.dart';
-import 'package:mandalahearts/features/photo_picker/cubit/photo_picker_cubit.dart';
-import 'package:mandalahearts/features/photo_picker/cubit/photo_picker_state.dart';
 import 'package:mandalahearts/models/async/async_state.dart';
 import 'package:mandalahearts/repository/auth_repository.dart';
 import 'package:mandalahearts/repository/post_repository.dart';
@@ -21,23 +19,10 @@ class AddPostScreen extends StatefulWidget {
 class _AddPostScreenState extends State<AddPostScreen> {
   final ImageViewerController _viewerController = ImageViewerController();
   final TextEditingController _captionController = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent - 200) {
-        context.read<PhotoPickerCubit>().loadMoreImages();
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-
     return BlocProvider(
       create: (_) => AddPostCubit(
         postRepository: context.read<PostRepository>(),
@@ -83,8 +68,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 TextButton(
                   onPressed: state.currentStep == 0
                       ? (state.selectedImage == null || state.isProcessing
-                            ? null
-                            : () => cubit.goToWritingStep(_viewerController))
+                            ? () => {debugPrint("no image selected")}
+                            : () {
+                                cubit.goToWritingStep(_viewerController);
+                              })
                       : () {
                           cubit.savePost(_captionController.text.trim());
                           debugPrint(
@@ -109,41 +96,13 @@ class _AddPostScreenState extends State<AddPostScreen> {
             body: IndexedStack(
               index: state.currentStep,
               children: [
-                SingleChildScrollView(
-                  controller: _scrollController,
-                  physics: state.lockScroll
-                      ? const NeverScrollableScrollPhysics()
-                      : const BouncingScrollPhysics(),
-                  child: Column(
-                    children: [
-                      if (state.selectedImage != null)
-                        Listener(
-                          onPointerDown: (_) => cubit.setLockScroll(true),
-                          onPointerUp: (_) => cubit.setLockScroll(false),
-                          onPointerCancel: (_) => cubit.setLockScroll(false),
-                          child: InteractiveImageViewer(
-                            image: state.selectedImage!,
-                            controller: _viewerController,
-                          ),
-                        ),
-                      BlocConsumer<PhotoPickerCubit, PhotoPickerState>(
-                        listener: (context, pickerState) {
-                          if (pickerState.selectedImage != null) {
-                            cubit.selectImage(pickerState.selectedImage!);
-                          }
-                        },
-                        builder: (_, _) => PhotoPickerGrid(
-                          onImageSelected: (_) {
-                            _scrollController.animateTo(
-                              0,
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeOut,
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+                MediaPicker(
+                  viewerController: _viewerController,
+                  onImageSelected: (image) {
+                    if (image != null) {
+                      cubit.selectImage(image);
+                    }
+                  },
                 ),
 
                 SingleChildScrollView(
@@ -161,6 +120,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       Padding(
                         padding: const EdgeInsets.all(16),
                         child: TextField(
+                          autofocus: true,
                           controller: _captionController,
                           minLines: 4,
                           maxLines: null,

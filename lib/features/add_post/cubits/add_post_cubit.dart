@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mandalahearts/core/services/compressor/image_compressor.dart';
 import 'package:mandalahearts/core/widgets/photo/interactive_image_viewer.dart';
@@ -15,6 +16,7 @@ class AddPostCubit extends Cubit<AddPostState> {
   final String creatorId;
 
   void selectImage(AssetEntity image) {
+    debugPrint("Image was selected");
     emit(state.copyWith(selectedImage: image));
   }
 
