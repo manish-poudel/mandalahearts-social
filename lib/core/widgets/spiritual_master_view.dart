@@ -35,12 +35,12 @@ class _SpiritualMastersViewState extends State<SpiritualMastersView> {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: widget.spiritualMasters.length,
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 0),
         separatorBuilder: (context, index) => Padding(
           padding: const EdgeInsets.only(left: 100, right: 16),
           child: Divider(
             height: 1,
-            color: Theme.of(context).dividerColor.withOpacity(0.08),
+            color: Theme.of(context).dividerColor.withAlpha(30),
           ),
         ),
         itemBuilder: (context, index) {
@@ -120,11 +120,12 @@ class _SpiritualMastersViewState extends State<SpiritualMastersView> {
                       },
                     )
                   else
-                    Icon(
-                      Icons.chevron_right,
-                      size: 20,
-                      color: Colors.grey.shade300,
-                    ),
+                    SizedBox.shrink(),
+                  // Icon(
+                  //   Icons.chevron_right,
+                  //   size: 20,
+                  //   color: Colors.grey.shade300,
+                  // ),
                 ],
               ),
             ),
