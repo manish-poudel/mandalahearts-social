@@ -156,7 +156,7 @@ class ProfileViewScreen extends StatelessWidget {
                           ),
                         ),
 
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 0),
 
                         if (!hasMasters)
                           Padding(
@@ -175,7 +175,11 @@ class ProfileViewScreen extends StatelessWidget {
                         else
                           SpiritualMastersView(
                             spiritualMasters: spiritualMasters,
-                            onDelete: (master) {},
+                            onDelete: (master) {
+                              context
+                                  .read<ProfileViewCubit>()
+                                  .deleteSpiritualMaster(master);
+                            },
                           ),
                       ],
                     );

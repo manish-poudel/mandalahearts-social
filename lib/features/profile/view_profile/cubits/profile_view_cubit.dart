@@ -54,6 +54,23 @@ class ProfileViewCubit extends Cubit<ProfileViewState> {
     }
   }
 
+  void deleteSpiritualMaster(SpiritualMaster master) {
+    state.whenOrNull(
+      loaded: (user, mode) async {
+        try {
+          final oldMasters = user.spiritualMasters ?? [];
+          final updatedMasters = List<SpiritualMaster>.from(oldMasters)
+            ..removeWhere((m) => m.name == master.name);
+          final newUser = user.copyWith(spiritualMasters: updatedMasters);
+          _repo.updateUser(newUser);
+          emit(ProfileViewState.loaded(user: newUser, mode: mode));
+        } catch (e) {
+          emit(ProfileViewState.error(e.toString()));
+        }
+      },
+    );
+  }
+
   @override
   Future<void> close() {
     _sub?.cancel();

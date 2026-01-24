@@ -28,139 +28,116 @@ class _SpiritualMastersViewState extends State<SpiritualMastersView> {
   Widget build(BuildContext context) {
     if (widget.spiritualMasters.isEmpty) return const SizedBox.shrink();
 
-    return Column(
-      children: [
-        SizedBox(
-          height: 110,
-          // Wrap with GestureDetector to catch taps on the list background
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: _clearEditMode,
-            child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              scrollDirection: Axis.horizontal,
-              itemCount: widget.spiritualMasters.length,
-              separatorBuilder: (context, index) => const SizedBox(width: 12),
-              itemBuilder: (context, index) {
-                final master = widget.spiritualMasters[index];
-                final bool isEditing = _activeEditIndex == index;
-                final bool hasImage =
-                    master.photoUrl != null && master.photoUrl!.isNotEmpty;
-
-                return GestureDetector(
-                  onLongPress: widget.onDelete == null
-                      ? null
-                      : () {
-                          Feedback.forLongPress(context);
-                          setState(() => _activeEditIndex = index);
-                        },
-                  // If we are in edit mode, tapping the card itself closes it
-                  onTap: isEditing ? _clearEditMode : null,
-                  child: Stack(
-                    clipBehavior: Clip
-                        .none, // Allows button to pop out slightly if needed
-                    children: [
-                      // Square Card
-                      Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Stack(
-                            fit: StackFit.expand,
-                            children: [
-                              // 1. Base Image
-                              hasImage
-                                  ? Image.network(
-                                      master.photoUrl!,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (c, e, s) =>
-                                          _buildPlaceholder(),
-                                    )
-                                  : _buildPlaceholder(),
-
-                              // 2. Name Overlay (Bottom or Top)
-                              Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Container(
-                                  width: double.infinity,
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 4,
-                                    horizontal: 4,
-                                  ),
-                                  color: Colors.black.withOpacity(0.5),
-                                  child: Text(
-                                    master.name,
-                                    textAlign: TextAlign.center,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      color: Colors
-                                          .white, // Fixed: white text for dark bg
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-                              // 3. Darkening Overlay when editing
-                              if (isEditing)
-                                Container(color: Colors.black.withOpacity(0.3)),
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      // 4. Delete Button (Top-Right)
-                      if (isEditing)
-                        Positioned(
-                          top: -6, // Slightly offset to pop out of the card
-                          right: -6,
-                          child: GestureDetector(
-                            onTap: () {
-                              widget.onDelete?.call(master);
-                              _clearEditMode();
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(6),
-                              decoration: const BoxDecoration(
-                                color: Colors.red,
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black26,
-                                    blurRadius: 4,
-                                    offset: Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                              child: const Icon(
-                                Icons.close, // Or delete_forever
-                                color: Colors.white,
-                                size: 16,
-                              ),
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-                );
-              },
-            ),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: _clearEditMode,
+      child: ListView.separated(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: widget.spiritualMasters.length,
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        separatorBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.only(left: 100, right: 16),
+          child: Divider(
+            height: 1,
+            color: Theme.of(context).dividerColor.withOpacity(0.08),
           ),
         ),
-      ],
+        itemBuilder: (context, index) {
+          final master = widget.spiritualMasters[index];
+          final bool isEditing = _activeEditIndex == index;
+          final bool hasImage =
+              master.photoUrl != null && master.photoUrl!.isNotEmpty;
+
+          return InkWell(
+            onLongPress: widget.onDelete == null
+                ? null
+                : () {
+                    Feedback.forLongPress(context);
+                    setState(() => _activeEditIndex = index);
+                  },
+            onTap: isEditing ? _clearEditMode : null,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              child: Row(
+                children: [
+                  // 1. Rectangular Card Image
+                  Container(
+                    width: 70,
+                    height: 70,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.grey.shade100,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: hasImage
+                          ? Image.network(
+                              master.photoUrl!,
+                              fit: BoxFit.cover,
+                              errorBuilder: (c, e, s) => _buildPlaceholder(),
+                            )
+                          : _buildPlaceholder(),
+                    ),
+                  ),
+
+                  const SizedBox(width: 16),
+
+                  // 2. Name Column
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Name',
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.5,
+                            color: Theme.of(context).hintColor.withOpacity(0.5),
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          master.name,
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87,
+                              ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // 3. Conditional Delete Button
+                  if (isEditing)
+                    IconButton(
+                      icon: const Icon(Icons.delete, color: Colors.redAccent),
+                      onPressed: () {
+                        widget.onDelete?.call(master);
+                        _clearEditMode();
+                      },
+                    )
+                  else
+                    Icon(
+                      Icons.chevron_right,
+                      size: 20,
+                      color: Colors.grey.shade300,
+                    ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 
   Widget _buildPlaceholder() {
     return Container(
-      color: Colors.grey.shade300,
-      child: const Icon(Icons.person, color: Colors.grey, size: 32),
+      color: Colors.grey.shade200,
+      child: Icon(Icons.person, color: Colors.grey.shade400, size: 30),
     );
   }
 }
