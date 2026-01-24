@@ -54,7 +54,7 @@ class _AddSpiritualMasterState extends State<AddSpiritualMaster> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
+                          padding: const EdgeInsets.only(left: 0.0),
                           child: const Text(
                             'Add Spiritual Master',
                             style: TextStyle(
@@ -74,7 +74,7 @@ class _AddSpiritualMasterState extends State<AddSpiritualMaster> {
                     const SizedBox(height: 16),
 
                     // Segmented Toggle
-                    _segmentedToggle(
+                    _minimalToggle(
                       allowCustomMaster: allowCustomMaster,
                       onSelectExisting: () {
                         if (allowCustomMaster) {
@@ -160,15 +160,45 @@ class _AddSpiritualMasterState extends State<AddSpiritualMaster> {
                                           Image.network(
                                             master.photoUrl ?? '',
                                             fit: BoxFit.cover,
-                                            errorBuilder: (c, e, s) =>
-                                                Container(
-                                                  color: Colors.grey.shade200,
-                                                  child: const Icon(
-                                                    Icons.person,
-                                                    color: Colors.grey,
-                                                  ),
-                                                ),
+                                            loadingBuilder:
+                                                (
+                                                  context,
+                                                  child,
+                                                  loadingProgress,
+                                                ) {
+                                                  if (loadingProgress == null) {
+                                                    return child;
+                                                  }
+
+                                                  return Container(
+                                                    color: Colors.grey.shade300,
+                                                    child: const Center(
+                                                      child: SizedBox(
+                                                        width: 24,
+                                                        height: 24,
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                              strokeWidth: 2,
+                                                              color:
+                                                                  Colors.grey,
+                                                            ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                            errorBuilder:
+                                                (context, error, stackTrace) {
+                                                  return Container(
+                                                    color: Colors.grey.shade200,
+                                                    child: const Icon(
+                                                      Icons.person,
+                                                      color: Colors.grey,
+                                                      size: 32,
+                                                    ),
+                                                  );
+                                                },
                                           ),
+
                                           Align(
                                             alignment: Alignment.bottomCenter,
                                             child: Container(
@@ -283,74 +313,68 @@ class _AddSpiritualMasterState extends State<AddSpiritualMaster> {
     );
   }
 
-  Widget _segmentedToggle({
+  Widget _minimalToggle({
     required bool allowCustomMaster,
     required VoidCallback onSelectExisting,
     required VoidCallback onSelectCustom,
   }) {
-    return Container(
-      height: 36,
-      decoration: BoxDecoration(
-        color: Colors.grey.shade300,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Stack(
+    const activeColor = Color(0xFF4F7F6A);
+
+    return Row(
+      children: [
+        _tabItem(
+          label: 'Popular',
+          isActive: !allowCustomMaster,
+          onTap: onSelectExisting,
+          activeColor: activeColor,
+        ),
+        const SizedBox(width: 24),
+        _tabItem(
+          label: 'Custom',
+          isActive: allowCustomMaster,
+          onTap: onSelectCustom,
+          activeColor: activeColor,
+        ),
+      ],
+    );
+  }
+
+  Widget _tabItem({
+    required String label,
+    required bool isActive,
+    required VoidCallback onTap,
+    required Color activeColor,
+  }) {
+    final textStyle = TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      color: isActive ? activeColor : Colors.grey.shade600,
+    );
+
+    final textPainter = TextPainter(
+      text: TextSpan(text: label, style: textStyle),
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    final textWidth = textPainter.width;
+
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.translucent,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          // Sliding Green Selector
-          AnimatedAlign(
-            duration: const Duration(milliseconds: 250),
-            alignment: allowCustomMaster
-                ? Alignment.centerRight
-                : Alignment.centerLeft,
-            child: Container(
-              width: MediaQuery.of(context).size.width / 2 - 32, // fills half
-              decoration: BoxDecoration(
-                color: Color(0xFF7A9C8A),
-                borderRadius: BorderRadius.circular(8),
-              ),
+          Text(label, style: textStyle),
+          const SizedBox(height: 6),
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeOutCubic,
+            height: 2,
+            width: isActive ? textWidth : 0,
+            decoration: BoxDecoration(
+              color: activeColor,
+              borderRadius: BorderRadius.circular(2),
             ),
-          ),
-          // Full clickable halves
-          Row(
-            children: [
-              // Existing
-              Expanded(
-                child: GestureDetector(
-                  onTap: onSelectExisting,
-                  behavior:
-                      HitTestBehavior.translucent, // makes entire area tappable
-                  child: Center(
-                    child: Text(
-                      'Existing',
-                      style: TextStyle(
-                        color: allowCustomMaster
-                            ? Colors.grey.shade700
-                            : Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              // Custom
-              Expanded(
-                child: GestureDetector(
-                  onTap: onSelectCustom,
-                  behavior: HitTestBehavior.translucent,
-                  child: Center(
-                    child: Text(
-                      'Custom',
-                      style: TextStyle(
-                        color: allowCustomMaster
-                            ? Colors.white
-                            : Colors.grey.shade700,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
           ),
         ],
       ),

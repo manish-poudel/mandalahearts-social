@@ -17,6 +17,7 @@ class AddSpiritualMasterCubit extends Cubit<AddSpiritualMasterState> {
     emit(const AddSpiritualMasterState.loading());
     try {
       final masters = await repository.getSpiritualMasters();
+      masters.sort((a, b) => a.name.compareTo(b.name));
       emit(AddSpiritualMasterState.loaded(spiritualMasters: masters));
     } catch (e) {
       emit(AddSpiritualMasterState.error(message: e.toString()));
