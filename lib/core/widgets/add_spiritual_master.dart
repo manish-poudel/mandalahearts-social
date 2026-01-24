@@ -98,27 +98,30 @@ class _AddSpiritualMasterState extends State<AddSpiritualMaster> {
                     Expanded(
                       child: allowCustomMaster
                           ? SingleChildScrollView(
-                              child: TextFormField(
-                                controller: _customController,
-                                maxLength: 50,
-                                decoration: InputDecoration(
-                                  hintText: 'Enter your master name',
-                                  counterText: '',
-                                  filled: true,
-                                  fillColor: greyFillColor,
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 14,
+                              child: Form(
+                                key: _formKey,
+                                child: TextFormField(
+                                  controller: _customController,
+                                  maxLength: 50,
+                                  decoration: InputDecoration(
+                                    hintText: 'Enter your master name',
+                                    counterText: '',
+                                    filled: true,
+                                    fillColor: greyFillColor,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 14,
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide.none,
+                                    ),
                                   ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    borderSide: BorderSide.none,
-                                  ),
+                                  validator: (value) =>
+                                      (value == null || value.trim().isEmpty)
+                                      ? 'Please enter a name'
+                                      : null,
                                 ),
-                                validator: (value) =>
-                                    (value == null || value.trim().isEmpty)
-                                    ? 'Please enter a name'
-                                    : null,
                               ),
                             )
                           : GridView.builder(
@@ -236,14 +239,21 @@ class _AddSpiritualMasterState extends State<AddSpiritualMaster> {
                         onPressed: saveState is AsyncLoading
                             ? null
                             : () {
-                                if (_formKey.currentState?.validate() ??
-                                    false) {
+                                if (allowCustomMaster) {
+                                  if (_formKey.currentState?.validate() ??
+                                      false) {
+                                    context
+                                        .read<AddSpiritualMasterCubit>()
+                                        .saveMaster(
+                                          customMaster: _customController.text
+                                              .trim(),
+                                        );
+                                  }
+                                } else {
+                                  // No custom master, just save the selected one
                                   context
                                       .read<AddSpiritualMasterCubit>()
-                                      .saveMaster(
-                                        customMaster: _customController.text
-                                            .trim(),
-                                      );
+                                      .saveMaster();
                                 }
                               },
                         child: saveState is AsyncLoading
