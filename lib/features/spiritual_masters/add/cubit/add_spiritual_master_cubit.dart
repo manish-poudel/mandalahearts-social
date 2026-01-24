@@ -50,6 +50,14 @@ class AddSpiritualMasterCubit extends Cubit<AddSpiritualMasterState> {
           if (current.allowCustomMaster) {
             spiritualMaster = SpiritualMaster(name: customMaster!);
           } else {
+            if (current.selectedMaster == null) {
+              emit(
+                current.copyWith(
+                  saveState: AsyncState.error('Please select master'),
+                ),
+              );
+              return;
+            }
             spiritualMaster = current.selectedMaster!;
           }
 

@@ -27,7 +27,7 @@ class ProfileViewScreen extends StatelessWidget {
 
         return Container(
           width: double.infinity, // full width
-          height: height * 0.6, // almost full height
+          height: height * 0.7, // almost full height
           decoration: BoxDecoration(
             color: Theme.of(context).scaffoldBackgroundColor,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
