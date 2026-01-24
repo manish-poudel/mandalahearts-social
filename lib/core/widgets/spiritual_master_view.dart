@@ -35,7 +35,7 @@ class _SpiritualMastersViewState extends State<SpiritualMastersView> {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: widget.spiritualMasters.length,
-        padding: const EdgeInsets.symmetric(vertical: 0),
+        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
         separatorBuilder: (context, index) => Padding(
           padding: const EdgeInsets.only(left: 100, right: 16),
           child: Divider(
@@ -58,7 +58,10 @@ class _SpiritualMastersViewState extends State<SpiritualMastersView> {
                   },
             onTap: isEditing ? _clearEditMode : null,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              padding: EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: index > 0 ? 10 : 4,
+              ),
               child: Row(
                 children: [
                   // 1. Rectangular Card Image

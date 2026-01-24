@@ -95,7 +95,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             loaded: (user, isSavingBasicDetails, isSavingProfileImage, _) {
               _autofillOnce(state);
               return SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(8),
                 child: Column(
                   children: [
                     /// Avatar
