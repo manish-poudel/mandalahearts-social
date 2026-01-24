@@ -250,7 +250,6 @@ class _AddSpiritualMasterState extends State<AddSpiritualMaster> {
                                         );
                                   }
                                 } else {
-                                  // No custom master, just save the selected one
                                   context
                                       .read<AddSpiritualMasterCubit>()
                                       .saveMaster();
@@ -293,7 +292,7 @@ class _AddSpiritualMasterState extends State<AddSpiritualMaster> {
       height: 36,
       decoration: BoxDecoration(
         color: Colors.grey.shade300,
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Stack(
         children: [
@@ -306,8 +305,8 @@ class _AddSpiritualMasterState extends State<AddSpiritualMaster> {
             child: Container(
               width: MediaQuery.of(context).size.width / 2 - 32, // fills half
               decoration: BoxDecoration(
-                color: Color(0xFF6F8F72),
-                borderRadius: BorderRadius.circular(30),
+                color: Color(0xFF7A9C8A),
+                borderRadius: BorderRadius.circular(8),
               ),
             ),
           ),
