@@ -37,9 +37,9 @@ abstract class BasicDetails with _$BasicDetails {
 @freezed
 abstract class SpiritualMaster with _$SpiritualMaster {
   const factory SpiritualMaster({
-    required String guruName,
-    required String spiritualOrganisation,
-    required String description,
+    String? id,
+    required String name,
+    String? photoUrl,
   }) = _SpiritualMaster;
 
   factory SpiritualMaster.fromJson(Map<String, dynamic> json) =>

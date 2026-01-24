@@ -2,17 +2,47 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mandalahearts/app/app_routes.dart';
+import 'package:mandalahearts/core/widgets/add_spiritual_master.dart';
 import 'package:mandalahearts/core/widgets/app_tooltip.dart';
 import 'package:mandalahearts/core/widgets/basic_profile_view.dart';
 import 'package:mandalahearts/core/widgets/post_grid_view.dart';
-import 'package:mandalahearts/core/widgets/spiritual_master_view.dart';
 import 'package:mandalahearts/enums/profile_mode.dart';
 import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_cubit.dart'
     show ProfileViewCubit;
 import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_state.dart';
+import 'package:mandalahearts/features/spiritual_masters/add/cubit/add_spiritual_master_cubit.dart';
+import 'package:mandalahearts/repository/app_user_repository.dart';
+import 'package:mandalahearts/repository/spiritual_master_repository.dart';
 
 class ProfileViewScreen extends StatelessWidget {
   const ProfileViewScreen({super.key});
+
+  void _openSpiritualMasterBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent, // so your container shape is visible
+      builder: (context) {
+        final height = MediaQuery.of(context).size.height;
+
+        return Container(
+          width: double.infinity, // full width
+          height: height * 0.6, // almost full height
+          decoration: BoxDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+          ),
+          child: BlocProvider(
+            create: (_) => AddSpiritualMasterCubit(
+              repository: context.read<SpiritualMasterRepository>(),
+              appUserRepository: context.read<AppUserRepository>(),
+            )..loadMasters(),
+            child: AddSpiritualMaster(),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,9 +147,7 @@ class ProfileViewScreen extends StatelessWidget {
                                   ),
                                   tooltip: 'Add spiritual masters',
                                   onPressed: () {
-                                    context.push(
-                                      AppRoute.addSpiritualMater.path,
-                                    );
+                                    _openSpiritualMasterBottomSheet(context);
                                     // navigate to add/edit spiritual masters
                                   },
                                 ),
@@ -144,9 +172,10 @@ class ProfileViewScreen extends StatelessWidget {
                             ),
                           )
                         else
-                          SpiritualMastersView(
-                            spiritualMasters: spiritualMasters,
-                          ),
+                          Container(),
+                        // SpiritualMastersView(
+                        //   spiritualMasters: spiritualMasters,
+                        // ),
                       ],
                     );
                   },
@@ -164,148 +193,4 @@ class ProfileViewScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-void showAddSpiritualMasterSheet(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    enableDrag: false,
-    backgroundColor: Colors.transparent,
-    builder: (context) {
-      final theme = Theme.of(context);
-      final height = MediaQuery.of(context).size.height;
-
-      return Padding(
-        padding: const EdgeInsets.only(top: 32),
-        child: Container(
-          height: height * 0.88,
-          decoration: BoxDecoration(
-            color: theme.colorScheme.background,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-          ),
-          child: SafeArea(
-            top: false,
-            child: Column(
-              children: [
-                /// Grab handle
-                const SizedBox(height: 8),
-                Center(
-                  child: Container(
-                    width: 40,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 8),
-
-                /// Top bar
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const SizedBox(width: 40),
-                      Text(
-                        'Add Spiritual Master',
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.close),
-                        onPressed: () => Navigator.of(context).pop(),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const Divider(height: 1),
-
-                /// Form area
-                Expanded(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Fill in the details below to add a spiritual master.',
-                          style: theme.textTheme.bodyMedium,
-                        ),
-                        const SizedBox(height: 16),
-
-                        /// Master Name
-                        TextField(
-                          decoration: InputDecoration(
-                            labelText: 'Master Name',
-                            labelStyle: theme.textTheme.bodyMedium,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-
-                        /// Master Name
-                        TextField(
-                          decoration: InputDecoration(
-                            labelText: 'Master Name',
-                            labelStyle: theme.textTheme.bodyMedium,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-
-                        /// Master Name
-                        TextField(
-                          decoration: InputDecoration(
-                            labelText: 'Master Name',
-                            labelStyle: theme.textTheme.bodyMedium,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-
-                        /// Affiliation
-                        TextField(
-                          decoration: InputDecoration(
-                            labelText: 'Affiliation',
-                            labelStyle: theme.textTheme.bodyMedium,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-
-                        /// Description
-                        TextField(
-                          maxLines: 4,
-                          decoration: InputDecoration(
-                            labelText: 'Description',
-                            labelStyle: theme.textTheme.bodyMedium,
-                          ),
-                        ),
-                        const SizedBox(height: 24),
-
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // handle save
-                            },
-                            child: const Text('Save'),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    },
-  );
 }

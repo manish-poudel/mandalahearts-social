@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mandalahearts/app/env/env.dart';
+import 'package:mandalahearts/core/services/firestore/firestore_spiritual_master_service.dart';
 import 'package:mandalahearts/core/services/firestore/firestore_user_post_service.dart';
 import 'package:mandalahearts/core/services/firestore/firestore_user_service.dart';
 import 'package:mandalahearts/core/services/supabase/supabase_file_storage.dart';
@@ -14,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mandalahearts/repository/post_repository.dart';
+import 'package:mandalahearts/repository/spiritual_master_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -39,6 +41,10 @@ Future<void> main() async {
             storage: SupabaseFileStorage(Supabase.instance.client),
             userService: FirestoreUserService(),
           ),
+        ),
+        RepositoryProvider<SpiritualMasterRepository>(
+          create: (_) =>
+              SpiritualMasterRepository(db: FirestoreSpiritualMasterService()),
         ),
       ],
       child: MandalaHearts(),

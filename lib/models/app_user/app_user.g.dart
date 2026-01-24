@@ -48,14 +48,14 @@ Map<String, dynamic> _$BasicDetailsToJson(_BasicDetails instance) =>
 
 _SpiritualMaster _$SpiritualMasterFromJson(Map<String, dynamic> json) =>
     _SpiritualMaster(
-      guruName: json['guruName'] as String,
-      spiritualOrganisation: json['spiritualOrganisation'] as String,
-      description: json['description'] as String,
+      id: json['id'] as String?,
+      name: json['name'] as String,
+      photoUrl: json['photoUrl'] as String?,
     );
 
 Map<String, dynamic> _$SpiritualMasterToJson(_SpiritualMaster instance) =>
     <String, dynamic>{
-      'guruName': instance.guruName,
-      'spiritualOrganisation': instance.spiritualOrganisation,
-      'description': instance.description,
+      'id': instance.id,
+      'name': instance.name,
+      'photoUrl': instance.photoUrl,
     };

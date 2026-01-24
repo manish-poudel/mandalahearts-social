@@ -5,10 +5,8 @@ class SpiritualMasterScreen extends StatefulWidget {
   final bool isEdit;
   final SpiritualMaster? master;
 
-  // Named constructor for "Add"
   const SpiritualMasterScreen.add({super.key}) : isEdit = false, master = null;
 
-  // Named constructor for "Edit"
   const SpiritualMasterScreen.edit({super.key, required this.master})
     : isEdit = true;
 
@@ -24,17 +22,15 @@ class _SpiritualMasterScreenState extends State<SpiritualMasterScreen> {
   @override
   void initState() {
     super.initState();
-
-    // Initialize controllers depending on add/edit
-    _nameController = TextEditingController(
-      text: widget.isEdit ? widget.master!.guruName : '',
-    );
-    _affiliationController = TextEditingController(
-      text: widget.isEdit ? widget.master!.spiritualOrganisation : '',
-    );
-    _descriptionController = TextEditingController(
-      text: widget.isEdit ? widget.master!.description : '',
-    );
+    // _nameController = TextEditingController(
+    //   text: widget.isEdit ? widget.master!.guruName : '',
+    // );
+    // _affiliationController = TextEditingController(
+    //   text: widget.isEdit ? widget.master!.spiritualOrganisation : '',
+    // );
+    // _descriptionController = TextEditingController(
+    //   text: widget.isEdit ? widget.master!.description : '',
+    // );
   }
 
   @override

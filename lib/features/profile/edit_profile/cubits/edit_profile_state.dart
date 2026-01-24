@@ -12,6 +12,7 @@ class EditProfileState with _$EditProfileState {
     required AppUser user,
     @Default(false) bool isSavingBasicDetails,
     @Default(false) bool isSavingProfileImage,
+    @Default(false) bool basicDetailSaved,
   }) = _Loaded;
 
   const factory EditProfileState.error({required String message}) = _Error;

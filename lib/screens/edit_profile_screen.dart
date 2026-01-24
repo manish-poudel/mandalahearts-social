@@ -46,7 +46,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (_didAutofill) return;
 
     state.whenOrNull(
-      loaded: (user, _, _) {
+      loaded: (user, _, _, _) {
         final basic = user.basicDetails;
 
         _usernameController.text = user.username;
@@ -76,13 +76,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Edit profile')),
-      body: BlocBuilder<EditProfileCubit, EditProfileState>(
+      body: BlocConsumer<EditProfileCubit, EditProfileState>(
+        listener: (context, state) => {
+          state.whenOrNull(
+            loaded: (_, _, _, basicDetailSaved) {
+              if (basicDetailSaved) {
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text("Profile updated")));
+              }
+            },
+          ),
+        },
         builder: (context, state) {
           return state.when(
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (m) => Center(child: Text(m)),
-            loaded: (user, isSavingBasicDetails, isSavingProfileImage) {
-              print("Is saving image" + isSavingProfileImage.toString());
+            loaded: (user, isSavingBasicDetails, isSavingProfileImage, _) {
               _autofillOnce(state);
               return SingleChildScrollView(
                 padding: const EdgeInsets.all(16),

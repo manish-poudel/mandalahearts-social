@@ -30,7 +30,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     String? bio,
   }) async {
     final user = state.maybeWhen(
-      loaded: (user, _, _) => user,
+      loaded: (user, _, _, _) => user,
       orElse: () => null,
     );
     if (user == null) return;
@@ -58,7 +58,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
         bio: bio,
       );
       await userRepository.updateUser(updatedUser);
-      emit(EditProfileState.loaded(user: updatedUser));
+      emit(EditProfileState.loaded(user: updatedUser, basicDetailSaved: true));
     } catch (_) {
       emit(const EditProfileState.error(message: 'Failed to update profile'));
     }
@@ -66,7 +66,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
 
   Future<void> saveProfileImage({required Uint8List image}) async {
     final user = state.maybeWhen(
-      loaded: (user, _, _) => user,
+      loaded: (user, _, _, _) => user,
       orElse: () => null,
     );
     if (user == null) return;

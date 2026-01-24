@@ -597,7 +597,7 @@ as String?,
 /// @nodoc
 mixin _$SpiritualMaster {
 
- String get guruName; String get spiritualOrganisation; String get description;
+ String? get id; String get name; String? get photoUrl;
 /// Create a copy of SpiritualMaster
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -610,16 +610,16 @@ $SpiritualMasterCopyWith<SpiritualMaster> get copyWith => _$SpiritualMasterCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SpiritualMaster&&(identical(other.guruName, guruName) || other.guruName == guruName)&&(identical(other.spiritualOrganisation, spiritualOrganisation) || other.spiritualOrganisation == spiritualOrganisation)&&(identical(other.description, description) || other.description == description));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SpiritualMaster&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.photoUrl, photoUrl) || other.photoUrl == photoUrl));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,guruName,spiritualOrganisation,description);
+int get hashCode => Object.hash(runtimeType,id,name,photoUrl);
 
 @override
 String toString() {
-  return 'SpiritualMaster(guruName: $guruName, spiritualOrganisation: $spiritualOrganisation, description: $description)';
+  return 'SpiritualMaster(id: $id, name: $name, photoUrl: $photoUrl)';
 }
 
 
@@ -630,7 +630,7 @@ abstract mixin class $SpiritualMasterCopyWith<$Res>  {
   factory $SpiritualMasterCopyWith(SpiritualMaster value, $Res Function(SpiritualMaster) _then) = _$SpiritualMasterCopyWithImpl;
 @useResult
 $Res call({
- String guruName, String spiritualOrganisation, String description
+ String? id, String name, String? photoUrl
 });
 
 
@@ -647,12 +647,12 @@ class _$SpiritualMasterCopyWithImpl<$Res>
 
 /// Create a copy of SpiritualMaster
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? guruName = null,Object? spiritualOrganisation = null,Object? description = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? name = null,Object? photoUrl = freezed,}) {
   return _then(_self.copyWith(
-guruName: null == guruName ? _self.guruName : guruName // ignore: cast_nullable_to_non_nullable
-as String,spiritualOrganisation: null == spiritualOrganisation ? _self.spiritualOrganisation : spiritualOrganisation // ignore: cast_nullable_to_non_nullable
-as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,photoUrl: freezed == photoUrl ? _self.photoUrl : photoUrl // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -737,10 +737,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String guruName,  String spiritualOrganisation,  String description)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String name,  String? photoUrl)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SpiritualMaster() when $default != null:
-return $default(_that.guruName,_that.spiritualOrganisation,_that.description);case _:
+return $default(_that.id,_that.name,_that.photoUrl);case _:
   return orElse();
 
 }
@@ -758,10 +758,10 @@ return $default(_that.guruName,_that.spiritualOrganisation,_that.description);ca
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String guruName,  String spiritualOrganisation,  String description)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String name,  String? photoUrl)  $default,) {final _that = this;
 switch (_that) {
 case _SpiritualMaster():
-return $default(_that.guruName,_that.spiritualOrganisation,_that.description);case _:
+return $default(_that.id,_that.name,_that.photoUrl);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -778,10 +778,10 @@ return $default(_that.guruName,_that.spiritualOrganisation,_that.description);ca
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String guruName,  String spiritualOrganisation,  String description)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String name,  String? photoUrl)?  $default,) {final _that = this;
 switch (_that) {
 case _SpiritualMaster() when $default != null:
-return $default(_that.guruName,_that.spiritualOrganisation,_that.description);case _:
+return $default(_that.id,_that.name,_that.photoUrl);case _:
   return null;
 
 }
@@ -793,12 +793,12 @@ return $default(_that.guruName,_that.spiritualOrganisation,_that.description);ca
 @JsonSerializable()
 
 class _SpiritualMaster implements SpiritualMaster {
-  const _SpiritualMaster({required this.guruName, required this.spiritualOrganisation, required this.description});
+  const _SpiritualMaster({this.id, required this.name, this.photoUrl});
   factory _SpiritualMaster.fromJson(Map<String, dynamic> json) => _$SpiritualMasterFromJson(json);
 
-@override final  String guruName;
-@override final  String spiritualOrganisation;
-@override final  String description;
+@override final  String? id;
+@override final  String name;
+@override final  String? photoUrl;
 
 /// Create a copy of SpiritualMaster
 /// with the given fields replaced by the non-null parameter values.
@@ -813,16 +813,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SpiritualMaster&&(identical(other.guruName, guruName) || other.guruName == guruName)&&(identical(other.spiritualOrganisation, spiritualOrganisation) || other.spiritualOrganisation == spiritualOrganisation)&&(identical(other.description, description) || other.description == description));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SpiritualMaster&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.photoUrl, photoUrl) || other.photoUrl == photoUrl));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,guruName,spiritualOrganisation,description);
+int get hashCode => Object.hash(runtimeType,id,name,photoUrl);
 
 @override
 String toString() {
-  return 'SpiritualMaster(guruName: $guruName, spiritualOrganisation: $spiritualOrganisation, description: $description)';
+  return 'SpiritualMaster(id: $id, name: $name, photoUrl: $photoUrl)';
 }
 
 
@@ -833,7 +833,7 @@ abstract mixin class _$SpiritualMasterCopyWith<$Res> implements $SpiritualMaster
   factory _$SpiritualMasterCopyWith(_SpiritualMaster value, $Res Function(_SpiritualMaster) _then) = __$SpiritualMasterCopyWithImpl;
 @override @useResult
 $Res call({
- String guruName, String spiritualOrganisation, String description
+ String? id, String name, String? photoUrl
 });
 
 
@@ -850,12 +850,12 @@ class __$SpiritualMasterCopyWithImpl<$Res>
 
 /// Create a copy of SpiritualMaster
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? guruName = null,Object? spiritualOrganisation = null,Object? description = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? name = null,Object? photoUrl = freezed,}) {
   return _then(_SpiritualMaster(
-guruName: null == guruName ? _self.guruName : guruName // ignore: cast_nullable_to_non_nullable
-as String,spiritualOrganisation: null == spiritualOrganisation ? _self.spiritualOrganisation : spiritualOrganisation // ignore: cast_nullable_to_non_nullable
-as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,photoUrl: freezed == photoUrl ? _self.photoUrl : photoUrl // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
