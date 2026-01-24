@@ -49,7 +49,7 @@ class _AddSpiritualMasterState extends State<AddSpiritualMaster> {
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
-                    // Fixed Header
+                    // Header
                     const Text(
                       'Add Spiritual Master',
                       style: TextStyle(
@@ -59,185 +59,143 @@ class _AddSpiritualMasterState extends State<AddSpiritualMaster> {
                     ),
                     const SizedBox(height: 16),
 
-                    // Scrollable Area
+                    // Segmented Toggle
+                    _segmentedToggle(
+                      allowCustomMaster: allowCustomMaster,
+                      onSelectExisting: () {
+                        if (allowCustomMaster) {
+                          context
+                              .read<AddSpiritualMasterCubit>()
+                              .toggleAllowCustomMaster();
+                        }
+                      },
+                      onSelectCustom: () {
+                        if (!allowCustomMaster) {
+                          context
+                              .read<AddSpiritualMasterCubit>()
+                              .toggleAllowCustomMaster();
+                          _customController.clear();
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Dynamic Content
                     Expanded(
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            // Fixed Toggle (inside scrollable logic or outside,
-                            // but usually stays visible)
-                            Container(
-                              height: 45,
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade300,
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              child: Row(
-                                children: [
-                                  _toggleButton(
-                                    label: 'Existing',
-                                    isSelected: !allowCustomMaster,
-                                    primaryColor: primaryColor,
-                                    onTap: () {
-                                      if (allowCustomMaster) {
-                                        context
-                                            .read<AddSpiritualMasterCubit>()
-                                            .toggleAllowCustomMaster();
-                                      }
-                                    },
+                      child: allowCustomMaster
+                          ? SingleChildScrollView(
+                              child: TextFormField(
+                                controller: _customController,
+                                maxLength: 50,
+                                decoration: InputDecoration(
+                                  hintText: 'Enter your master name',
+                                  counterText: '',
+                                  filled: true,
+                                  fillColor: greyFillColor,
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 14,
                                   ),
-                                  _toggleButton(
-                                    label: 'Custom',
-                                    isSelected: allowCustomMaster,
-                                    primaryColor: primaryColor,
-                                    onTap: () {
-                                      if (!allowCustomMaster) {
-                                        context
-                                            .read<AddSpiritualMasterCubit>()
-                                            .toggleAllowCustomMaster();
-                                        _customController.clear();
-                                      }
-                                    },
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: BorderSide.none,
                                   ),
-                                ],
+                                ),
+                                validator: (value) =>
+                                    (value == null || value.trim().isEmpty)
+                                    ? 'Please enter a name'
+                                    : null,
                               ),
-                            ),
-                            const SizedBox(height: 16),
+                            )
+                          : GridView.builder(
+                              itemCount: masters.length,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    mainAxisSpacing: 10,
+                                    crossAxisSpacing: 10,
+                                    childAspectRatio: 1,
+                                  ),
+                              itemBuilder: (context, index) {
+                                final master = masters[index];
+                                final isSelected = master == selectedMaster;
 
-                            // Dynamic Content (Grid or Text Field)
-                            Expanded(
-                              child: allowCustomMaster
-                                  ? SingleChildScrollView(
-                                      child: TextFormField(
-                                        controller: _customController,
-                                        maxLength: 50,
-                                        decoration: InputDecoration(
-                                          hintText: 'Enter your master name',
-                                          counterText: '',
-                                          filled: true,
-                                          fillColor: greyFillColor,
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                                horizontal: 16,
-                                                vertical: 14,
-                                              ),
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              12,
-                                            ),
-                                            borderSide: BorderSide.none,
-                                          ),
-                                        ),
-                                        validator: (value) =>
-                                            (value == null ||
-                                                value.trim().isEmpty)
-                                            ? 'Please enter a name'
-                                            : null,
+                                return GestureDetector(
+                                  onTap: () => context
+                                      .read<AddSpiritualMasterCubit>()
+                                      .selectMaster(master),
+                                  child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 200),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                        color: isSelected
+                                            ? primaryColor
+                                            : Colors.transparent,
+                                        width: 3,
                                       ),
-                                    )
-                                  : GridView.builder(
-                                      itemCount: masters.length,
-                                      gridDelegate:
-                                          const SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 3,
-                                            mainAxisSpacing: 10,
-                                            crossAxisSpacing: 10,
-                                            childAspectRatio: 1,
-                                          ),
-                                      itemBuilder: (context, index) {
-                                        final master = masters[index];
-                                        final isSelected =
-                                            master == selectedMaster;
-
-                                        return GestureDetector(
-                                          onTap: () => context
-                                              .read<AddSpiritualMasterCubit>()
-                                              .selectMaster(master),
-                                          child: AnimatedContainer(
-                                            duration: const Duration(
-                                              milliseconds: 200,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              border: Border.all(
-                                                color: isSelected
-                                                    ? primaryColor
-                                                    : Colors.transparent,
-                                                width: 3,
-                                              ),
-                                            ),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(9),
-                                              child: Stack(
-                                                fit: StackFit.expand,
-                                                children: [
-                                                  Image.network(
-                                                    master.photoUrl ?? '',
-                                                    fit: BoxFit.cover,
-                                                    errorBuilder: (c, e, s) =>
-                                                        Container(
-                                                          color: Colors
-                                                              .grey
-                                                              .shade200,
-                                                          child: const Icon(
-                                                            Icons.person,
-                                                            color: Colors.grey,
-                                                          ),
-                                                        ),
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.bottomCenter,
-                                                    child: Container(
-                                                      width: double.infinity,
-                                                      padding:
-                                                          const EdgeInsets.symmetric(
-                                                            vertical: 4,
-                                                            horizontal: 4,
-                                                          ),
-                                                      color: Colors.black
-                                                          .withOpacity(0.5),
-                                                      child: Text(
-                                                        master.name,
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: const TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 11,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  if (isSelected)
-                                                    Positioned(
-                                                      top: 4,
-                                                      right: 4,
-                                                      child: Icon(
-                                                        Icons.check_circle,
-                                                        color: primaryColor,
-                                                        size: 20,
-                                                      ),
-                                                    ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
                                     ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(9),
+                                      child: Stack(
+                                        fit: StackFit.expand,
+                                        children: [
+                                          Image.network(
+                                            master.photoUrl ?? '',
+                                            fit: BoxFit.cover,
+                                            errorBuilder: (c, e, s) =>
+                                                Container(
+                                                  color: Colors.grey.shade200,
+                                                  child: const Icon(
+                                                    Icons.person,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                          ),
+                                          Align(
+                                            alignment: Alignment.bottomCenter,
+                                            child: Container(
+                                              width: double.infinity,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    vertical: 4,
+                                                    horizontal: 4,
+                                                  ),
+                                              color: Colors.black.withOpacity(
+                                                0.5,
+                                              ),
+                                              child: Text(
+                                                master.name,
+                                                textAlign: TextAlign.center,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 11,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          if (isSelected)
+                                            Positioned(
+                                              top: 4,
+                                              right: 4,
+                                              child: Icon(
+                                                Icons.check_circle,
+                                                color: primaryColor,
+                                                size: 20,
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
-                          ],
-                        ),
-                      ),
                     ),
 
-                    // Fixed Bottom Section
+                    // Bottom Section
                     const SizedBox(height: 16),
                     if (saveState is AsyncError)
                       Padding(
@@ -302,39 +260,76 @@ class _AddSpiritualMasterState extends State<AddSpiritualMaster> {
     );
   }
 
-  Widget _toggleButton({
-    required String label,
-    required bool isSelected,
-    required Color primaryColor,
-    required VoidCallback onTap,
+  Widget _segmentedToggle({
+    required bool allowCustomMaster,
+    required VoidCallback onSelectExisting,
+    required VoidCallback onSelectCustom,
   }) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          alignment: Alignment.center,
-          margin: const EdgeInsets.all(4),
-          decoration: BoxDecoration(
-            color: isSelected ? Colors.white : Colors.transparent,
-            borderRadius: BorderRadius.circular(25),
-            boxShadow: isSelected
-                ? [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ]
-                : null,
-          ),
-          child: Text(
-            label,
-            style: TextStyle(
-              color: isSelected ? primaryColor : Colors.black54,
-              fontWeight: FontWeight.bold,
+    return Container(
+      height: 45,
+      decoration: BoxDecoration(
+        color: Colors.grey.shade300,
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: Stack(
+        children: [
+          // Sliding Green Selector
+          AnimatedAlign(
+            duration: const Duration(milliseconds: 250),
+            alignment: allowCustomMaster
+                ? Alignment.centerRight
+                : Alignment.centerLeft,
+            child: Container(
+              width: MediaQuery.of(context).size.width / 2 - 32, // fills half
+              decoration: BoxDecoration(
+                color: Colors.blueGrey,
+                borderRadius: BorderRadius.circular(30),
+              ),
             ),
           ),
-        ),
+          // Full clickable halves
+          Row(
+            children: [
+              // Existing
+              Expanded(
+                child: GestureDetector(
+                  onTap: onSelectExisting,
+                  behavior:
+                      HitTestBehavior.translucent, // makes entire area tappable
+                  child: Center(
+                    child: Text(
+                      'Existing',
+                      style: TextStyle(
+                        color: allowCustomMaster
+                            ? Colors.grey.shade700
+                            : Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              // Custom
+              Expanded(
+                child: GestureDetector(
+                  onTap: onSelectCustom,
+                  behavior: HitTestBehavior.translucent,
+                  child: Center(
+                    child: Text(
+                      'Custom',
+                      style: TextStyle(
+                        color: allowCustomMaster
+                            ? Colors.white
+                            : Colors.grey.shade700,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
