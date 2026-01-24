@@ -6,6 +6,7 @@ import 'package:mandalahearts/core/widgets/add_spiritual_master.dart';
 import 'package:mandalahearts/core/widgets/app_tooltip.dart';
 import 'package:mandalahearts/core/widgets/basic_profile_view.dart';
 import 'package:mandalahearts/core/widgets/post_grid_view.dart';
+import 'package:mandalahearts/core/widgets/spiritual_master_view.dart';
 import 'package:mandalahearts/enums/profile_mode.dart';
 import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_cubit.dart'
     show ProfileViewCubit;
@@ -172,10 +173,10 @@ class ProfileViewScreen extends StatelessWidget {
                             ),
                           )
                         else
-                          Container(),
-                        // SpiritualMastersView(
-                        //   spiritualMasters: spiritualMasters,
-                        // ),
+                          SpiritualMastersView(
+                            spiritualMasters: spiritualMasters,
+                            onDelete: (master) {},
+                          ),
                       ],
                     );
                   },
