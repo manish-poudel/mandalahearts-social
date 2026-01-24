@@ -50,12 +50,26 @@ class _AddSpiritualMasterState extends State<AddSpiritualMaster> {
                 child: Column(
                   children: [
                     // Header
-                    const Text(
-                      'Add Spiritual Master',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: const Text(
+                            'Add Spiritual Master',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          icon: Icon(Icons.close),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 16),
 
@@ -266,7 +280,7 @@ class _AddSpiritualMasterState extends State<AddSpiritualMaster> {
     required VoidCallback onSelectCustom,
   }) {
     return Container(
-      height: 45,
+      height: 36,
       decoration: BoxDecoration(
         color: Colors.grey.shade300,
         borderRadius: BorderRadius.circular(30),
@@ -282,7 +296,7 @@ class _AddSpiritualMasterState extends State<AddSpiritualMaster> {
             child: Container(
               width: MediaQuery.of(context).size.width / 2 - 32, // fills half
               decoration: BoxDecoration(
-                color: Colors.blueGrey,
+                color: Color(0xFF6F8F72),
                 borderRadius: BorderRadius.circular(30),
               ),
             ),
