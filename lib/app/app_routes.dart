@@ -8,6 +8,7 @@ enum AppRoute {
   username('/username', 'username'),
   addPostScreen('/add_post', 'add_post'),
   profileViewScreen('/profile_view', 'profile_view'),
+  publicProfileViewScreen('/public_profile/:userId', 'public_profile'),
   editProfileScreen('/edit_profile', 'edit_profile'),
   editUsername('/edit_username', 'edit_username'),
   editSpiritualDetails('/edit_spiritual_details', 'edit_spiritual_details'),

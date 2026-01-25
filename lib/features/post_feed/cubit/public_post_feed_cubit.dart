@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mandalahearts/features/post_feed/post_feed_state.dart';
+import 'package:mandalahearts/features/post_feed/state/post_feed_state.dart';
 import 'package:mandalahearts/repository/post_repository.dart';
 
-class PostFeedCubit extends Cubit<PostFeedState> {
-  PostFeedCubit(this._repository) : super(const PostFeedState.initial());
+class PublicPostFeedCubit extends Cubit<PostFeedState> {
+  PublicPostFeedCubit(this._repository) : super(const PostFeedState.initial());
 
   final PostRepository _repository;
 
@@ -11,11 +11,11 @@ class PostFeedCubit extends Cubit<PostFeedState> {
     emit(const PostFeedState.loading());
 
     try {
-      await _repository.loadInitial();
+      await _repository.loadInitialPublicPosts();
 
       emit(
         PostFeedState.loaded(
-          items: _repository.feed, // ✅ FIX
+          items: _repository.publicFeed,
           hasMore: _repository.hasMore,
         ),
       );
@@ -32,14 +32,14 @@ class PostFeedCubit extends Cubit<PostFeedState> {
     emit(current.copyWith(isLoadingMore: true, loadMoreError: null));
 
     try {
-      await _repository.loadMore();
+      await _repository.loadMorePublicPosts();
 
       final latest = state;
       if (latest is! PostFeedLoaded) return;
 
       emit(
         latest.copyWith(
-          items: _repository.feed, // ✅ FIX
+          items: _repository.publicFeed,
           hasMore: _repository.hasMore,
           isLoadingMore: false,
         ),
@@ -59,12 +59,12 @@ class PostFeedCubit extends Cubit<PostFeedState> {
     emit(current.copyWith(isRefreshing: true));
 
     try {
-      await _repository.refresh();
+      await _repository.refreshPublicPosts();
 
       final latest = state;
       if (latest is! PostFeedLoaded) return;
 
-      emit(latest.copyWith(items: _repository.feed, isRefreshing: false));
+      emit(latest.copyWith(items: _repository.publicFeed, isRefreshing: false));
     } catch (_) {
       final latest = state;
       if (latest is! PostFeedLoaded) return;

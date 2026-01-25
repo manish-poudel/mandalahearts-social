@@ -21,13 +21,47 @@ class FirestoreUserPostService implements PostDb {
   }
 
   @override
-  Future<List<UserPost>> fetchPosts({
+  Future<List<UserPost>> fetchPublicPosts({
     required int limit,
     DateTime? olderThan,
     DateTime? newerThan,
   }) async {
     Query query = _firestore
         .collection(_collection)
+        .orderBy('createdAt', descending: true)
+        .limit(limit);
+
+    if (olderThan != null) {
+      query = query.where(
+        'createdAt',
+        isLessThan: Timestamp.fromDate(olderThan),
+      );
+    }
+
+    if (newerThan != null) {
+      query = query.where(
+        'createdAt',
+        isGreaterThan: Timestamp.fromDate(newerThan),
+      );
+    }
+
+    final snapshot = await query.get();
+
+    return snapshot.docs
+        .map((doc) => UserPost.fromJson(doc.data() as Map<String, dynamic>))
+        .toList();
+  }
+
+  @override
+  Future<List<UserPost>> fetchCreatorPosts({
+    required String creatorId,
+    required int limit,
+    DateTime? olderThan,
+    DateTime? newerThan,
+  }) async {
+    Query query = _firestore
+        .collection(_collection)
+        .where('creatorId', isEqualTo: creatorId)
         .orderBy('createdAt', descending: true)
         .limit(limit);
 

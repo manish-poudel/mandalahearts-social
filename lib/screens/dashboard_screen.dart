@@ -6,6 +6,7 @@ import 'package:mandalahearts/core/widgets/app_logo.dart';
 import 'package:mandalahearts/models/app_user/app_user.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
 import 'package:mandalahearts/repository/auth_repository.dart';
+import 'package:mandalahearts/repository/post_repository.dart';
 import 'package:mandalahearts/screens/all_post_screen.dart';
 
 /// Dashboard Tabs
@@ -31,6 +32,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       appBar: AppBar(
         title: GestureDetector(
           onTap: () {
+            context.read<AppUserRepository>().clearCache();
+            context.read<PostRepository>().clearAllCache();
             context.read<AuthRepository>().signOut();
             context.push(AppRoute.mandalaHeartApp.path);
           },

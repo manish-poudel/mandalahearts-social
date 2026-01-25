@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mandalahearts/core/widgets/post_card.dart';
 import 'package:mandalahearts/core/widgets/post_card_shimmer.dart';
-import 'package:mandalahearts/features/post_feed/post_feed_cubit.dart';
-import 'package:mandalahearts/features/post_feed/post_feed_state.dart';
+import 'package:mandalahearts/features/post_feed/cubit/public_post_feed_cubit.dart';
+import 'package:mandalahearts/features/post_feed/state/post_feed_state.dart';
 
 class AllPostScreen extends StatefulWidget {
   const AllPostScreen({super.key});
@@ -19,12 +19,12 @@ class _AllPostScreenState extends State<AllPostScreen> {
   void initState() {
     super.initState();
 
-    context.read<PostFeedCubit>().loadInitial();
+    context.read<PublicPostFeedCubit>().loadInitial();
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent - 300) {
-        context.read<PostFeedCubit>().loadMore();
+        context.read<PublicPostFeedCubit>().loadMore();
       }
     });
   }
@@ -43,7 +43,7 @@ class _AllPostScreenState extends State<AllPostScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<PostFeedCubit, PostFeedState>(
+    return BlocListener<PublicPostFeedCubit, PostFeedState>(
       listenWhen: (prev, curr) =>
           curr is PostFeedLoaded && curr.loadMoreError != null,
       listener: (context, state) {
@@ -52,7 +52,7 @@ class _AllPostScreenState extends State<AllPostScreen> {
           context,
         ).showSnackBar(SnackBar(content: Text(loaded.loadMoreError!)));
       },
-      child: BlocBuilder<PostFeedCubit, PostFeedState>(
+      child: BlocBuilder<PublicPostFeedCubit, PostFeedState>(
         builder: (context, state) {
           return state.when(
             initial: () => const SizedBox.shrink(),
@@ -73,7 +73,8 @@ class _AllPostScreenState extends State<AllPostScreen> {
             loaded:
                 (items, hasMore, isLoadingMore, isRefreshing, loadMoreError) {
                   return RefreshIndicator(
-                    onRefresh: () => context.read<PostFeedCubit>().refresh(),
+                    onRefresh: () =>
+                        context.read<PublicPostFeedCubit>().refresh(),
                     child: ListView.builder(
                       controller: _scrollController,
                       physics: const AlwaysScrollableScrollPhysics(),
@@ -97,6 +98,7 @@ class _AllPostScreenState extends State<AllPostScreen> {
                         final post = item.post;
 
                         return PostCard(
+                          userId: item.creatorId,
                           username: item.creatorName,
                           profileImageUrl: item.creatorProfileImageUrl,
                           imageUrl: post.imageUrl,

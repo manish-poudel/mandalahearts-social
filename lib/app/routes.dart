@@ -9,7 +9,7 @@ import 'package:mandalahearts/enums/profile_mode.dart';
 import 'package:mandalahearts/features/auth/bloc/auth_bloc.dart';
 import 'package:mandalahearts/features/auth/bloc/auth_event.dart';
 import 'package:mandalahearts/features/photo_picker/cubit/photo_picker_cubit.dart';
-import 'package:mandalahearts/features/post_feed/post_feed_cubit.dart';
+import 'package:mandalahearts/features/post_feed/cubit/public_post_feed_cubit.dart';
 import 'package:mandalahearts/features/profile/add_profile/cubits/add_profile_cubit.dart';
 import 'package:mandalahearts/features/profile/edit_profile/cubits/edit_profile_cubit.dart';
 import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_cubit.dart';
@@ -118,7 +118,8 @@ final GoRouter routes = GoRouter(
       name: AppRoute.dashboard.name,
       path: AppRoute.dashboard.path,
       builder: (context, state) => BlocProvider(
-        create: (context) => PostFeedCubit(context.read<PostRepository>()),
+        create: (context) =>
+            PublicPostFeedCubit(context.read<PostRepository>()),
         child: DashboardScreen(),
       ),
     ),
@@ -149,6 +150,21 @@ final GoRouter routes = GoRouter(
           create: (context) =>
               ProfileViewCubit(context.read<AppUserRepository>())
                 ..init(userId: userId, mode: ProfileMode.currentUser),
+          child: const ProfileViewScreen(),
+        );
+      },
+    ),
+
+    GoRoute(
+      name: AppRoute.publicProfileViewScreen.name,
+      path: AppRoute.publicProfileViewScreen.path,
+      builder: (context, state) {
+        final userId = state.pathParameters['userId']!;
+
+        return BlocProvider(
+          create: (context) =>
+              ProfileViewCubit(context.read<AppUserRepository>())
+                ..init(userId: userId, mode: ProfileMode.publicUser),
           child: const ProfileViewScreen(),
         );
       },

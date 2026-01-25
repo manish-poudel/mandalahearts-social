@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mandalahearts/app/app_routes.dart';
 import 'package:mandalahearts/core/utils/time_formatter.dart';
+import 'package:mandalahearts/repository/app_user_repository.dart';
 
 class PostCard extends StatelessWidget {
+  final String userId;
   final String username;
   final String imageUrl;
   final String caption;
@@ -10,6 +15,7 @@ class PostCard extends StatelessWidget {
 
   const PostCard({
     super.key,
+    required this.userId,
     required this.username,
     required this.imageUrl,
     required this.caption,
@@ -43,15 +49,29 @@ class PostCard extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    radius: 16,
-                    backgroundColor: Colors.grey.shade300,
-                    backgroundImage: profileImageUrl != null
-                        ? NetworkImage(profileImageUrl!)
-                        : null,
-                    child: profileImageUrl == null
-                        ? const Icon(Icons.person, size: 16, color: Colors.grey)
-                        : null,
+                  GestureDetector(
+                    onTap: () {
+                      if (context.read<AppUserRepository>().currentUser?.uid ==
+                          userId) {
+                        context.push(AppRoute.profileViewScreen.path);
+                      } else {
+                        context.push('/public_profile/$userId');
+                      }
+                    },
+                    child: CircleAvatar(
+                      radius: 16,
+                      backgroundColor: Colors.grey.shade300,
+                      backgroundImage: profileImageUrl != null
+                          ? NetworkImage(profileImageUrl!)
+                          : null,
+                      child: profileImageUrl == null
+                          ? const Icon(
+                              Icons.person,
+                              size: 16,
+                              color: Colors.grey,
+                            )
+                          : null,
+                    ),
                   ),
                   const SizedBox(width: 10),
                   Column(

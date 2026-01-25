@@ -5,14 +5,16 @@ import 'package:mandalahearts/app/app_routes.dart';
 import 'package:mandalahearts/core/widgets/add_spiritual_master.dart';
 import 'package:mandalahearts/core/widgets/app_tooltip.dart';
 import 'package:mandalahearts/core/widgets/basic_profile_view.dart';
-import 'package:mandalahearts/core/widgets/post_grid_view.dart';
 import 'package:mandalahearts/core/widgets/spiritual_master_view.dart';
 import 'package:mandalahearts/enums/profile_mode.dart';
+import 'package:mandalahearts/features/post_feed/cubit/private_post_feed_cubit.dart';
+import 'package:mandalahearts/features/post_feed/state/post_feed_state.dart';
 import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_cubit.dart'
     show ProfileViewCubit;
 import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_state.dart';
 import 'package:mandalahearts/features/spiritual_masters/add/cubit/add_spiritual_master_cubit.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
+import 'package:mandalahearts/repository/post_repository.dart';
 import 'package:mandalahearts/repository/spiritual_master_repository.dart';
 
 class ProfileViewScreen extends StatelessWidget {
@@ -49,12 +51,6 @@ class ProfileViewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    /// TEMP: static posts
-    final posts = List.generate(
-      9,
-      (index) => 'https://picsum.photos/300?random=$index',
-    );
-
     return Scaffold(
       appBar: AppBar(title: const Text('Profile'), centerTitle: true),
       body: SingleChildScrollView(
@@ -64,9 +60,11 @@ class ProfileViewScreen extends StatelessWidget {
             BlocBuilder<ProfileViewCubit, ProfileViewState>(
               builder: (context, state) {
                 return state.when(
-                  loading: () => const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 32),
-                    child: CircularProgressIndicator(),
+                  loading: () => Center(
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 32),
+                      child: CircularProgressIndicator(),
+                    ),
                   ),
 
                   error: (message) => Padding(
@@ -75,7 +73,6 @@ class ProfileViewScreen extends StatelessWidget {
                   ),
                   loaded: (user, mode) {
                     final spiritualMasters = user.spiritualMasters;
-
                     final bool hasMasters =
                         spiritualMasters != null && spiritualMasters.isNotEmpty;
 
@@ -126,18 +123,19 @@ class ProfileViewScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: InfoTooltip(
-                                  durationSeconds: 3,
-                                  message:
-                                      'Adding spiritual masters can help personalize your feed and let others understand your journey better.',
-                                  child: const Icon(
-                                    Icons.info_outline,
-                                    size: 20,
+                              if (mode == ProfileMode.currentUser)
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: InfoTooltip(
+                                    durationSeconds: 3,
+                                    message:
+                                        'Adding spiritual masters can help personalize your feed and let others understand your journey better.',
+                                    child: const Icon(
+                                      Icons.info_outline,
+                                      size: 20,
+                                    ),
                                   ),
                                 ),
-                              ),
 
                               /// Edit is ALWAYS visible for current user
                               if (mode == ProfileMode.currentUser)
@@ -149,7 +147,6 @@ class ProfileViewScreen extends StatelessWidget {
                                   tooltip: 'Add spiritual masters',
                                   onPressed: () {
                                     _openSpiritualMasterBottomSheet(context);
-                                    // navigate to add/edit spiritual masters
                                   },
                                 ),
                             ],
@@ -173,26 +170,159 @@ class ProfileViewScreen extends StatelessWidget {
                             ),
                           )
                         else
-                          SpiritualMastersView(
-                            spiritualMasters: spiritualMasters,
-                            onDelete: (master) {
-                              context
-                                  .read<ProfileViewCubit>()
-                                  .deleteSpiritualMaster(master);
-                            },
+                          Padding(
+                            padding: EdgeInsets.only(
+                              top: mode == ProfileMode.currentUser ? 0.0 : 8.0,
+                            ),
+                            child: SpiritualMastersView(
+                              spiritualMasters: spiritualMasters,
+                              onDelete: (master) {
+                                context
+                                    .read<ProfileViewCubit>()
+                                    .deleteSpiritualMaster(master);
+                              },
+                            ),
                           ),
+
+                        const SizedBox(height: 32),
+
+                        Padding(
+                          padding: EdgeInsetsGeometry.symmetric(horizontal: 21),
+                          child: BlocProvider(
+                            create: (_) => CreatorPostFeedCubit(
+                              creatorId: user.uid,
+                              repository: context.read<PostRepository>(),
+                              profileMode: mode,
+                            )..loadInitial(),
+                            child: BlocBuilder<CreatorPostFeedCubit, PostFeedState>(
+                              builder: (context, state) {
+                                final cubit = context
+                                    .read<CreatorPostFeedCubit>();
+
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Posts',
+                                      style: theme.textTheme.titleMedium
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                    ),
+                                    const SizedBox(height: 12),
+
+                                    // Loading indicator
+                                    if (state is PostFeedLoading)
+                                      const Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 16,
+                                        ),
+                                        child: Center(
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                      ),
+
+                                    // GridView when loaded
+                                    if (state is PostFeedLoaded)
+                                      Column(
+                                        children: [
+                                          GridView.builder(
+                                            shrinkWrap: true,
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            itemCount: state.items.length,
+                                            gridDelegate:
+                                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisCount: 3,
+                                                  mainAxisSpacing: 6,
+                                                  crossAxisSpacing: 6,
+                                                ),
+                                            itemBuilder: (_, index) {
+                                              final post =
+                                                  state.items[index].post;
+                                              return ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                child: Image.network(
+                                                  post.imageUrl,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              );
+                                            },
+                                          ),
+
+                                          const SizedBox(height: 12),
+
+                                          // Load more button
+                                          if (state.hasMore)
+                                            Center(
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  cubit.loadMore();
+                                                },
+                                                child: Container(
+                                                  width: 32,
+                                                  height: 32,
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    border: Border.all(
+                                                      color:
+                                                          Colors.grey.shade400,
+                                                    ),
+                                                  ),
+                                                  child: state.isLoadingMore
+                                                      ? const Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                6.0,
+                                                              ),
+                                                          child:
+                                                              CircularProgressIndicator(
+                                                                strokeWidth: 2,
+                                                              ),
+                                                        )
+                                                      : const Icon(
+                                                          Icons.add,
+                                                          size: 20,
+                                                          color: Colors.grey,
+                                                        ),
+                                                ),
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+
+                                    // Error handling
+                                    if (state is PostFeedInitialError)
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 16,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            state.message,
+                                            style: theme.textTheme.bodyMedium
+                                                ?.copyWith(
+                                                  color:
+                                                      theme.colorScheme.error,
+                                                ),
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 24),
                       ],
                     );
                   },
                 );
               },
             ),
-
-            const SizedBox(height: 32),
-
-            PostGridView(posts: posts),
-
-            const SizedBox(height: 24),
           ],
         ),
       ),

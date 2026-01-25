@@ -25,18 +25,41 @@ class PostRepository {
   static const int _signedUrlExpiry = 157680000 * 20;
   static const int _pageSize = 2;
 
-  /// Feed cache
-  final List<PostFeedItem> _cachedFeed = [];
+  /* -------------------------------------------------------------------------- */
+  /*                                  PUBLIC FEED                                */
+  /* -------------------------------------------------------------------------- */
 
-  /// Creator cache (uid -> minimal creator snapshot)
+  final List<PostFeedItem> _cachedPublicFeed = [];
   final Map<String, PostCreatorCache> _creatorCache = {};
 
   DateTime? _oldestPostTime;
   DateTime? _newestPostTime;
   bool _hasMore = true;
 
-  List<PostFeedItem> get feed => List.unmodifiable(_cachedFeed);
+  List<PostFeedItem> get publicFeed => List.unmodifiable(_cachedPublicFeed);
   bool get hasMore => _hasMore;
+
+  /* -------------------------------------------------------------------------- */
+  /*                                 PRIVATE FEED                                */
+  /* -------------------------------------------------------------------------- */
+
+  final List<PostFeedItem> _cachedPrivateFeed = [];
+
+  DateTime? _oldestPrivatePostTime;
+  DateTime? _newestPrivatePostTime;
+  bool _hasMorePrivate = true;
+
+  List<PostFeedItem> get privateFeed => List.unmodifiable(_cachedPrivateFeed);
+
+  bool get hasMorePrivate => _hasMorePrivate;
+
+  void clearAllCache() {
+    _cachedPublicFeed.clear();
+    _cachedPrivateFeed.clear();
+  }
+  /* -------------------------------------------------------------------------- */
+  /*                                   CREATE POST                               */
+  /* -------------------------------------------------------------------------- */
 
   Future<void> createPost({
     required String creatorId,
@@ -87,14 +110,14 @@ class PostRepository {
     );
   }
 
-  Future<void> loadInitial() async {
-    _cachedFeed.clear();
+  Future<void> loadInitialPublicPosts() async {
+    _cachedPublicFeed.clear();
     _creatorCache.clear();
     _oldestPostTime = null;
     _newestPostTime = null;
     _hasMore = true;
 
-    final posts = await _postDb.fetchPosts(limit: _pageSize);
+    final posts = await _postDb.fetchPublicPosts(limit: _pageSize);
 
     if (posts.isEmpty) {
       _hasMore = false;
@@ -103,15 +126,15 @@ class PostRepository {
 
     final feedItems = await _buildFeedItems(posts);
 
-    _cachedFeed.addAll(feedItems);
+    _cachedPublicFeed.addAll(feedItems);
     _newestPostTime = posts.first.createdAt;
     _oldestPostTime = posts.last.createdAt;
   }
 
-  Future<void> loadMore() async {
+  Future<void> loadMorePublicPosts() async {
     if (!_hasMore || _oldestPostTime == null) return;
 
-    final posts = await _postDb.fetchPosts(
+    final posts = await _postDb.fetchPublicPosts(
       limit: _pageSize,
       olderThan: _oldestPostTime,
     );
@@ -122,19 +145,19 @@ class PostRepository {
     }
 
     final feedItems = await _buildFeedItems(posts);
-    final uniqueItems = _dedupe(feedItems);
+    final uniqueItems = _dedupe(_cachedPublicFeed, feedItems);
 
-    _cachedFeed.addAll(uniqueItems);
-    _oldestPostTime = _cachedFeed.last.post.createdAt;
+    _cachedPublicFeed.addAll(uniqueItems);
+    _oldestPostTime = _cachedPublicFeed.last.post.createdAt;
   }
 
-  Future<void> refresh() async {
+  Future<void> refreshPublicPosts() async {
     if (_newestPostTime == null) {
-      await loadInitial();
+      await loadInitialPublicPosts();
       return;
     }
 
-    final posts = await _postDb.fetchPosts(
+    final posts = await _postDb.fetchPublicPosts(
       limit: _pageSize,
       newerThan: _newestPostTime,
     );
@@ -142,11 +165,134 @@ class PostRepository {
     if (posts.isEmpty) return;
 
     final feedItems = await _buildFeedItems(posts);
-    final uniqueItems = _dedupe(feedItems);
+    final uniqueItems = _dedupe(_cachedPublicFeed, feedItems);
 
-    _cachedFeed.insertAll(0, uniqueItems);
-    _newestPostTime = _cachedFeed.first.post.createdAt;
+    _cachedPublicFeed.insertAll(0, uniqueItems);
+    _newestPostTime = _cachedPublicFeed.first.post.createdAt;
   }
+
+  /* -------------------------------------------------------------------------- */
+  /*                             PRIVATE FEED METHODS (LIMIT PARAM)             */
+  /* -------------------------------------------------------------------------- */
+
+  Future<void> loadInitialPrivatePosts(
+    String creatorId, {
+    int limit = _pageSize,
+  }) async {
+    // If cache already has posts, just return it without API call
+    if (_cachedPrivateFeed.isNotEmpty) {
+      _hasMorePrivate = true; // or keep previous value
+      _oldestPrivatePostTime = _cachedPrivateFeed.last.post.createdAt;
+      _newestPrivatePostTime = _cachedPrivateFeed.first.post.createdAt;
+
+      return; // ✅ return early, no API call
+    }
+
+    // Clear cache and reset state if empty
+    _cachedPrivateFeed.clear();
+    _oldestPrivatePostTime = null;
+    _newestPrivatePostTime = null;
+    _hasMorePrivate = true;
+
+    // Fetch from API
+    final posts = await _postDb.fetchCreatorPosts(
+      creatorId: creatorId,
+      limit: limit,
+    );
+
+    if (posts.isEmpty) {
+      _hasMorePrivate = false;
+      return;
+    }
+
+    final feedItems = await _buildFeedItems(posts);
+    _cachedPrivateFeed.addAll(feedItems);
+
+    _newestPrivatePostTime = posts.first.createdAt;
+    _oldestPrivatePostTime = posts.last.createdAt;
+  }
+
+  Future<void> loadMorePrivatePosts(
+    String creatorId, {
+    int limit = _pageSize,
+  }) async {
+    if (!_hasMorePrivate || _oldestPrivatePostTime == null) return;
+
+    final posts = await _postDb.fetchCreatorPosts(
+      creatorId: creatorId,
+      limit: limit,
+      olderThan: _oldestPrivatePostTime,
+    );
+
+    if (posts.isEmpty) {
+      _hasMorePrivate = false;
+      return;
+    }
+
+    final feedItems = await _buildFeedItems(posts);
+    final uniqueItems = _dedupe(_cachedPrivateFeed, feedItems);
+
+    _cachedPrivateFeed.addAll(uniqueItems);
+    _oldestPrivatePostTime = _cachedPrivateFeed.last.post.createdAt;
+  }
+
+  Future<void> refreshPrivatePosts(
+    String creatorId, {
+    int limit = _pageSize,
+  }) async {
+    if (_newestPrivatePostTime == null) {
+      await loadInitialPrivatePosts(creatorId, limit: limit);
+      return;
+    }
+
+    final posts = await _postDb.fetchCreatorPosts(
+      creatorId: creatorId,
+      limit: limit,
+      newerThan: _newestPrivatePostTime,
+    );
+
+    if (posts.isEmpty) return;
+
+    final feedItems = await _buildFeedItems(posts);
+    final uniqueItems = _dedupe(_cachedPrivateFeed, feedItems);
+
+    _cachedPrivateFeed.insertAll(0, uniqueItems);
+    _newestPrivatePostTime = _cachedPrivateFeed.first.post.createdAt;
+  }
+
+  /* -------------------------------------------------------------------------- */
+  /*                        PUBLIC CREATOR FEED (NO CACHE)                       */
+  /* -------------------------------------------------------------------------- */
+
+  Future<List<PostFeedItem>> fetchInitialCreatorPosts({
+    required String creatorId,
+    int limit = _pageSize,
+  }) async {
+    final posts = await _postDb.fetchCreatorPosts(
+      creatorId: creatorId,
+      limit: limit,
+    );
+
+    return _buildFeedItems(posts);
+  }
+
+  Future<List<PostFeedItem>> fetchMoreCreatorPosts({
+    required String creatorId,
+    required DateTime olderThan,
+    int limit = _pageSize,
+  }) async {
+    final posts = await _postDb.fetchCreatorPosts(
+      creatorId: creatorId,
+      limit: limit,
+      olderThan: olderThan,
+    );
+
+    return _buildFeedItems(posts);
+  }
+
+  /* -------------------------------------------------------------------------- */
+  /*                                HELPERS (EXISTING STYLE)                     */
+  /* -------------------------------------------------------------------------- */
 
   Future<List<PostFeedItem>> _buildFeedItems(List<UserPost> posts) async {
     final creatorIds = posts.map((p) => p.creatorId).toSet();
@@ -180,8 +326,12 @@ class PostRepository {
     }).toList();
   }
 
-  List<PostFeedItem> _dedupe(List<PostFeedItem> incoming) {
-    final existingIds = _cachedFeed.map((e) => e.post.id).toSet();
+  List<PostFeedItem> _dedupe(
+    List<PostFeedItem> existing,
+    List<PostFeedItem> incoming,
+  ) {
+    final existingIds = existing.map((e) => e.post.id).toSet();
+
     return incoming
         .where((item) => !existingIds.contains(item.post.id))
         .toList();

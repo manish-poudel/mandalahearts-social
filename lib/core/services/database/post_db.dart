@@ -3,7 +3,13 @@ import 'package:mandalahearts/models/user_post/user_post.dart';
 abstract class PostDb {
   String generateId();
   Future<void> savePost({required UserPost post});
-  Future<List<UserPost>> fetchPosts({
+  Future<List<UserPost>> fetchPublicPosts({
+    required int limit,
+    DateTime? olderThan,
+    DateTime? newerThan,
+  });
+  Future<List<UserPost>> fetchCreatorPosts({
+    required String creatorId,
     required int limit,
     DateTime? olderThan,
     DateTime? newerThan,

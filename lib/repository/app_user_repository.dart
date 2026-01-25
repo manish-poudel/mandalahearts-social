@@ -60,6 +60,14 @@ class AppUserRepository {
     return user;
   }
 
+  Future<AppUser?> getPublicUser(String userId) async {
+    final data = await _userDB.getUser(userId);
+    if (data != null) {
+      final user = AppUser.fromJson(data);
+      return user;
+    }
+    return null;
+  }
   /* -------------------- STREAM (OPTIONAL) -------------------- */
 
   Stream<AppUser?> streamUser(String userId) {

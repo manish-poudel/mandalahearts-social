@@ -42,7 +42,7 @@ class ProfileViewCubit extends Cubit<ProfileViewState> {
 
   Future<void> _loadPublicUser(String userId, ProfileMode mode) async {
     try {
-      final user = await _repo.getUser(userId, forceRefresh: true);
+      final user = await _repo.getPublicUser(userId);
 
       if (user == null) {
         emit(const ProfileViewState.error('User not found'));
