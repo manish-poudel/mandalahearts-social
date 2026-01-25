@@ -40,6 +40,26 @@ class CreatorPostFeedCubit extends Cubit<PostFeedState> {
     }
   }
 
+  /// Remove a post from the feed by postId and emit updated state
+  void removePost(String postId) {
+    final current = state;
+    if (current is! PostFeedLoaded) return;
+
+    final updatedItems = current.items
+        .where((p) => p.post.id != postId)
+        .toList();
+
+    emit(
+      current.copyWith(
+        items: updatedItems,
+        hasMore: current.hasMore,
+        isLoadingMore: current.isLoadingMore,
+        loadMoreError: current.loadMoreError,
+        isRefreshing: current.isRefreshing,
+      ),
+    );
+  }
+
   /// Load next page
   Future<void> loadMore() async {
     final current = state;
@@ -51,6 +71,10 @@ class CreatorPostFeedCubit extends Cubit<PostFeedState> {
     emit(current.copyWith(isLoadingMore: true, loadMoreError: null));
 
     try {
+      if (current.items.isEmpty) {
+        loadInitial();
+        return;
+      }
       final olderThan = current.items.last.post.createdAt;
       final posts = await repository.fetchMoreCreatorPosts(
         creatorId: creatorId,

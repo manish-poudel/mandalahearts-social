@@ -45,20 +45,20 @@ class PostCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      if (context.read<AppUserRepository>().currentUser?.uid ==
-                          userId) {
-                        context.push(AppRoute.profileViewScreen.path);
-                      } else {
-                        context.push('/public_profile/$userId');
-                      }
-                    },
-                    child: CircleAvatar(
+            GestureDetector(
+              onTap: () {
+                if (context.read<AppUserRepository>().currentUser?.uid ==
+                    userId) {
+                  context.push(AppRoute.profileViewScreen.path);
+                } else {
+                  context.push('/public_profile/$userId');
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
+                child: Row(
+                  children: [
+                    CircleAvatar(
                       radius: 16,
                       backgroundColor: Colors.grey.shade300,
                       backgroundImage: profileImageUrl != null
@@ -72,25 +72,25 @@ class PostCard extends StatelessWidget {
                             )
                           : null,
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        username,
-                        style: const TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                      Text(
-                        TimeFormatter.timeAgo(createdAt) ?? '',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: colorScheme.onSurface.withAlpha(120),
+                    const SizedBox(width: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          username,
+                          style: const TextStyle(fontWeight: FontWeight.w600),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        Text(
+                          TimeFormatter.timeAgo(createdAt) ?? '',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: colorScheme.onSurface.withAlpha(120),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
 

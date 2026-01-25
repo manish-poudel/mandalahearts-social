@@ -58,10 +58,7 @@ class _SpiritualMastersViewState extends State<SpiritualMastersView> {
                   },
             onTap: isEditing ? _clearEditMode : null,
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: index > 0 ? 10 : 4,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               child: Row(
                 children: [
                   // 1. Rectangular Card Image

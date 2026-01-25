@@ -14,11 +14,14 @@ import 'package:mandalahearts/features/profile/add_profile/cubits/add_profile_cu
 import 'package:mandalahearts/features/profile/edit_profile/cubits/edit_profile_cubit.dart';
 import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_cubit.dart';
 import 'package:mandalahearts/features/username/cubits/username_cubits.dart';
+import 'package:mandalahearts/features/view_post/cubit/post_view_cubit.dart';
+import 'package:mandalahearts/models/post_feed_item/post_feed_item.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
 import 'package:mandalahearts/repository/post_repository.dart';
 import 'package:mandalahearts/screens/add_post_screen.dart';
 import 'package:mandalahearts/screens/edit_profile_screen.dart';
 import 'package:mandalahearts/screens/photo_picker_screen.dart';
+import 'package:mandalahearts/screens/post_view_screen.dart';
 import 'package:mandalahearts/screens/profile_view_screen.dart';
 
 import 'package:mandalahearts/screens/sign_in_screen.dart';
@@ -191,10 +194,22 @@ final GoRouter routes = GoRouter(
     ),
 
     GoRoute(
-      name: AppRoute.editSpiritualMater.name,
-      path: AppRoute.editSpiritualMater.path,
+      name: AppRoute.postViewScreen.name,
+      path: AppRoute.postViewScreen.path,
       pageBuilder: (context, state) {
-        return MaterialPage(child: SpiritualMasterScreen.edit(master: null));
+        final post = state.extra as PostFeedItem;
+        final currentUserId = context.read<AuthRepository>().currentUser?.uid;
+
+        return MaterialPage(
+          child: BlocProvider(
+            create: (_) => PostViewCubit(
+              post: post,
+              currentUserId: currentUserId!,
+              repository: context.read<PostRepository>(),
+            ),
+            child: const PostViewScreen(),
+          ),
+        );
       },
     ),
   ],

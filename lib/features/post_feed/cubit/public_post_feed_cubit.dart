@@ -24,6 +24,21 @@ class PublicPostFeedCubit extends Cubit<PostFeedState> {
     }
   }
 
+  void emitLatest() {
+    final current = state;
+    if (current is! PostFeedLoaded) return;
+    if (_repository.publicFeed.length < 2) {
+      loadInitial();
+      return;
+    }
+    emit(
+      current.copyWith(
+        items: _repository.publicFeed,
+        hasMore: _repository.hasMore,
+      ),
+    );
+  }
+
   Future<void> loadMore() async {
     final current = state;
     if (current is! PostFeedLoaded) return;

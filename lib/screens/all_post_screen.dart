@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mandalahearts/app/app_routes.dart';
 import 'package:mandalahearts/core/widgets/post_card.dart';
 import 'package:mandalahearts/core/widgets/post_card_shimmer.dart';
 import 'package:mandalahearts/features/post_feed/cubit/public_post_feed_cubit.dart';
@@ -18,7 +20,6 @@ class _AllPostScreenState extends State<AllPostScreen> {
   @override
   void initState() {
     super.initState();
-
     context.read<PublicPostFeedCubit>().loadInitial();
 
     _scrollController.addListener(() {
@@ -39,6 +40,10 @@ class _AllPostScreenState extends State<AllPostScreen> {
     final height = MediaQuery.of(context).size.height;
     const approxPostCardHeight = 420.0;
     return (height / approxPostCardHeight).ceil();
+  }
+
+  void refresh() {
+    context.read<PublicPostFeedCubit>().emitLatest();
   }
 
   @override
@@ -97,13 +102,24 @@ class _AllPostScreenState extends State<AllPostScreen> {
                         final item = items[index];
                         final post = item.post;
 
-                        return PostCard(
-                          userId: item.creatorId,
-                          username: item.creatorName,
-                          profileImageUrl: item.creatorProfileImageUrl,
-                          imageUrl: post.imageUrl,
-                          caption: post.caption,
-                          createdAt: post.createdAt,
+                        return GestureDetector(
+                          onTap: () async {
+                            final deleted = await context.push(
+                              AppRoute.postViewScreen.path,
+                              extra: item,
+                            );
+                            if (deleted == true) {
+                              refresh();
+                            }
+                          },
+                          child: PostCard(
+                            userId: item.creatorId,
+                            username: item.creatorName,
+                            profileImageUrl: item.creatorProfileImageUrl,
+                            imageUrl: post.imageUrl,
+                            caption: post.caption,
+                            createdAt: post.createdAt,
+                          ),
                         );
                       },
                     ),

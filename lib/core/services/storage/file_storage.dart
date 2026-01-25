@@ -13,4 +13,9 @@ abstract class FileStorage {
     required String filePath,
     required int expiresInSeconds,
   });
+
+  /// Deletes a file from the storage bucket
+  ///
+  /// Returns `true` if deleted successfully, `false` otherwise.
+  Future<void> deleteFile({required String bucket, required String filePath});
 }

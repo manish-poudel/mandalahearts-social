@@ -85,4 +85,14 @@ class FirestoreUserPostService implements PostDb {
         .map((doc) => UserPost.fromJson(doc.data() as Map<String, dynamic>))
         .toList();
   }
+
+  @override
+  Future<void> deletePost(String postId) async {
+    try {
+      await _firestore.collection(_collection).doc(postId).delete();
+    } catch (e) {
+      // Optional: you can log or rethrow a custom exception
+      throw Exception('Failed to delete post: $e');
+    }
+  }
 }

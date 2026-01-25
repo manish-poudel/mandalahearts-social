@@ -34,19 +34,15 @@ class SupabaseFileStorage implements FileStorage {
         .createSignedUrl(filePath, expiresInSeconds);
     return response;
   }
+
+  /// Deletes a file from Supabase storage
+  ///
+  /// Returns `true` if deleted successfully, `false` otherwise.
+  @override
+  Future<void> deleteFile({
+    required String bucket,
+    required String filePath,
+  }) async {
+    await _client.storage.from(bucket).remove([filePath]);
+  }
 }
-
-
-// Example
-// await fileStorage.uploadImage(
-//   bucket: 'profile-images',
-//   filePath: '$userId.jpg',
-//   bytes: imageBytes,
-//   contentType: 'image/jpeg',
-// );
-
-// final url = await fileStorage.createSignedUrl(
-//   bucket: 'profile-images',
-//   filePath: '$userId.jpg',
-//   expiresInSeconds: 157680000, // 5 years
-// );

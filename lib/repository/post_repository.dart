@@ -56,9 +56,15 @@ class PostRepository {
   void clearAllCache() {
     _cachedPublicFeed.clear();
     _cachedPrivateFeed.clear();
+    _oldestPostTime = null;
+    _newestPostTime = null;
+    _hasMore = true;
+    _oldestPrivatePostTime = null;
+    _newestPrivatePostTime = null;
+    _hasMorePrivate = true;
   }
   /* -------------------------------------------------------------------------- */
-  /*                                   CREATE POST                               */
+  /*                                   CRUD POST                               */
   /* -------------------------------------------------------------------------- */
 
   Future<void> createPost({
@@ -108,6 +114,20 @@ class PostRepository {
       filePath: filePath,
       expiresInSeconds: _signedUrlExpiry,
     );
+  }
+
+  Future<void> deletePost(PostFeedItem item) async {
+    final postId = item.post.id;
+
+    try {
+      await _postDb.deletePost(postId);
+      final filePath = '$postId.png';
+      await _storage.deleteFile(bucket: _postImageBucket, filePath: filePath);
+      _cachedPublicFeed.removeWhere((e) => e.post.id == postId);
+      _cachedPrivateFeed.removeWhere((e) => e.post.id == postId);
+    } catch (e) {
+      throw Exception('Failed to delete post: $e');
+    }
   }
 
   Future<void> loadInitialPublicPosts() async {

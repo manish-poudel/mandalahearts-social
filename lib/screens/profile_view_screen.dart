@@ -153,8 +153,6 @@ class ProfileViewScreen extends StatelessWidget {
                           ),
                         ),
 
-                        const SizedBox(height: 0),
-
                         if (!hasMasters)
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -176,11 +174,13 @@ class ProfileViewScreen extends StatelessWidget {
                             ),
                             child: SpiritualMastersView(
                               spiritualMasters: spiritualMasters,
-                              onDelete: (master) {
-                                context
-                                    .read<ProfileViewCubit>()
-                                    .deleteSpiritualMaster(master);
-                              },
+                              onDelete: mode == ProfileMode.currentUser
+                                  ? (master) {
+                                      context
+                                          .read<ProfileViewCubit>()
+                                          .deleteSpiritualMaster(master);
+                                    }
+                                  : null,
                             ),
                           ),
 
@@ -209,7 +209,7 @@ class ProfileViewScreen extends StatelessWidget {
                                             fontWeight: FontWeight.w600,
                                           ),
                                     ),
-                                    const SizedBox(height: 12),
+                                    const SizedBox(height: 16),
 
                                     // Loading indicator
                                     if (state is PostFeedLoading)
@@ -240,12 +240,32 @@ class ProfileViewScreen extends StatelessWidget {
                                             itemBuilder: (_, index) {
                                               final post =
                                                   state.items[index].post;
-                                              return ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                child: Image.network(
-                                                  post.imageUrl,
-                                                  fit: BoxFit.cover,
+                                              return GestureDetector(
+                                                onTap: () async {
+                                                  final deleted = await context
+                                                      .push(
+                                                        AppRoute
+                                                            .postViewScreen
+                                                            .path,
+                                                        extra:
+                                                            state.items[index],
+                                                      );
+                                                  if (deleted == true) {
+                                                    cubit.removePost(
+                                                      state
+                                                          .items[index]
+                                                          .post
+                                                          .id,
+                                                    );
+                                                  }
+                                                },
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  child: Image.network(
+                                                    post.imageUrl,
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
                                               );
                                             },

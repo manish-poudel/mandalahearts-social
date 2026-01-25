@@ -14,4 +14,6 @@ abstract class PostDb {
     DateTime? olderThan,
     DateTime? newerThan,
   });
+
+  Future<void> deletePost(String postId);
 }
