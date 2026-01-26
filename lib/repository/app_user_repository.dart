@@ -113,6 +113,19 @@ class AppUserRepository {
     );
   }
 
+  Future<void> removeProfileImage() async {
+    final user = currentUser!;
+    final basicDetails = user.basicDetails;
+    if (basicDetails == null || basicDetails.profilePictureUrl == null) return;
+    final filePath = '${user.uid}.png';
+    updateUser(
+      user.copyWith(
+        basicDetails: basicDetails.copyWith(profilePictureUrl: null),
+      ),
+    );
+    _storage.deleteFile(bucket: _postImageBucket, filePath: filePath);
+  }
+
   /* -------------------- CLEAR -------------------- */
 
   void clearCache() {

@@ -17,7 +17,15 @@ class ProfileAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final avatar = Container(
+
+    Widget fallback = Container(
+      width: radius * 2,
+      height: radius * 2,
+      color: Colors.grey.shade300,
+      child: const Icon(Icons.person, size: 40, color: Colors.white),
+    );
+
+    Widget avatar = Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
@@ -26,20 +34,25 @@ class ProfileAvatar extends StatelessWidget {
           width: 2,
         ),
       ),
-      child: CircleAvatar(
-        radius: 46,
-        backgroundColor: _hasImage
-            ? theme.colorScheme.surface
-            : Colors.grey.shade300,
-        backgroundImage: _hasImage ? NetworkImage(imageUrl) : null,
-        child: !_hasImage
-            ? Icon(Icons.person, size: 40, color: Colors.white)
-            : null,
+      child: ClipOval(
+        child: _hasImage
+            ? Image.network(
+                imageUrl,
+                width: radius * 2,
+                height: radius * 2,
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) => fallback,
+              )
+            : fallback,
       ),
     );
 
     if (onTap == null) return avatar;
 
-    return GestureDetector(onTap: onTap, child: avatar);
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: avatar,
+    );
   }
 }

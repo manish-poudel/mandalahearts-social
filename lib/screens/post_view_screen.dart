@@ -35,24 +35,37 @@ class PostViewScreen extends StatelessWidget {
                 loaded: (postFeedItem, canDelete, deleteState) {
                   if (!canDelete) return const SizedBox.shrink();
 
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: deleteState.maybeWhen(
-                      loading: () => Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: const SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        ),
+                  return deleteState.maybeWhen(
+                    loading: () => Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
                       ),
-                      orElse: () => IconButton(
-                        icon: const Icon(
-                          Icons.delete_outline,
-                          color: Colors.red,
+                    ),
+                    orElse: () => PopupMenuButton<_PostMenuAction>(
+                      icon: const Icon(Icons.more_vert),
+                      onSelected: (action) {
+                        if (action == _PostMenuAction.delete) {
+                          _confirmDelete(context);
+                        }
+                      },
+                      itemBuilder: (context) => const [
+                        PopupMenuItem(
+                          value: _PostMenuAction.delete,
+                          child: Row(
+                            children: [
+                              Icon(Icons.delete_outline, color: Colors.red),
+                              SizedBox(width: 8),
+                              Text(
+                                'Delete',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ],
+                          ),
                         ),
-                        onPressed: () => _confirmDelete(context),
-                      ),
+                      ],
                     ),
                   );
                 },
@@ -66,13 +79,13 @@ class PostViewScreen extends StatelessWidget {
             loaded: (postFeedItem, _, __) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Image
+                // Post image
                 AspectRatio(
                   aspectRatio: 1,
                   child: Image.network(
                     postFeedItem.post.imageUrl,
                     fit: BoxFit.cover,
-                    loadingBuilder: (c, child, progress) {
+                    loadingBuilder: (context, child, progress) {
                       if (progress == null) return child;
                       return Container(color: Colors.grey.shade300);
                     },
@@ -82,6 +95,7 @@ class PostViewScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+
                 // Caption
                 if (postFeedItem.post.caption.isNotEmpty)
                   Padding(
@@ -122,3 +136,5 @@ class PostViewScreen extends StatelessWidget {
     );
   }
 }
+
+enum _PostMenuAction { delete }

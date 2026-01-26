@@ -74,6 +74,58 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     context.read<EditProfileCubit>().saveProfileImage(image: image);
   }
 
+  Future<void> _pickAndSaveImage() async {
+    final selectedImage = await context.push<Uint8List?>(
+      AppRoute.photoPicker.path,
+    );
+
+    if (selectedImage != null) {
+      _saveProfileImage(selectedImage);
+    }
+  }
+
+  Future<void> _onChangeProfilePhoto({required bool hasProfileImage}) async {
+    if (!hasProfileImage) {
+      _pickAndSaveImage();
+      return;
+    }
+
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (_) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.photo_library_outlined),
+                title: const Text('Replace photo'),
+                onTap: () {
+                  Navigator.pop(context);
+                  _pickAndSaveImage();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.delete_outline, color: Colors.red),
+                title: const Text(
+                  'Remove photo',
+                  style: TextStyle(color: Colors.red),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  context.read<EditProfileCubit>().removeProfileImage();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -105,29 +157,28 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 child: Column(
                   children: [
                     /// Avatar
-                    Center(
-                      child: Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () async {
-                              final selectedImage = await context
-                                  .push<Uint8List?>(AppRoute.photoPicker.path);
-                              if (selectedImage != null) {
-                                _saveProfileImage(selectedImage);
-                              }
-                            },
-                            child: ProfileAvatar(
+                    GestureDetector(
+                      onTap: () async {
+                        final hasProfileImage =
+                            (user.basicDetails?.profilePictureUrl ?? '')
+                                .isNotEmpty;
+                        _onChangeProfilePhoto(hasProfileImage: hasProfileImage);
+                      },
+                      child: Center(
+                        child: Column(
+                          children: [
+                            ProfileAvatar(
                               imageUrl:
                                   user.basicDetails?.profilePictureUrl ?? '',
                               radius: 48,
                             ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'Change profile photo',
-                            style: TextStyle(color: cs.primary),
-                          ),
-                        ],
+                            const SizedBox(height: 8),
+                            Text(
+                              'Change profile photo',
+                              style: TextStyle(color: cs.primary),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
 

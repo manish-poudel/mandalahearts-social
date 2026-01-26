@@ -329,7 +329,13 @@ class PostRepository {
 
       _creatorCache[creatorId] = PostCreatorCache(
         id: user.uid,
-        name: user.username,
+        name:
+            ('${user.basicDetails?.firstName ?? ''} ${user.basicDetails?.secondName ?? ''}')
+                .trim()
+                .isEmpty
+            ? 'Unknown'
+            : ('${user.basicDetails?.firstName ?? ''} ${user.basicDetails?.secondName ?? ''}')
+                  .trim(),
         profileImageUrl: user.basicDetails?.profilePictureUrl,
       );
     }

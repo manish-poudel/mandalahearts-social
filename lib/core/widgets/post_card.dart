@@ -34,14 +34,14 @@ class PostCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: colorScheme.surface,
-          borderRadius: BorderRadius.circular(18),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withAlpha(12),
-              blurRadius: 18,
-              offset: const Offset(0, 8),
-            ),
-          ],
+          borderRadius: BorderRadius.circular(10),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.black.withAlpha(12),
+          //     blurRadius: 18,
+          //     offset: const Offset(0, 8),
+          //   ),
+          // ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,14 +97,14 @@ class PostCard extends StatelessWidget {
 
             /// ── Image ──────────────────────────────────────
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14),
+              padding: const EdgeInsets.symmetric(horizontal: 0),
               child: AspectRatio(
                 aspectRatio: 1,
                 child: CustomNetworkImage(
                   imageUrl: imageUrl,
                   width: double.infinity,
                   height: 250,
-                  borderRadius: 14,
+                  borderRadius: 0,
                   fit: BoxFit.cover,
                 ),
               ),

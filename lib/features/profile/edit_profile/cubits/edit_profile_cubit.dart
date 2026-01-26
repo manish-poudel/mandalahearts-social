@@ -83,4 +83,24 @@ class EditProfileCubit extends Cubit<EditProfileState> {
       emit(const EditProfileState.error(message: 'Failed to update image'));
     }
   }
+
+  void removeProfileImage() {
+    final user = state.maybeWhen(
+      loaded: (user, _, _, _) => user,
+      orElse: () => null,
+    );
+    if (user == null) return;
+    try {
+      emit(
+        EditProfileState.loaded(
+          user: user.copyWith(
+            basicDetails: user.basicDetails?.copyWith(profilePictureUrl: null),
+          ),
+        ),
+      );
+      userRepository.removeProfileImage();
+    } catch (_) {
+      emit(const EditProfileState.error(message: 'Failed to delete image'));
+    }
+  }
 }
