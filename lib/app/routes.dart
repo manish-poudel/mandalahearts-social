@@ -122,7 +122,7 @@ final GoRouter routes = GoRouter(
       path: AppRoute.dashboard.path,
       builder: (context, state) => BlocProvider(
         create: (context) =>
-            PublicPostFeedCubit(context.read<PostRepository>()),
+            PublicPostFeedCubit(context.read<PostRepository>())..loadInitial(),
         child: DashboardScreen(),
       ),
     ),
@@ -180,7 +180,7 @@ final GoRouter routes = GoRouter(
         return BlocProvider(
           create: (context) => EditProfileCubit(
             userRepository: context.read<AppUserRepository>(),
-          )..load(),
+          )..prepare(),
           child: const EditProfileScreen(),
         );
       },

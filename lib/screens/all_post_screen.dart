@@ -20,7 +20,6 @@ class _AllPostScreenState extends State<AllPostScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<PublicPostFeedCubit>().loadInitial();
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mandalahearts/app/app_routes.dart';
 import 'package:mandalahearts/core/utils/time_formatter.dart';
+import 'package:mandalahearts/core/widgets/custom_network_image.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
 
 class PostCard extends StatelessWidget {
@@ -67,8 +68,8 @@ class PostCard extends StatelessWidget {
                       child: profileImageUrl == null
                           ? const Icon(
                               Icons.person,
-                              size: 16,
-                              color: Colors.grey,
+                              size: 18,
+                              color: Colors.white,
                             )
                           : null,
                     ),
@@ -97,27 +98,14 @@ class PostCard extends StatelessWidget {
             /// ── Image ──────────────────────────────────────
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(14),
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: Image.network(
-                    imageUrl,
-                    fit: BoxFit.cover,
-                    loadingBuilder: (context, child, progress) {
-                      if (progress == null) return child;
-                      return Center(
-                        child: SizedBox(
-                          height: 50,
-                          width: 50,
-                          child: const CircularProgressIndicator(
-                            strokeWidth: 1,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: CustomNetworkImage(
+                  imageUrl: imageUrl,
+                  width: double.infinity,
+                  height: 250,
+                  borderRadius: 14,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),

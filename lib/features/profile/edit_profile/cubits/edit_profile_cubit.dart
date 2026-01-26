@@ -11,7 +11,11 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   EditProfileCubit({required this.userRepository})
     : super(const EditProfileState.loading());
 
-  void load() {
+  void prepare() {
+    emit(EditProfileState.preparing(user: userRepository.currentUser!));
+  }
+
+  void markUIReady() {
     final user = userRepository.currentUser;
 
     if (user == null) {

@@ -55,11 +55,12 @@ extension EditProfileStatePatterns on EditProfileState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Loading value)?  loading,TResult Function( _Loaded value)?  loaded,TResult Function( _Error value)?  error,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Loading value)?  loading,TResult Function( _Preparing value)?  preparing,TResult Function( _Loaded value)?  loaded,TResult Function( _Error value)?  error,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Loading() when loading != null:
-return loading(_that);case _Loaded() when loaded != null:
+return loading(_that);case _Preparing() when preparing != null:
+return preparing(_that);case _Loaded() when loaded != null:
 return loaded(_that);case _Error() when error != null:
 return error(_that);case _:
   return orElse();
@@ -79,11 +80,12 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Loading value)  loading,required TResult Function( _Loaded value)  loaded,required TResult Function( _Error value)  error,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Loading value)  loading,required TResult Function( _Preparing value)  preparing,required TResult Function( _Loaded value)  loaded,required TResult Function( _Error value)  error,}){
 final _that = this;
 switch (_that) {
 case _Loading():
-return loading(_that);case _Loaded():
+return loading(_that);case _Preparing():
+return preparing(_that);case _Loaded():
 return loaded(_that);case _Error():
 return error(_that);case _:
   throw StateError('Unexpected subclass');
@@ -102,11 +104,12 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Loading value)?  loading,TResult? Function( _Loaded value)?  loaded,TResult? Function( _Error value)?  error,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Loading value)?  loading,TResult? Function( _Preparing value)?  preparing,TResult? Function( _Loaded value)?  loaded,TResult? Function( _Error value)?  error,}){
 final _that = this;
 switch (_that) {
 case _Loading() when loading != null:
-return loading(_that);case _Loaded() when loaded != null:
+return loading(_that);case _Preparing() when preparing != null:
+return preparing(_that);case _Loaded() when loaded != null:
 return loaded(_that);case _Error() when error != null:
 return error(_that);case _:
   return null;
@@ -125,10 +128,11 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  loading,TResult Function( AppUser user,  bool isSavingBasicDetails,  bool isSavingProfileImage,  bool basicDetailSaved)?  loaded,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  loading,TResult Function( AppUser user)?  preparing,TResult Function( AppUser user,  bool isSavingBasicDetails,  bool isSavingProfileImage,  bool basicDetailSaved)?  loaded,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Loading() when loading != null:
-return loading();case _Loaded() when loaded != null:
+return loading();case _Preparing() when preparing != null:
+return preparing(_that.user);case _Loaded() when loaded != null:
 return loaded(_that.user,_that.isSavingBasicDetails,_that.isSavingProfileImage,_that.basicDetailSaved);case _Error() when error != null:
 return error(_that.message);case _:
   return orElse();
@@ -148,10 +152,11 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  loading,required TResult Function( AppUser user,  bool isSavingBasicDetails,  bool isSavingProfileImage,  bool basicDetailSaved)  loaded,required TResult Function( String message)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  loading,required TResult Function( AppUser user)  preparing,required TResult Function( AppUser user,  bool isSavingBasicDetails,  bool isSavingProfileImage,  bool basicDetailSaved)  loaded,required TResult Function( String message)  error,}) {final _that = this;
 switch (_that) {
 case _Loading():
-return loading();case _Loaded():
+return loading();case _Preparing():
+return preparing(_that.user);case _Loaded():
 return loaded(_that.user,_that.isSavingBasicDetails,_that.isSavingProfileImage,_that.basicDetailSaved);case _Error():
 return error(_that.message);case _:
   throw StateError('Unexpected subclass');
@@ -170,10 +175,11 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  loading,TResult? Function( AppUser user,  bool isSavingBasicDetails,  bool isSavingProfileImage,  bool basicDetailSaved)?  loaded,TResult? Function( String message)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  loading,TResult? Function( AppUser user)?  preparing,TResult? Function( AppUser user,  bool isSavingBasicDetails,  bool isSavingProfileImage,  bool basicDetailSaved)?  loaded,TResult? Function( String message)?  error,}) {final _that = this;
 switch (_that) {
 case _Loading() when loading != null:
-return loading();case _Loaded() when loaded != null:
+return loading();case _Preparing() when preparing != null:
+return preparing(_that.user);case _Loaded() when loaded != null:
 return loaded(_that.user,_that.isSavingBasicDetails,_that.isSavingProfileImage,_that.basicDetailSaved);case _Error() when error != null:
 return error(_that.message);case _:
   return null;
@@ -214,6 +220,81 @@ String toString() {
 
 
 
+
+/// @nodoc
+
+
+class _Preparing implements EditProfileState {
+  const _Preparing({required this.user});
+  
+
+ final  AppUser user;
+
+/// Create a copy of EditProfileState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$PreparingCopyWith<_Preparing> get copyWith => __$PreparingCopyWithImpl<_Preparing>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Preparing&&(identical(other.user, user) || other.user == user));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,user);
+
+@override
+String toString() {
+  return 'EditProfileState.preparing(user: $user)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$PreparingCopyWith<$Res> implements $EditProfileStateCopyWith<$Res> {
+  factory _$PreparingCopyWith(_Preparing value, $Res Function(_Preparing) _then) = __$PreparingCopyWithImpl;
+@useResult
+$Res call({
+ AppUser user
+});
+
+
+$AppUserCopyWith<$Res> get user;
+
+}
+/// @nodoc
+class __$PreparingCopyWithImpl<$Res>
+    implements _$PreparingCopyWith<$Res> {
+  __$PreparingCopyWithImpl(this._self, this._then);
+
+  final _Preparing _self;
+  final $Res Function(_Preparing) _then;
+
+/// Create a copy of EditProfileState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? user = null,}) {
+  return _then(_Preparing(
+user: null == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
+as AppUser,
+  ));
+}
+
+/// Create a copy of EditProfileState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AppUserCopyWith<$Res> get user {
+  
+  return $AppUserCopyWith<$Res>(_self.user, (value) {
+    return _then(_self.copyWith(user: value));
+  });
+}
+}
 
 /// @nodoc
 

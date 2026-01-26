@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
 
-class CountrySelector extends StatelessWidget {
+class CountrySelector extends StatefulWidget {
   const CountrySelector({
     super.key,
     required this.initialCountry,
     required this.onCountryChanged,
   });
+
   final ValueChanged<CountryOption?> onCountryChanged;
   final String? initialCountry;
+
+  @override
+  State<CountrySelector> createState() => _CountrySelectorState();
+}
+
+class _CountrySelectorState extends State<CountrySelector> {
+  CountryOption? selectedCountry;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedCountry = _mapCountry(widget.initialCountry);
+  }
 
   CountryOption? _mapCountry(String? code) {
     if (code == null || code.isEmpty) return null;
@@ -18,25 +32,55 @@ class CountrySelector extends StatelessWidget {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButtonFormField<CountryOption>(
-      initialValue: _mapCountry(initialCountry),
-      decoration: const InputDecoration(labelText: 'Country'),
-      validator: (value) => value == null ? 'Please select your country' : null,
-      items: countries.map((country) {
-        return DropdownMenuItem<CountryOption>(
-          value: country,
-          child: Row(
-            children: [
-              Text(country.flag, style: const TextStyle(fontSize: 20)),
-              const SizedBox(width: 12),
-              Text(country.name),
-            ],
+  void _openCountryPicker() {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return SizedBox(
+          height: 400,
+          child: ListView.builder(
+            itemCount: countries.length,
+            itemBuilder: (context, index) {
+              final country = countries[index];
+              return ListTile(
+                leading: Text(
+                  country.flag,
+                  style: const TextStyle(fontSize: 20),
+                ),
+                title: Text(country.name),
+                onTap: () {
+                  setState(() => selectedCountry = country);
+                  widget.onCountryChanged(country);
+                  Navigator.pop(context);
+                },
+              );
+            },
           ),
         );
-      }).toList(),
-      onChanged: onCountryChanged,
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: _openCountryPicker,
+      child: InputDecorator(
+        decoration: const InputDecoration(
+          labelText: 'Country',
+          border: UnderlineInputBorder(),
+        ),
+        child: Row(
+          children: [
+            if (selectedCountry != null) ...[
+              Text(selectedCountry!.flag, style: const TextStyle(fontSize: 20)),
+              const SizedBox(width: 12),
+              Text(selectedCountry!.name, style: TextStyle(fontSize: 16)),
+            ] else
+              const Text('Select your country'),
+          ],
+        ),
+      ),
     );
   }
 }

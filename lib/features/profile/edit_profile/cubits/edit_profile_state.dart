@@ -7,6 +7,8 @@ part 'edit_profile_state.freezed.dart';
 @freezed
 class EditProfileState with _$EditProfileState {
   const factory EditProfileState.loading() = _Loading;
+  const factory EditProfileState.preparing({required AppUser user}) =
+      _Preparing;
 
   const factory EditProfileState.loaded({
     required AppUser user,

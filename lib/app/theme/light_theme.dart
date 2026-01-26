@@ -77,6 +77,11 @@ final InputDecorationThemeData lightInputDecorationTheme =
       focusColor: lightColorScheme.primary,
     );
 
+final progressIndicatorTheme = ProgressIndicatorThemeData(
+  color: Colors.grey,
+  strokeWidth: 1,
+);
+
 /// 🎯 Final ThemeData
 final ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
@@ -99,4 +104,5 @@ final ThemeData lightTheme = ThemeData(
     foregroundColor: Colors.white,
     elevation: 4,
   ),
+  progressIndicatorTheme: progressIndicatorTheme,
 );

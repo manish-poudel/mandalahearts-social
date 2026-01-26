@@ -8,6 +8,7 @@ import 'package:mandalahearts/core/widgets/basic_details_form.dart';
 import 'package:mandalahearts/core/widgets/profile_avatar.dart';
 import 'package:mandalahearts/features/profile/edit_profile/cubits/edit_profile_cubit.dart';
 import 'package:mandalahearts/features/profile/edit_profile/cubits/edit_profile_state.dart';
+import 'package:mandalahearts/models/app_user/app_user.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -27,8 +28,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   DateTime? _dob;
   String? _country;
 
-  bool _didAutofill = false;
-
   void _saveBasicDetails() {
     final isValid = _basicFormKey.currentState?.validate() ?? false;
     if (!isValid) return;
@@ -42,26 +41,33 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  void _autofillOnce(EditProfileState state) {
-    if (_didAutofill) return;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final cubit = context.read<EditProfileCubit>();
+      final state = cubit.state;
+      state.whenOrNull(
+        preparing: (user) {
+          _autofillOnce(user);
+          context.read<EditProfileCubit>().markUIReady();
+        },
+      );
+    });
+  }
 
-    state.whenOrNull(
-      loaded: (user, _, _, _) {
-        final basic = user.basicDetails;
+  void _autofillOnce(AppUser user) {
+    final basic = user.basicDetails;
 
-        _usernameController.text = user.username;
-        _bioController.text = user.bio ?? '';
+    _usernameController.text = user.username;
+    _bioController.text = user.bio ?? '';
 
-        if (basic != null) {
-          _firstNameController.text = basic.firstName;
-          _lastNameController.text = basic.secondName;
-          _dob = basic.dob;
-          _country = basic.country;
-        }
-
-        _didAutofill = true;
-      },
-    );
+    if (basic != null) {
+      _firstNameController.text = basic.firstName;
+      _lastNameController.text = basic.secondName;
+      _dob = basic.dob;
+      _country = basic.country;
+    }
   }
 
   void _saveProfileImage(Uint8List image) {
@@ -90,10 +96,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         },
         builder: (context, state) {
           return state.when(
+            preparing: (_) => const Center(child: CircularProgressIndicator()),
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (m) => Center(child: Text(m)),
             loaded: (user, isSavingBasicDetails, isSavingProfileImage, _) {
-              _autofillOnce(state);
               return SingleChildScrollView(
                 padding: const EdgeInsets.all(8),
                 child: Column(

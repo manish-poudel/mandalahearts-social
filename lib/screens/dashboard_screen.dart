@@ -35,7 +35,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             context.read<AppUserRepository>().clearCache();
             context.read<PostRepository>().clearAllCache();
             context.read<AuthRepository>().signOut();
-            context.push(AppRoute.mandalaHeartApp.path);
+            context.pushReplacement(AppRoute.mandalaHeartApp.path);
           },
           child: AppLogo(fontSize: 21),
         ),
