@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mandalahearts/app/app_routes.dart';
+
 import 'package:mandalahearts/core/widgets/add_spiritual_master.dart';
 import 'package:mandalahearts/core/widgets/app_tooltip.dart';
 import 'package:mandalahearts/core/widgets/basic_profile_view.dart';
 import 'package:mandalahearts/core/widgets/custom_network_image.dart';
 import 'package:mandalahearts/core/widgets/spiritual_master_view.dart';
 import 'package:mandalahearts/enums/profile_mode.dart';
+import 'package:mandalahearts/features/auth/bloc/auth_bloc.dart';
+import 'package:mandalahearts/features/auth/bloc/auth_event.dart';
 import 'package:mandalahearts/features/post_feed/cubit/private_post_feed_cubit.dart';
 import 'package:mandalahearts/features/post_feed/state/post_feed_state.dart';
 import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_cubit.dart';
@@ -51,7 +54,33 @@ class ProfileViewScreen extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile'), centerTitle: true),
+      appBar: AppBar(
+        title: const Text('Profile'),
+        centerTitle: true,
+        actions: [
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.more_vert),
+            onSelected: (value) {
+              if (value == 'logout') {
+                context.read<AuthBloc>().add(AuthEvent.signOut());
+                Navigator.of(context).pop();
+              }
+            },
+            itemBuilder: (context) => const [
+              PopupMenuItem<String>(
+                value: 'logout',
+                child: Row(
+                  children: [
+                    Icon(Icons.logout, size: 18),
+                    SizedBox(width: 8),
+                    Text('Logout'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: BlocBuilder<ProfileViewCubit, ProfileViewState>(

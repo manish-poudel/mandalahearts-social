@@ -1,42 +1,62 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mandalahearts/app/app_routes.dart';
+
+import 'package:mandalahearts/core/services/firestore/firestore_username_service.dart';
 import 'package:mandalahearts/features/auth/bloc/auth_bloc.dart';
 import 'package:mandalahearts/features/auth/bloc/auth_state.dart';
 import 'package:mandalahearts/features/auth/enums/user_profile_state.dart';
+import 'package:mandalahearts/features/post_feed/cubit/public_post_feed_cubit.dart';
+import 'package:mandalahearts/features/profile/add_profile/cubits/add_profile_cubit.dart';
+import 'package:mandalahearts/features/username/cubits/username_cubits.dart';
+import 'package:mandalahearts/repository/app_user_repository.dart';
+import 'package:mandalahearts/repository/post_repository.dart';
+import 'package:mandalahearts/screens/add_profile_screen.dart';
+import 'package:mandalahearts/screens/dashboard_screen.dart';
 import 'package:mandalahearts/screens/onboarding_screen.dart';
 import 'package:mandalahearts/screens/splash_screen.dart';
+import 'package:mandalahearts/screens/username_screen.dart';
 
 class MandalaHeartsApp extends StatelessWidget {
   const MandalaHeartsApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final router = GoRouter.of(context);
-    return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
-        state.whenOrNull(
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        return state.maybeWhen(
+          unauthenticated: () => OnBoardingScreen(),
           authenticated: (profileState) {
-            AppRoute navigateTo = AppRoute.dashboard;
             if (profileState == UserProfileState.noProfile) {
-              navigateTo = AppRoute.username;
+              return BlocProvider(
+                create: (_) => UsernameCubit(
+                  usernameDB: FirestoreUsernameService(
+                    FirebaseFirestore.instance,
+                  ),
+                ),
+                child: const UsernameScreen(),
+              );
+            } else if (profileState == UserProfileState.noBasicDetails) {
+              return BlocProvider(
+                create: (_) => ProfileDetailsCubit(
+                  auth: FirebaseAuth.instance,
+                  userRepository: context.read<AppUserRepository>(),
+                )..load(),
+                child: const ProfileDetailsScreen(),
+              );
+            } else {
+              return BlocProvider(
+                create: (context) =>
+                    PublicPostFeedCubit(context.read<PostRepository>())
+                      ..loadInitial(),
+                child: DashboardScreen(),
+              );
             }
-            if (profileState == UserProfileState.noBasicDetails) {
-              navigateTo = AppRoute.addProfile;
-            }
-            router.go(navigateTo.path);
           },
+          orElse: () => SplashScreen(),
         );
       },
-      child: BlocBuilder<AuthBloc, AuthState>(
-        builder: (context, state) {
-          return state.maybeWhen(
-            unauthenticated: () => OnBoardingScreen(),
-            orElse: () => SplashScreen(),
-          );
-        },
-      ),
     );
   }
 }

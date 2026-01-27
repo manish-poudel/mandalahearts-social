@@ -6,6 +6,7 @@ import 'package:mandalahearts/features/auth/enums/user_profile_state.dart';
 import 'package:mandalahearts/models/app_user/app_user.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
 import 'package:mandalahearts/repository/auth_repository.dart';
+import 'package:mandalahearts/repository/post_repository.dart';
 
 import 'auth_event.dart';
 import 'auth_state.dart';
@@ -13,10 +14,15 @@ import 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthRepository authRepository;
   AppUserRepository appUserRepository;
+  PostRepository postRepository;
+
   StreamSubscription<User?>? _authSubscription;
 
-  AuthBloc({required this.authRepository, required this.appUserRepository})
-    : super(const AuthState.initial()) {
+  AuthBloc({
+    required this.authRepository,
+    required this.appUserRepository,
+    required this.postRepository,
+  }) : super(const AuthState.initial()) {
     on<AuthEvent>(_onAuthEvent);
   }
 
@@ -56,6 +62,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
           emit(AuthState.authenticated(profileState: UserProfileState.allSet));
         }
+      },
+      signOut: () {
+        appUserRepository.clearCache();
+        postRepository.clearAllCache();
+        authRepository.signOut();
+        emit(const AuthState.unauthenticated());
       },
     );
   }

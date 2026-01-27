@@ -1,11 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mandalahearts/app/app_routes.dart';
 import 'package:mandalahearts/app/env/env.dart';
 import 'package:mandalahearts/core/services/firestore/firestore_spiritual_master_service.dart';
 import 'package:mandalahearts/core/services/firestore/firestore_user_post_service.dart';
 import 'package:mandalahearts/core/services/firestore/firestore_user_service.dart';
 import 'package:mandalahearts/core/services/supabase/supabase_file_storage.dart';
+import 'package:mandalahearts/features/auth/bloc/auth_bloc.dart';
+import 'package:mandalahearts/features/auth/bloc/auth_event.dart';
 import 'package:mandalahearts/l10n/app_localizations.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
 import 'package:mandalahearts/repository/auth_repository.dart';
@@ -47,7 +50,14 @@ Future<void> main() async {
               SpiritualMasterRepository(db: FirestoreSpiritualMasterService()),
         ),
       ],
-      child: MandalaHearts(),
+      child: BlocProvider(
+        create: (context) => AuthBloc(
+          authRepository: context.read<AuthRepository>(),
+          appUserRepository: context.read<AppUserRepository>(),
+          postRepository: context.read<PostRepository>(),
+        )..add(AuthEvent.started()),
+        child: const MandalaHearts(),
+      ),
     ),
   );
 }
@@ -74,7 +84,10 @@ class _MandalaHeartsState extends State<MandalaHearts> {
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.light,
       theme: AppTheme.light,
-      routerConfig: routes,
+      routerConfig: GoRouter(
+        initialLocation: AppRoute.mandalaHeartApp.path,
+        routes: appRoutes,
+      ),
       locale: Locale('en'),
       localizationsDelegates: [
         AppLocalizations.delegate,

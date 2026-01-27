@@ -7,4 +7,5 @@ part 'auth_event.freezed.dart';
 class AuthEvent with _$AuthEvent {
   const factory AuthEvent.started() = Started;
   const factory AuthEvent.onAuthStateChange({User? user}) = _OnAuthStateChange;
+  const factory AuthEvent.signOut() = _SignOut;
 }

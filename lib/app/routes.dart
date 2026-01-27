@@ -48,169 +48,163 @@ class FadeTransitionPage<T> extends CustomTransitionPage<T> {
        );
 }
 
-/// The route configuration
-final GoRouter routes = GoRouter(
-  initialLocation: AppRoute.mandalaHeartApp.path,
-  routes: <RouteBase>[
-    GoRoute(
-      name: AppRoute.mandalaHeartApp.name,
-      path: AppRoute.mandalaHeartApp.path,
-      builder: (BuildContext context, GoRouterState state) {
-        return BlocProvider<AuthBloc>(
-          create: (_) => AuthBloc(
-            authRepository: context.read<AuthRepository>(),
-            appUserRepository: context.read<AppUserRepository>(),
-          )..add(const AuthEvent.started()),
-          child: const MandalaHeartsApp(),
-        );
-      },
+List<RouteBase> appRoutes = <RouteBase>[
+  GoRoute(
+    name: AppRoute.mandalaHeartApp.name,
+    path: AppRoute.mandalaHeartApp.path,
+    builder: (BuildContext context, GoRouterState state) {
+      return const MandalaHeartsApp();
+    },
+  ),
+  GoRoute(
+    name: AppRoute.onboarding.name,
+    path: AppRoute.onboarding.path,
+    builder: (BuildContext context, GoRouterState state) {
+      return OnBoardingScreen();
+    },
+  ),
+  GoRoute(
+    name: AppRoute.signIn.name,
+    path: AppRoute.signIn.path,
+    builder: (context, state) {
+      return BlocProvider(
+        create: (_) => SignInCubit(context.read<AuthRepository>()),
+        child: const SignInScreen(),
+      );
+    },
+  ),
+  GoRoute(
+    name: AppRoute.signUp.name,
+    path: AppRoute.signUp.path,
+    builder: (context, state) {
+      return BlocProvider(
+        create: (_) => SignUpCubit(context.read<AuthRepository>()),
+        child: const SignUpScreen(),
+      );
+    },
+  ),
+  GoRoute(
+    name: AppRoute.username.name,
+    path: AppRoute.username.path,
+    builder: (context, state) {
+      return BlocProvider(
+        create: (_) => UsernameCubit(
+          usernameDB: FirestoreUsernameService(FirebaseFirestore.instance),
+        ),
+        child: const UsernameScreen(),
+      );
+    },
+  ),
+  GoRoute(
+    name: AppRoute.addProfile.name,
+    path: AppRoute.addProfile.path,
+    builder: (context, state) {
+      return BlocProvider(
+        create: (_) => ProfileDetailsCubit(
+          auth: FirebaseAuth.instance,
+          userRepository: context.read<AppUserRepository>(),
+        )..load(),
+        child: const ProfileDetailsScreen(),
+      );
+    },
+  ),
+  GoRoute(
+    name: AppRoute.dashboard.name,
+    path: AppRoute.dashboard.path,
+    builder: (context, state) => BlocProvider(
+      create: (context) =>
+          PublicPostFeedCubit(context.read<PostRepository>())..loadInitial(),
+      child: DashboardScreen(),
     ),
-    GoRoute(
-      name: AppRoute.onboarding.name,
-      path: AppRoute.onboarding.path,
-      builder: (BuildContext context, GoRouterState state) {
-        return OnBoardingScreen();
-      },
+  ),
+  GoRoute(
+    name: AppRoute.addPostScreen.name,
+    path: AppRoute.addPostScreen.path,
+    builder: (context, state) => BlocProvider(
+      create: (context) => PhotoPickerCubit(),
+      child: AddPostScreen(),
     ),
-    GoRoute(
-      name: AppRoute.signIn.name,
-      path: AppRoute.signIn.path,
-      builder: (context, state) {
-        return BlocProvider(
-          create: (_) => SignInCubit(context.read<AuthRepository>()),
-          child: const SignInScreen(),
-        );
-      },
+  ),
+
+  GoRoute(
+    name: AppRoute.photoPicker.name,
+    path: AppRoute.photoPicker.path,
+    builder: (context, state) => BlocProvider(
+      create: (context) => PhotoPickerCubit(),
+      child: Scaffold(body: PhotoPickerScreen()),
     ),
-    GoRoute(
-      name: AppRoute.signUp.name,
-      path: AppRoute.signUp.path,
-      builder: (context, state) {
-        return BlocProvider(
-          create: (_) => SignUpCubit(context.read<AuthRepository>()),
-          child: const SignUpScreen(),
-        );
-      },
-    ),
-    GoRoute(
-      name: AppRoute.username.name,
-      path: AppRoute.username.path,
-      builder: (context, state) {
-        return BlocProvider(
-          create: (_) => UsernameCubit(
-            usernameDB: FirestoreUsernameService(FirebaseFirestore.instance),
-          ),
-          child: const UsernameScreen(),
-        );
-      },
-    ),
-    GoRoute(
-      name: AppRoute.addProfile.name,
-      path: AppRoute.addProfile.path,
-      builder: (context, state) {
-        return BlocProvider(
-          create: (_) => ProfileDetailsCubit(
-            auth: FirebaseAuth.instance,
-            userRepository: context.read<AppUserRepository>(),
-          )..load(),
-          child: const ProfileDetailsScreen(),
-        );
-      },
-    ),
-    GoRoute(
-      name: AppRoute.dashboard.name,
-      path: AppRoute.dashboard.path,
-      builder: (context, state) => BlocProvider(
+  ),
+
+  GoRoute(
+    name: AppRoute.profileViewScreen.name,
+    path: AppRoute.profileViewScreen.path,
+    builder: (context, state) {
+      final userId = context.read<AppUserRepository>().currentUser!.uid;
+      return BlocProvider(
         create: (context) =>
-            PublicPostFeedCubit(context.read<PostRepository>())..loadInitial(),
-        child: DashboardScreen(),
-      ),
-    ),
-    GoRoute(
-      name: AppRoute.addPostScreen.name,
-      path: AppRoute.addPostScreen.path,
-      builder: (context, state) => BlocProvider(
-        create: (context) => PhotoPickerCubit(),
-        child: AddPostScreen(),
-      ),
-    ),
+            ProfileViewCubit(context.read<AppUserRepository>())
+              ..init(userId: userId, mode: ProfileMode.currentUser),
+        child: const ProfileViewScreen(),
+      );
+    },
+  ),
 
-    GoRoute(
-      name: AppRoute.photoPicker.name,
-      path: AppRoute.photoPicker.path,
-      builder: (context, state) => BlocProvider(
-        create: (context) => PhotoPickerCubit(),
-        child: Scaffold(body: PhotoPickerScreen()),
-      ),
-    ),
+  GoRoute(
+    name: AppRoute.publicProfileViewScreen.name,
+    path: AppRoute.publicProfileViewScreen.path,
+    builder: (context, state) {
+      final userId = state.pathParameters['userId']!;
 
-    GoRoute(
-      name: AppRoute.profileViewScreen.name,
-      path: AppRoute.profileViewScreen.path,
-      builder: (context, state) {
-        final userId = context.read<AppUserRepository>().currentUser!.uid;
-        return BlocProvider(
-          create: (context) =>
-              ProfileViewCubit(context.read<AppUserRepository>())
-                ..init(userId: userId, mode: ProfileMode.currentUser),
-          child: const ProfileViewScreen(),
-        );
-      },
-    ),
+      return BlocProvider(
+        create: (context) =>
+            ProfileViewCubit(context.read<AppUserRepository>())
+              ..init(userId: userId, mode: ProfileMode.publicUser),
+        child: const ProfileViewScreen(),
+      );
+    },
+  ),
 
-    GoRoute(
-      name: AppRoute.publicProfileViewScreen.name,
-      path: AppRoute.publicProfileViewScreen.path,
-      builder: (context, state) {
-        final userId = state.pathParameters['userId']!;
+  GoRoute(
+    name: AppRoute.editProfileScreen.name,
+    path: AppRoute.editProfileScreen.path,
+    builder: (context, state) {
+      return BlocProvider(
+        create: (context) =>
+            EditProfileCubit(userRepository: context.read<AppUserRepository>())
+              ..prepare(),
+        child: const EditProfileScreen(),
+      );
+    },
+  ),
+  GoRoute(
+    name: AppRoute.addSpiritualMater.name,
+    path: AppRoute.addSpiritualMater.path,
+    pageBuilder: (context, state) {
+      return MaterialPage(child: SpiritualMasterScreen.add());
+    },
+  ),
 
-        return BlocProvider(
-          create: (context) =>
-              ProfileViewCubit(context.read<AppUserRepository>())
-                ..init(userId: userId, mode: ProfileMode.publicUser),
-          child: const ProfileViewScreen(),
-        );
-      },
-    ),
+  GoRoute(
+    name: AppRoute.postViewScreen.name,
+    path: AppRoute.postViewScreen.path,
+    pageBuilder: (context, state) {
+      final post = state.extra as PostFeedItem;
+      final currentUserId = context.read<AuthRepository>().currentUser?.uid;
 
-    GoRoute(
-      name: AppRoute.editProfileScreen.name,
-      path: AppRoute.editProfileScreen.path,
-      builder: (context, state) {
-        return BlocProvider(
-          create: (context) => EditProfileCubit(
-            userRepository: context.read<AppUserRepository>(),
-          )..prepare(),
-          child: const EditProfileScreen(),
-        );
-      },
-    ),
-    GoRoute(
-      name: AppRoute.addSpiritualMater.name,
-      path: AppRoute.addSpiritualMater.path,
-      pageBuilder: (context, state) {
-        return MaterialPage(child: SpiritualMasterScreen.add());
-      },
-    ),
-
-    GoRoute(
-      name: AppRoute.postViewScreen.name,
-      path: AppRoute.postViewScreen.path,
-      pageBuilder: (context, state) {
-        final post = state.extra as PostFeedItem;
-        final currentUserId = context.read<AuthRepository>().currentUser?.uid;
-
-        return MaterialPage(
-          child: BlocProvider(
-            create: (_) => PostViewCubit(
-              post: post,
-              currentUserId: currentUserId!,
-              repository: context.read<PostRepository>(),
-            ),
-            child: const PostViewScreen(),
+      return MaterialPage(
+        child: BlocProvider(
+          create: (_) => PostViewCubit(
+            post: post,
+            currentUserId: currentUserId!,
+            repository: context.read<PostRepository>(),
           ),
-        );
-      },
-    ),
-  ],
-);
+          child: const PostViewScreen(),
+        ),
+      );
+    },
+  ),
+];
+
+
+/// The route configuration
+

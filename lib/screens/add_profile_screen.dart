@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mandalahearts/app/app_routes.dart';
 import 'package:mandalahearts/core/widgets/basic_details_form.dart';
+import 'package:mandalahearts/features/auth/bloc/auth_bloc.dart';
+import 'package:mandalahearts/features/auth/bloc/auth_event.dart';
 import 'package:mandalahearts/features/profile/add_profile/cubits/add_profile_cubit.dart';
 import 'package:mandalahearts/features/profile/add_profile/cubits/add_profile_state.dart';
-import 'package:mandalahearts/repository/auth_repository.dart';
 
 class ProfileDetailsScreen extends StatefulWidget {
   const ProfileDetailsScreen({super.key});
@@ -78,10 +77,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
       appBar: AppBar(
         actions: [
           TextButton(
-            onPressed: () {
-              context.read<AuthRepository>().signOut();
-              context.go(AppRoute.mandalaHeartApp.path);
-            },
+            onPressed: () => context.read<AuthBloc>().add(AuthEvent.signOut()),
             child: Text(
               'Logout',
               style: TextStyle(color: colorScheme.onSurface.withAlpha(180)),
@@ -95,9 +91,8 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
           child: BlocConsumer<ProfileDetailsCubit, ProfileDetailsState>(
             listener: (context, state) {
               state.whenOrNull(
-                success: (user) {
-                  context.go(AppRoute.mandalaHeartApp.path);
-                },
+                success: (user) =>
+                    context.read<AuthBloc>().add(AuthEvent.started()),
               );
             },
             builder: (context, state) {

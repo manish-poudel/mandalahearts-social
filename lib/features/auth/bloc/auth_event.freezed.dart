@@ -55,12 +55,13 @@ extension AuthEventPatterns on AuthEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( Started value)?  started,TResult Function( _OnAuthStateChange value)?  onAuthStateChange,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( Started value)?  started,TResult Function( _OnAuthStateChange value)?  onAuthStateChange,TResult Function( _SignOut value)?  signOut,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case Started() when started != null:
 return started(_that);case _OnAuthStateChange() when onAuthStateChange != null:
-return onAuthStateChange(_that);case _:
+return onAuthStateChange(_that);case _SignOut() when signOut != null:
+return signOut(_that);case _:
   return orElse();
 
 }
@@ -78,12 +79,13 @@ return onAuthStateChange(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( Started value)  started,required TResult Function( _OnAuthStateChange value)  onAuthStateChange,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( Started value)  started,required TResult Function( _OnAuthStateChange value)  onAuthStateChange,required TResult Function( _SignOut value)  signOut,}){
 final _that = this;
 switch (_that) {
 case Started():
 return started(_that);case _OnAuthStateChange():
-return onAuthStateChange(_that);case _:
+return onAuthStateChange(_that);case _SignOut():
+return signOut(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -100,12 +102,13 @@ return onAuthStateChange(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( Started value)?  started,TResult? Function( _OnAuthStateChange value)?  onAuthStateChange,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( Started value)?  started,TResult? Function( _OnAuthStateChange value)?  onAuthStateChange,TResult? Function( _SignOut value)?  signOut,}){
 final _that = this;
 switch (_that) {
 case Started() when started != null:
 return started(_that);case _OnAuthStateChange() when onAuthStateChange != null:
-return onAuthStateChange(_that);case _:
+return onAuthStateChange(_that);case _SignOut() when signOut != null:
+return signOut(_that);case _:
   return null;
 
 }
@@ -122,11 +125,12 @@ return onAuthStateChange(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( User? user)?  onAuthStateChange,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( User? user)?  onAuthStateChange,TResult Function()?  signOut,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case Started() when started != null:
 return started();case _OnAuthStateChange() when onAuthStateChange != null:
-return onAuthStateChange(_that.user);case _:
+return onAuthStateChange(_that.user);case _SignOut() when signOut != null:
+return signOut();case _:
   return orElse();
 
 }
@@ -144,11 +148,12 @@ return onAuthStateChange(_that.user);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( User? user)  onAuthStateChange,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( User? user)  onAuthStateChange,required TResult Function()  signOut,}) {final _that = this;
 switch (_that) {
 case Started():
 return started();case _OnAuthStateChange():
-return onAuthStateChange(_that.user);case _:
+return onAuthStateChange(_that.user);case _SignOut():
+return signOut();case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -165,11 +170,12 @@ return onAuthStateChange(_that.user);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( User? user)?  onAuthStateChange,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( User? user)?  onAuthStateChange,TResult? Function()?  signOut,}) {final _that = this;
 switch (_that) {
 case Started() when started != null:
 return started();case _OnAuthStateChange() when onAuthStateChange != null:
-return onAuthStateChange(_that.user);case _:
+return onAuthStateChange(_that.user);case _SignOut() when signOut != null:
+return signOut();case _:
   return null;
 
 }
@@ -274,5 +280,37 @@ as User?,
 
 
 }
+
+/// @nodoc
+
+
+class _SignOut implements AuthEvent {
+  const _SignOut();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SignOut);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'AuthEvent.signOut()';
+}
+
+
+}
+
+
+
 
 // dart format on

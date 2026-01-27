@@ -5,8 +5,6 @@ import 'package:mandalahearts/app/app_routes.dart';
 import 'package:mandalahearts/core/widgets/app_logo.dart';
 import 'package:mandalahearts/models/app_user/app_user.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
-import 'package:mandalahearts/repository/auth_repository.dart';
-import 'package:mandalahearts/repository/post_repository.dart';
 import 'package:mandalahearts/screens/all_post_screen.dart';
 
 /// Dashboard Tabs
@@ -31,15 +29,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
-        title: GestureDetector(
-          onTap: () {
-            context.read<AppUserRepository>().clearCache();
-            context.read<PostRepository>().clearAllCache();
-            context.read<AuthRepository>().signOut();
-            context.pushReplacement(AppRoute.mandalaHeartApp.path);
-          },
-          child: AppLogo(fontSize: 21),
-        ),
+        title: AppLogo(fontSize: 21),
         actions: [
           IconButton(
             icon: const Icon(Icons.add, size: 28),
