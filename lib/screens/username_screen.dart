@@ -6,7 +6,6 @@ import 'package:mandalahearts/features/auth/bloc/auth_bloc.dart';
 import 'package:mandalahearts/features/auth/bloc/auth_event.dart';
 import 'package:mandalahearts/features/username/cubits/username_cubits.dart';
 import 'package:mandalahearts/features/username/cubits/username_state.dart';
-import 'package:mandalahearts/repository/auth_repository.dart';
 
 class UsernameScreen extends StatefulWidget {
   const UsernameScreen({super.key});
