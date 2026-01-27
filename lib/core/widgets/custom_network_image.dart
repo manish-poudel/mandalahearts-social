@@ -30,8 +30,8 @@ class CustomNetworkImage extends StatelessWidget {
           return Container(
             width: width,
             height: height,
-            color: Colors.grey.shade200,
-            child: const Center(
+            color: Colors.grey.shade300,
+            child: Center(
               child: SizedBox(
                 width: 24,
                 height: 24,

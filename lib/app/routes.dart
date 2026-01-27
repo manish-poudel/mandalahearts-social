@@ -6,8 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mandalahearts/app/app_routes.dart';
 import 'package:mandalahearts/core/services/firestore/firestore_username_service.dart';
 import 'package:mandalahearts/enums/profile_mode.dart';
-import 'package:mandalahearts/features/auth/bloc/auth_bloc.dart';
-import 'package:mandalahearts/features/auth/bloc/auth_event.dart';
 import 'package:mandalahearts/features/photo_picker/cubit/photo_picker_cubit.dart';
 import 'package:mandalahearts/features/post_feed/cubit/public_post_feed_cubit.dart';
 import 'package:mandalahearts/features/profile/add_profile/cubits/add_profile_cubit.dart';

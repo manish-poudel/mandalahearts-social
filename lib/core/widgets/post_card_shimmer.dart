@@ -51,10 +51,10 @@ class PostCardShimmer extends StatelessWidget {
 
             /// ── Image Placeholder ─────────────────────────
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14),
+              padding: const EdgeInsets.symmetric(horizontal: 0),
               child: AspectRatio(
                 aspectRatio: 1,
-                child: ShimmerBox(borderRadius: 14),
+                child: ShimmerBox(borderRadius: 0),
               ),
             ),
 

@@ -58,26 +58,38 @@ class ProfileViewScreen extends StatelessWidget {
         title: const Text('Profile'),
         centerTitle: true,
         actions: [
-          PopupMenuButton<String>(
-            icon: const Icon(Icons.more_vert),
-            onSelected: (value) {
-              if (value == 'logout') {
-                context.read<AuthBloc>().add(AuthEvent.signOut());
-                Navigator.of(context).pop();
-              }
+          BlocBuilder<ProfileViewCubit, ProfileViewState>(
+            builder: (context, state) {
+              return state.maybeWhen(
+                loaded: (_, mode) {
+                  if (mode == ProfileMode.currentUser) {
+                    return PopupMenuButton<String>(
+                      icon: const Icon(Icons.more_vert),
+                      onSelected: (value) {
+                        if (value == 'logout') {
+                          context.read<AuthBloc>().add(AuthEvent.signOut());
+                          Navigator.of(context).pop();
+                        }
+                      },
+                      itemBuilder: (context) => const [
+                        PopupMenuItem<String>(
+                          value: 'logout',
+                          child: Row(
+                            children: [
+                              Icon(Icons.logout, size: 18),
+                              SizedBox(width: 8),
+                              Text('Logout'),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                  return SizedBox.shrink();
+                },
+                orElse: () => SizedBox.shrink(),
+              );
             },
-            itemBuilder: (context) => const [
-              PopupMenuItem<String>(
-                value: 'logout',
-                child: Row(
-                  children: [
-                    Icon(Icons.logout, size: 18),
-                    SizedBox(width: 8),
-                    Text('Logout'),
-                  ],
-                ),
-              ),
-            ],
           ),
         ],
       ),
