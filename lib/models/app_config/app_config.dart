@@ -19,6 +19,7 @@ abstract class ForceUpdate with _$ForceUpdate {
   const factory ForceUpdate({
     required List<String>? versions,
     required String? messages,
+    required String? updateLink,
   }) = _ForceUpdate;
 
   factory ForceUpdate.fromJson(Map<String, dynamic> json) =>

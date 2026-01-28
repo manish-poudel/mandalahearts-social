@@ -55,12 +55,13 @@ extension AppLifeCycleStatePatterns on AppLifeCycleState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _Loading value)?  loading,TResult Function( _Authenticated value)?  authenticated,TResult Function( _Unauthenticated value)?  unauthenticated,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _Loading value)?  loading,TResult Function( _ForceUpdate value)?  forceUpdate,TResult Function( _Authenticated value)?  authenticated,TResult Function( _Unauthenticated value)?  unauthenticated,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial(_that);case _Loading() when loading != null:
-return loading(_that);case _Authenticated() when authenticated != null:
+return loading(_that);case _ForceUpdate() when forceUpdate != null:
+return forceUpdate(_that);case _Authenticated() when authenticated != null:
 return authenticated(_that);case _Unauthenticated() when unauthenticated != null:
 return unauthenticated(_that);case _:
   return orElse();
@@ -80,12 +81,13 @@ return unauthenticated(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _Loading value)  loading,required TResult Function( _Authenticated value)  authenticated,required TResult Function( _Unauthenticated value)  unauthenticated,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _Loading value)  loading,required TResult Function( _ForceUpdate value)  forceUpdate,required TResult Function( _Authenticated value)  authenticated,required TResult Function( _Unauthenticated value)  unauthenticated,}){
 final _that = this;
 switch (_that) {
 case _Initial():
 return initial(_that);case _Loading():
-return loading(_that);case _Authenticated():
+return loading(_that);case _ForceUpdate():
+return forceUpdate(_that);case _Authenticated():
 return authenticated(_that);case _Unauthenticated():
 return unauthenticated(_that);case _:
   throw StateError('Unexpected subclass');
@@ -104,12 +106,13 @@ return unauthenticated(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _Loading value)?  loading,TResult? Function( _Authenticated value)?  authenticated,TResult? Function( _Unauthenticated value)?  unauthenticated,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _Loading value)?  loading,TResult? Function( _ForceUpdate value)?  forceUpdate,TResult? Function( _Authenticated value)?  authenticated,TResult? Function( _Unauthenticated value)?  unauthenticated,}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial(_that);case _Loading() when loading != null:
-return loading(_that);case _Authenticated() when authenticated != null:
+return loading(_that);case _ForceUpdate() when forceUpdate != null:
+return forceUpdate(_that);case _Authenticated() when authenticated != null:
 return authenticated(_that);case _Unauthenticated() when unauthenticated != null:
 return unauthenticated(_that);case _:
   return null;
@@ -128,11 +131,12 @@ return unauthenticated(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( UserProfileState profileState)?  authenticated,TResult Function()?  unauthenticated,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( String message,  String link)?  forceUpdate,TResult Function( UserProfileState profileState)?  authenticated,TResult Function()?  unauthenticated,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
-return loading();case _Authenticated() when authenticated != null:
+return loading();case _ForceUpdate() when forceUpdate != null:
+return forceUpdate(_that.message,_that.link);case _Authenticated() when authenticated != null:
 return authenticated(_that.profileState);case _Unauthenticated() when unauthenticated != null:
 return unauthenticated();case _:
   return orElse();
@@ -152,11 +156,12 @@ return unauthenticated();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( UserProfileState profileState)  authenticated,required TResult Function()  unauthenticated,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( String message,  String link)  forceUpdate,required TResult Function( UserProfileState profileState)  authenticated,required TResult Function()  unauthenticated,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case _Loading():
-return loading();case _Authenticated():
+return loading();case _ForceUpdate():
+return forceUpdate(_that.message,_that.link);case _Authenticated():
 return authenticated(_that.profileState);case _Unauthenticated():
 return unauthenticated();case _:
   throw StateError('Unexpected subclass');
@@ -175,11 +180,12 @@ return unauthenticated();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( UserProfileState profileState)?  authenticated,TResult? Function()?  unauthenticated,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( String message,  String link)?  forceUpdate,TResult? Function( UserProfileState profileState)?  authenticated,TResult? Function()?  unauthenticated,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
-return loading();case _Authenticated() when authenticated != null:
+return loading();case _ForceUpdate() when forceUpdate != null:
+return forceUpdate(_that.message,_that.link);case _Authenticated() when authenticated != null:
 return authenticated(_that.profileState);case _Unauthenticated() when unauthenticated != null:
 return unauthenticated();case _:
   return null;
@@ -252,6 +258,74 @@ String toString() {
 
 
 
+
+/// @nodoc
+
+
+class _ForceUpdate implements AppLifeCycleState {
+  const _ForceUpdate({this.message = "", this.link = ""});
+  
+
+@JsonKey() final  String message;
+@JsonKey() final  String link;
+
+/// Create a copy of AppLifeCycleState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ForceUpdateCopyWith<_ForceUpdate> get copyWith => __$ForceUpdateCopyWithImpl<_ForceUpdate>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ForceUpdate&&(identical(other.message, message) || other.message == message)&&(identical(other.link, link) || other.link == link));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message,link);
+
+@override
+String toString() {
+  return 'AppLifeCycleState.forceUpdate(message: $message, link: $link)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ForceUpdateCopyWith<$Res> implements $AppLifeCycleStateCopyWith<$Res> {
+  factory _$ForceUpdateCopyWith(_ForceUpdate value, $Res Function(_ForceUpdate) _then) = __$ForceUpdateCopyWithImpl;
+@useResult
+$Res call({
+ String message, String link
+});
+
+
+
+
+}
+/// @nodoc
+class __$ForceUpdateCopyWithImpl<$Res>
+    implements _$ForceUpdateCopyWith<$Res> {
+  __$ForceUpdateCopyWithImpl(this._self, this._then);
+
+  final _ForceUpdate _self;
+  final $Res Function(_ForceUpdate) _then;
+
+/// Create a copy of AppLifeCycleState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,Object? link = null,}) {
+  return _then(_ForceUpdate(
+message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,link: null == link ? _self.link : link // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
 
 /// @nodoc
 

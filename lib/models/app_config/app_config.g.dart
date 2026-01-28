@@ -26,12 +26,14 @@ _ForceUpdate _$ForceUpdateFromJson(Map<String, dynamic> json) => _ForceUpdate(
       ?.map((e) => e as String)
       .toList(),
   messages: json['messages'] as String?,
+  updateLink: json['updateLink'] as String?,
 );
 
 Map<String, dynamic> _$ForceUpdateToJson(_ForceUpdate instance) =>
     <String, dynamic>{
       'versions': instance.versions,
       'messages': instance.messages,
+      'updateLink': instance.updateLink,
     };
 
 _Versions _$VersionsFromJson(Map<String, dynamic> json) => _Versions(

@@ -329,7 +329,7 @@ $VersionsCopyWith<$Res>? get versions {
 /// @nodoc
 mixin _$ForceUpdate {
 
- List<String>? get versions; String? get messages;
+ List<String>? get versions; String? get messages; String? get updateLink;
 /// Create a copy of ForceUpdate
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -342,16 +342,16 @@ $ForceUpdateCopyWith<ForceUpdate> get copyWith => _$ForceUpdateCopyWithImpl<Forc
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ForceUpdate&&const DeepCollectionEquality().equals(other.versions, versions)&&(identical(other.messages, messages) || other.messages == messages));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ForceUpdate&&const DeepCollectionEquality().equals(other.versions, versions)&&(identical(other.messages, messages) || other.messages == messages)&&(identical(other.updateLink, updateLink) || other.updateLink == updateLink));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(versions),messages);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(versions),messages,updateLink);
 
 @override
 String toString() {
-  return 'ForceUpdate(versions: $versions, messages: $messages)';
+  return 'ForceUpdate(versions: $versions, messages: $messages, updateLink: $updateLink)';
 }
 
 
@@ -362,7 +362,7 @@ abstract mixin class $ForceUpdateCopyWith<$Res>  {
   factory $ForceUpdateCopyWith(ForceUpdate value, $Res Function(ForceUpdate) _then) = _$ForceUpdateCopyWithImpl;
 @useResult
 $Res call({
- List<String>? versions, String? messages
+ List<String>? versions, String? messages, String? updateLink
 });
 
 
@@ -379,10 +379,11 @@ class _$ForceUpdateCopyWithImpl<$Res>
 
 /// Create a copy of ForceUpdate
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? versions = freezed,Object? messages = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? versions = freezed,Object? messages = freezed,Object? updateLink = freezed,}) {
   return _then(_self.copyWith(
 versions: freezed == versions ? _self.versions : versions // ignore: cast_nullable_to_non_nullable
 as List<String>?,messages: freezed == messages ? _self.messages : messages // ignore: cast_nullable_to_non_nullable
+as String?,updateLink: freezed == updateLink ? _self.updateLink : updateLink // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -468,10 +469,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<String>? versions,  String? messages)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<String>? versions,  String? messages,  String? updateLink)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ForceUpdate() when $default != null:
-return $default(_that.versions,_that.messages);case _:
+return $default(_that.versions,_that.messages,_that.updateLink);case _:
   return orElse();
 
 }
@@ -489,10 +490,10 @@ return $default(_that.versions,_that.messages);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<String>? versions,  String? messages)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<String>? versions,  String? messages,  String? updateLink)  $default,) {final _that = this;
 switch (_that) {
 case _ForceUpdate():
-return $default(_that.versions,_that.messages);case _:
+return $default(_that.versions,_that.messages,_that.updateLink);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -509,10 +510,10 @@ return $default(_that.versions,_that.messages);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<String>? versions,  String? messages)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<String>? versions,  String? messages,  String? updateLink)?  $default,) {final _that = this;
 switch (_that) {
 case _ForceUpdate() when $default != null:
-return $default(_that.versions,_that.messages);case _:
+return $default(_that.versions,_that.messages,_that.updateLink);case _:
   return null;
 
 }
@@ -524,7 +525,7 @@ return $default(_that.versions,_that.messages);case _:
 @JsonSerializable()
 
 class _ForceUpdate implements ForceUpdate {
-  const _ForceUpdate({required final  List<String>? versions, required this.messages}): _versions = versions;
+  const _ForceUpdate({required final  List<String>? versions, required this.messages, required this.updateLink}): _versions = versions;
   factory _ForceUpdate.fromJson(Map<String, dynamic> json) => _$ForceUpdateFromJson(json);
 
  final  List<String>? _versions;
@@ -537,6 +538,7 @@ class _ForceUpdate implements ForceUpdate {
 }
 
 @override final  String? messages;
+@override final  String? updateLink;
 
 /// Create a copy of ForceUpdate
 /// with the given fields replaced by the non-null parameter values.
@@ -551,16 +553,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ForceUpdate&&const DeepCollectionEquality().equals(other._versions, _versions)&&(identical(other.messages, messages) || other.messages == messages));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ForceUpdate&&const DeepCollectionEquality().equals(other._versions, _versions)&&(identical(other.messages, messages) || other.messages == messages)&&(identical(other.updateLink, updateLink) || other.updateLink == updateLink));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_versions),messages);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_versions),messages,updateLink);
 
 @override
 String toString() {
-  return 'ForceUpdate(versions: $versions, messages: $messages)';
+  return 'ForceUpdate(versions: $versions, messages: $messages, updateLink: $updateLink)';
 }
 
 
@@ -571,7 +573,7 @@ abstract mixin class _$ForceUpdateCopyWith<$Res> implements $ForceUpdateCopyWith
   factory _$ForceUpdateCopyWith(_ForceUpdate value, $Res Function(_ForceUpdate) _then) = __$ForceUpdateCopyWithImpl;
 @override @useResult
 $Res call({
- List<String>? versions, String? messages
+ List<String>? versions, String? messages, String? updateLink
 });
 
 
@@ -588,10 +590,11 @@ class __$ForceUpdateCopyWithImpl<$Res>
 
 /// Create a copy of ForceUpdate
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? versions = freezed,Object? messages = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? versions = freezed,Object? messages = freezed,Object? updateLink = freezed,}) {
   return _then(_ForceUpdate(
 versions: freezed == versions ? _self._versions : versions // ignore: cast_nullable_to_non_nullable
 as List<String>?,messages: freezed == messages ? _self.messages : messages // ignore: cast_nullable_to_non_nullable
+as String?,updateLink: freezed == updateLink ? _self.updateLink : updateLink // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

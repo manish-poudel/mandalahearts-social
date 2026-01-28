@@ -36,6 +36,10 @@ class AppConfigRepository {
     return (await getForceUpdate(forceRefresh: forceRefresh))?.messages;
   }
 
+  Future<String?> getForceUpdateLink({bool forceRefresh = false}) async {
+    return (await getForceUpdate(forceRefresh: forceRefresh))?.updateLink;
+  }
+
   Future<bool?> shouldForceUpdate(
     String currentVersion, {
     bool forceRefresh = false,
@@ -59,7 +63,7 @@ class AppConfigRepository {
   /// Default config if Remote Config fails
   AppConfig _defaultConfig() {
     return AppConfig(
-      forceUpdate: ForceUpdate(versions: [], messages: ''),
+      forceUpdate: ForceUpdate(versions: [], messages: '', updateLink: ''),
       versions: Versions(
         basics: Basics(limits: Limits(createSpiritualMasters: 0)),
       ),
