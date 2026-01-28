@@ -117,7 +117,9 @@ class _SignInScreenState extends State<SignInScreen> {
 
                 const SizedBox(height: 24),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    context.push(AppRoute.passwordResetScreen.path);
+                  },
                   child: Text(
                     'Forgot password?',
                     style: textTheme.bodyMedium?.copyWith(

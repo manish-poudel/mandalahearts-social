@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppConfig {
 
- ForceUpdate? get forceUpdate; Versions? get versions;
+ ForceUpdate? get forceUpdate; Versions? get versions; PasswordReset? get passwordReset;
 /// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $AppConfigCopyWith<AppConfig> get copyWith => _$AppConfigCopyWithImpl<AppConfig>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppConfig&&(identical(other.forceUpdate, forceUpdate) || other.forceUpdate == forceUpdate)&&(identical(other.versions, versions) || other.versions == versions));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppConfig&&(identical(other.forceUpdate, forceUpdate) || other.forceUpdate == forceUpdate)&&(identical(other.versions, versions) || other.versions == versions)&&(identical(other.passwordReset, passwordReset) || other.passwordReset == passwordReset));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,forceUpdate,versions);
+int get hashCode => Object.hash(runtimeType,forceUpdate,versions,passwordReset);
 
 @override
 String toString() {
-  return 'AppConfig(forceUpdate: $forceUpdate, versions: $versions)';
+  return 'AppConfig(forceUpdate: $forceUpdate, versions: $versions, passwordReset: $passwordReset)';
 }
 
 
@@ -48,11 +48,11 @@ abstract mixin class $AppConfigCopyWith<$Res>  {
   factory $AppConfigCopyWith(AppConfig value, $Res Function(AppConfig) _then) = _$AppConfigCopyWithImpl;
 @useResult
 $Res call({
- ForceUpdate? forceUpdate, Versions? versions
+ ForceUpdate? forceUpdate, Versions? versions, PasswordReset? passwordReset
 });
 
 
-$ForceUpdateCopyWith<$Res>? get forceUpdate;$VersionsCopyWith<$Res>? get versions;
+$ForceUpdateCopyWith<$Res>? get forceUpdate;$VersionsCopyWith<$Res>? get versions;$PasswordResetCopyWith<$Res>? get passwordReset;
 
 }
 /// @nodoc
@@ -65,11 +65,12 @@ class _$AppConfigCopyWithImpl<$Res>
 
 /// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? forceUpdate = freezed,Object? versions = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? forceUpdate = freezed,Object? versions = freezed,Object? passwordReset = freezed,}) {
   return _then(_self.copyWith(
 forceUpdate: freezed == forceUpdate ? _self.forceUpdate : forceUpdate // ignore: cast_nullable_to_non_nullable
 as ForceUpdate?,versions: freezed == versions ? _self.versions : versions // ignore: cast_nullable_to_non_nullable
-as Versions?,
+as Versions?,passwordReset: freezed == passwordReset ? _self.passwordReset : passwordReset // ignore: cast_nullable_to_non_nullable
+as PasswordReset?,
   ));
 }
 /// Create a copy of AppConfig
@@ -95,6 +96,18 @@ $VersionsCopyWith<$Res>? get versions {
 
   return $VersionsCopyWith<$Res>(_self.versions!, (value) {
     return _then(_self.copyWith(versions: value));
+  });
+}/// Create a copy of AppConfig
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PasswordResetCopyWith<$Res>? get passwordReset {
+    if (_self.passwordReset == null) {
+    return null;
+  }
+
+  return $PasswordResetCopyWith<$Res>(_self.passwordReset!, (value) {
+    return _then(_self.copyWith(passwordReset: value));
   });
 }
 }
@@ -178,10 +191,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ForceUpdate? forceUpdate,  Versions? versions)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ForceUpdate? forceUpdate,  Versions? versions,  PasswordReset? passwordReset)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppConfig() when $default != null:
-return $default(_that.forceUpdate,_that.versions);case _:
+return $default(_that.forceUpdate,_that.versions,_that.passwordReset);case _:
   return orElse();
 
 }
@@ -199,10 +212,10 @@ return $default(_that.forceUpdate,_that.versions);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ForceUpdate? forceUpdate,  Versions? versions)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ForceUpdate? forceUpdate,  Versions? versions,  PasswordReset? passwordReset)  $default,) {final _that = this;
 switch (_that) {
 case _AppConfig():
-return $default(_that.forceUpdate,_that.versions);case _:
+return $default(_that.forceUpdate,_that.versions,_that.passwordReset);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -219,10 +232,10 @@ return $default(_that.forceUpdate,_that.versions);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ForceUpdate? forceUpdate,  Versions? versions)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ForceUpdate? forceUpdate,  Versions? versions,  PasswordReset? passwordReset)?  $default,) {final _that = this;
 switch (_that) {
 case _AppConfig() when $default != null:
-return $default(_that.forceUpdate,_that.versions);case _:
+return $default(_that.forceUpdate,_that.versions,_that.passwordReset);case _:
   return null;
 
 }
@@ -234,11 +247,12 @@ return $default(_that.forceUpdate,_that.versions);case _:
 @JsonSerializable()
 
 class _AppConfig implements AppConfig {
-  const _AppConfig({required this.forceUpdate, required this.versions});
+  const _AppConfig({required this.forceUpdate, required this.versions, required this.passwordReset});
   factory _AppConfig.fromJson(Map<String, dynamic> json) => _$AppConfigFromJson(json);
 
 @override final  ForceUpdate? forceUpdate;
 @override final  Versions? versions;
+@override final  PasswordReset? passwordReset;
 
 /// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
@@ -253,16 +267,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppConfig&&(identical(other.forceUpdate, forceUpdate) || other.forceUpdate == forceUpdate)&&(identical(other.versions, versions) || other.versions == versions));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppConfig&&(identical(other.forceUpdate, forceUpdate) || other.forceUpdate == forceUpdate)&&(identical(other.versions, versions) || other.versions == versions)&&(identical(other.passwordReset, passwordReset) || other.passwordReset == passwordReset));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,forceUpdate,versions);
+int get hashCode => Object.hash(runtimeType,forceUpdate,versions,passwordReset);
 
 @override
 String toString() {
-  return 'AppConfig(forceUpdate: $forceUpdate, versions: $versions)';
+  return 'AppConfig(forceUpdate: $forceUpdate, versions: $versions, passwordReset: $passwordReset)';
 }
 
 
@@ -273,11 +287,11 @@ abstract mixin class _$AppConfigCopyWith<$Res> implements $AppConfigCopyWith<$Re
   factory _$AppConfigCopyWith(_AppConfig value, $Res Function(_AppConfig) _then) = __$AppConfigCopyWithImpl;
 @override @useResult
 $Res call({
- ForceUpdate? forceUpdate, Versions? versions
+ ForceUpdate? forceUpdate, Versions? versions, PasswordReset? passwordReset
 });
 
 
-@override $ForceUpdateCopyWith<$Res>? get forceUpdate;@override $VersionsCopyWith<$Res>? get versions;
+@override $ForceUpdateCopyWith<$Res>? get forceUpdate;@override $VersionsCopyWith<$Res>? get versions;@override $PasswordResetCopyWith<$Res>? get passwordReset;
 
 }
 /// @nodoc
@@ -290,11 +304,12 @@ class __$AppConfigCopyWithImpl<$Res>
 
 /// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? forceUpdate = freezed,Object? versions = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? forceUpdate = freezed,Object? versions = freezed,Object? passwordReset = freezed,}) {
   return _then(_AppConfig(
 forceUpdate: freezed == forceUpdate ? _self.forceUpdate : forceUpdate // ignore: cast_nullable_to_non_nullable
 as ForceUpdate?,versions: freezed == versions ? _self.versions : versions // ignore: cast_nullable_to_non_nullable
-as Versions?,
+as Versions?,passwordReset: freezed == passwordReset ? _self.passwordReset : passwordReset // ignore: cast_nullable_to_non_nullable
+as PasswordReset?,
   ));
 }
 
@@ -321,6 +336,18 @@ $VersionsCopyWith<$Res>? get versions {
 
   return $VersionsCopyWith<$Res>(_self.versions!, (value) {
     return _then(_self.copyWith(versions: value));
+  });
+}/// Create a copy of AppConfig
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PasswordResetCopyWith<$Res>? get passwordReset {
+    if (_self.passwordReset == null) {
+    return null;
+  }
+
+  return $PasswordResetCopyWith<$Res>(_self.passwordReset!, (value) {
+    return _then(_self.copyWith(passwordReset: value));
   });
 }
 }
@@ -1433,6 +1460,272 @@ class __$LimitsCopyWithImpl<$Res>
   return _then(_Limits(
 createSpiritualMasters: freezed == createSpiritualMasters ? _self.createSpiritualMasters : createSpiritualMasters // ignore: cast_nullable_to_non_nullable
 as int?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$PasswordReset {
+
+ bool get handleCodeInApp; String get passwordResetUrl;
+/// Create a copy of PasswordReset
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$PasswordResetCopyWith<PasswordReset> get copyWith => _$PasswordResetCopyWithImpl<PasswordReset>(this as PasswordReset, _$identity);
+
+  /// Serializes this PasswordReset to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PasswordReset&&(identical(other.handleCodeInApp, handleCodeInApp) || other.handleCodeInApp == handleCodeInApp)&&(identical(other.passwordResetUrl, passwordResetUrl) || other.passwordResetUrl == passwordResetUrl));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,handleCodeInApp,passwordResetUrl);
+
+@override
+String toString() {
+  return 'PasswordReset(handleCodeInApp: $handleCodeInApp, passwordResetUrl: $passwordResetUrl)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $PasswordResetCopyWith<$Res>  {
+  factory $PasswordResetCopyWith(PasswordReset value, $Res Function(PasswordReset) _then) = _$PasswordResetCopyWithImpl;
+@useResult
+$Res call({
+ bool handleCodeInApp, String passwordResetUrl
+});
+
+
+
+
+}
+/// @nodoc
+class _$PasswordResetCopyWithImpl<$Res>
+    implements $PasswordResetCopyWith<$Res> {
+  _$PasswordResetCopyWithImpl(this._self, this._then);
+
+  final PasswordReset _self;
+  final $Res Function(PasswordReset) _then;
+
+/// Create a copy of PasswordReset
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? handleCodeInApp = null,Object? passwordResetUrl = null,}) {
+  return _then(_self.copyWith(
+handleCodeInApp: null == handleCodeInApp ? _self.handleCodeInApp : handleCodeInApp // ignore: cast_nullable_to_non_nullable
+as bool,passwordResetUrl: null == passwordResetUrl ? _self.passwordResetUrl : passwordResetUrl // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [PasswordReset].
+extension PasswordResetPatterns on PasswordReset {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PasswordReset value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _PasswordReset() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PasswordReset value)  $default,){
+final _that = this;
+switch (_that) {
+case _PasswordReset():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PasswordReset value)?  $default,){
+final _that = this;
+switch (_that) {
+case _PasswordReset() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool handleCodeInApp,  String passwordResetUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _PasswordReset() when $default != null:
+return $default(_that.handleCodeInApp,_that.passwordResetUrl);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool handleCodeInApp,  String passwordResetUrl)  $default,) {final _that = this;
+switch (_that) {
+case _PasswordReset():
+return $default(_that.handleCodeInApp,_that.passwordResetUrl);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool handleCodeInApp,  String passwordResetUrl)?  $default,) {final _that = this;
+switch (_that) {
+case _PasswordReset() when $default != null:
+return $default(_that.handleCodeInApp,_that.passwordResetUrl);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _PasswordReset implements PasswordReset {
+  const _PasswordReset({required this.handleCodeInApp, required this.passwordResetUrl});
+  factory _PasswordReset.fromJson(Map<String, dynamic> json) => _$PasswordResetFromJson(json);
+
+@override final  bool handleCodeInApp;
+@override final  String passwordResetUrl;
+
+/// Create a copy of PasswordReset
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$PasswordResetCopyWith<_PasswordReset> get copyWith => __$PasswordResetCopyWithImpl<_PasswordReset>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$PasswordResetToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PasswordReset&&(identical(other.handleCodeInApp, handleCodeInApp) || other.handleCodeInApp == handleCodeInApp)&&(identical(other.passwordResetUrl, passwordResetUrl) || other.passwordResetUrl == passwordResetUrl));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,handleCodeInApp,passwordResetUrl);
+
+@override
+String toString() {
+  return 'PasswordReset(handleCodeInApp: $handleCodeInApp, passwordResetUrl: $passwordResetUrl)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$PasswordResetCopyWith<$Res> implements $PasswordResetCopyWith<$Res> {
+  factory _$PasswordResetCopyWith(_PasswordReset value, $Res Function(_PasswordReset) _then) = __$PasswordResetCopyWithImpl;
+@override @useResult
+$Res call({
+ bool handleCodeInApp, String passwordResetUrl
+});
+
+
+
+
+}
+/// @nodoc
+class __$PasswordResetCopyWithImpl<$Res>
+    implements _$PasswordResetCopyWith<$Res> {
+  __$PasswordResetCopyWithImpl(this._self, this._then);
+
+  final _PasswordReset _self;
+  final $Res Function(_PasswordReset) _then;
+
+/// Create a copy of PasswordReset
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? handleCodeInApp = null,Object? passwordResetUrl = null,}) {
+  return _then(_PasswordReset(
+handleCodeInApp: null == handleCodeInApp ? _self.handleCodeInApp : handleCodeInApp // ignore: cast_nullable_to_non_nullable
+as bool,passwordResetUrl: null == passwordResetUrl ? _self.passwordResetUrl : passwordResetUrl // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

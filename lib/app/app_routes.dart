@@ -3,6 +3,7 @@ enum AppRoute {
   onboarding('/onboarding', 'onboarding'),
   signIn('/sign_in', 'sign_in'),
   signUp('/sign_up', 'sign_up'),
+  passwordResetScreen("/passwordResetScreen", "passwordResetScreen"),
   addProfile('/addprofile', 'addprofile'),
   dashboard('/dashboard', 'dashboard'),
   username('/username', 'username'),

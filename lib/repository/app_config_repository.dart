@@ -40,6 +40,17 @@ class AppConfigRepository {
     return (await getForceUpdate(forceRefresh: forceRefresh))?.updateLink;
   }
 
+  Future<PasswordReset> getPasswordReset({bool forceRefresh = false}) async {
+    final passwordReset = (await getAppConfig(
+      forceRefresh: forceRefresh,
+    )).passwordReset;
+    return passwordReset ??
+        PasswordReset(
+          handleCodeInApp: true,
+          passwordResetUrl: "https://mandalahearts.com/reset-password",
+        );
+  }
+
   Future<bool?> shouldForceUpdate(
     String currentVersion, {
     bool forceRefresh = false,
@@ -66,6 +77,10 @@ class AppConfigRepository {
       forceUpdate: ForceUpdate(versions: [], messages: '', updateLink: ''),
       versions: Versions(
         basics: Basics(limits: Limits(createSpiritualMasters: 0)),
+      ),
+      passwordReset: PasswordReset(
+        handleCodeInApp: true,
+        passwordResetUrl: "https://mandalahearts.com/reset-password",
       ),
     );
   }

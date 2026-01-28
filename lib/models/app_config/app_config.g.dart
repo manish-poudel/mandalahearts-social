@@ -13,12 +13,16 @@ _AppConfig _$AppConfigFromJson(Map<String, dynamic> json) => _AppConfig(
   versions: json['versions'] == null
       ? null
       : Versions.fromJson(json['versions'] as Map<String, dynamic>),
+  passwordReset: json['passwordReset'] == null
+      ? null
+      : PasswordReset.fromJson(json['passwordReset'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$AppConfigToJson(_AppConfig instance) =>
     <String, dynamic>{
       'forceUpdate': instance.forceUpdate?.toJson(),
       'versions': instance.versions?.toJson(),
+      'passwordReset': instance.passwordReset?.toJson(),
     };
 
 _ForceUpdate _$ForceUpdateFromJson(Map<String, dynamic> json) => _ForceUpdate(
@@ -63,3 +67,15 @@ _Limits _$LimitsFromJson(Map<String, dynamic> json) => _Limits(
 Map<String, dynamic> _$LimitsToJson(_Limits instance) => <String, dynamic>{
   'create_spiritual_masters': instance.createSpiritualMasters,
 };
+
+_PasswordReset _$PasswordResetFromJson(Map<String, dynamic> json) =>
+    _PasswordReset(
+      handleCodeInApp: json['handleCodeInApp'] as bool,
+      passwordResetUrl: json['passwordResetUrl'] as String,
+    );
+
+Map<String, dynamic> _$PasswordResetToJson(_PasswordReset instance) =>
+    <String, dynamic>{
+      'handleCodeInApp': instance.handleCodeInApp,
+      'passwordResetUrl': instance.passwordResetUrl,
+    };

@@ -8,6 +8,7 @@ abstract class AppConfig with _$AppConfig {
   const factory AppConfig({
     required ForceUpdate? forceUpdate,
     required Versions? versions,
+    required PasswordReset? passwordReset,
   }) = _AppConfig;
 
   factory AppConfig.fromJson(Map<String, dynamic> json) =>
@@ -49,4 +50,15 @@ abstract class Limits with _$Limits {
   }) = _Limits;
 
   factory Limits.fromJson(Map<String, dynamic> json) => _$LimitsFromJson(json);
+}
+
+@freezed
+abstract class PasswordReset with _$PasswordReset {
+  const factory PasswordReset({
+    required bool handleCodeInApp,
+    required String passwordResetUrl,
+  }) = _PasswordReset;
+
+  factory PasswordReset.fromJson(Map<String, dynamic> json) =>
+      _$PasswordResetFromJson(json);
 }

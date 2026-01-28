@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mandalahearts/features/app_lifecycle/enums/user_profile_state.dart';
 import 'package:mandalahearts/models/app_user/app_user.dart';
@@ -57,7 +56,6 @@ class AppLifeCycleBloc extends Bloc<AppLifeCycleEvent, AppLifeCycleState> {
       },
       onAuthStateChange: (user) async {
         if (user == null) {
-          debugPrint("Clear all cache");
           appUserRepository.clearCache();
           postRepository.clearAllCache();
           emit(const AppLifeCycleState.unauthenticated());

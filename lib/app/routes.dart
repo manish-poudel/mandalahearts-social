@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mandalahearts/app/app_routes.dart';
 import 'package:mandalahearts/core/services/firestore/firestore_username_service.dart';
 import 'package:mandalahearts/enums/profile_mode.dart';
+import 'package:mandalahearts/features/password_reset/cubit/password_reset_cubit.dart';
 import 'package:mandalahearts/features/photo_picker/cubit/photo_picker_cubit.dart';
 import 'package:mandalahearts/features/post_feed/cubit/public_post_feed_cubit.dart';
 import 'package:mandalahearts/features/profile/add_profile/cubits/add_profile_cubit.dart';
@@ -14,10 +15,12 @@ import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_
 import 'package:mandalahearts/features/username/cubits/username_cubits.dart';
 import 'package:mandalahearts/features/view_post/cubit/post_view_cubit.dart';
 import 'package:mandalahearts/models/post_feed_item/post_feed_item.dart';
+import 'package:mandalahearts/repository/app_config_repository.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
 import 'package:mandalahearts/repository/post_repository.dart';
 import 'package:mandalahearts/screens/add_post_screen.dart';
 import 'package:mandalahearts/screens/edit_profile_screen.dart';
+import 'package:mandalahearts/screens/password_reset_screen.dart';
 import 'package:mandalahearts/screens/photo_picker_screen.dart';
 import 'package:mandalahearts/screens/post_view_screen.dart';
 import 'package:mandalahearts/screens/profile_view_screen.dart';
@@ -78,6 +81,19 @@ List<RouteBase> appRoutes = <RouteBase>[
       return BlocProvider(
         create: (_) => SignUpCubit(context.read<AuthRepository>()),
         child: const SignUpScreen(),
+      );
+    },
+  ),
+  GoRoute(
+    name: AppRoute.passwordResetScreen.name,
+    path: AppRoute.passwordResetScreen.path,
+    builder: (context, state) {
+      return BlocProvider(
+        create: (_) => PasswordResetCubit(
+          context.read<AuthRepository>(),
+          context.read<AppConfigRepository>(),
+        ),
+        child: const PasswordResetScreen(),
       );
     },
   ),
