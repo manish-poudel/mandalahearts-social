@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:mandalahearts/core/widgets/username_form.dart';
-import 'package:mandalahearts/features/auth/bloc/auth_bloc.dart';
-import 'package:mandalahearts/features/auth/bloc/auth_event.dart';
+import 'package:mandalahearts/features/app_lifecycle/bloc/app_lifecycle_bloc.dart';
+import 'package:mandalahearts/features/app_lifecycle/bloc/app_lifecycle_event.dart';
 import 'package:mandalahearts/features/username/cubits/username_cubits.dart';
 import 'package:mandalahearts/features/username/cubits/username_state.dart';
+import 'package:mandalahearts/repository/auth_repository.dart';
 
 class UsernameScreen extends StatefulWidget {
   const UsernameScreen({super.key});
@@ -33,7 +34,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
       appBar: AppBar(
         actions: [
           TextButton(
-            onPressed: () => context.read<AuthBloc>().add(AuthEvent.signOut()),
+            onPressed: () => context.read<AuthRepository>().signOut(),
             child: Text(
               "Logout",
               style: TextStyle(color: colorScheme.onSurface.withAlpha(180)),
@@ -46,7 +47,9 @@ class _UsernameScreenState extends State<UsernameScreen> {
         child: BlocConsumer<UsernameCubit, UsernameState>(
           listener: (context, state) {
             state.whenOrNull(
-              success: () => context.read<AuthBloc>().add(AuthEvent.started()),
+              success: () => context.read<AppLifeCycleBloc>().add(
+                AppLifeCycleEvent.started(),
+              ),
             );
           },
           builder: (context, state) {

@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:mandalahearts/core/services/firestore/firestore_username_service.dart';
-import 'package:mandalahearts/features/auth/bloc/auth_bloc.dart';
-import 'package:mandalahearts/features/auth/bloc/auth_state.dart';
-import 'package:mandalahearts/features/auth/enums/user_profile_state.dart';
+import 'package:mandalahearts/features/app_lifecycle/bloc/app_lifecycle_bloc.dart';
+import 'package:mandalahearts/features/app_lifecycle/bloc/app_lifecycle_state.dart';
+import 'package:mandalahearts/features/app_lifecycle/enums/user_profile_state.dart';
 import 'package:mandalahearts/features/post_feed/cubit/public_post_feed_cubit.dart';
 import 'package:mandalahearts/features/profile/add_profile/cubits/add_profile_cubit.dart';
 import 'package:mandalahearts/features/username/cubits/username_cubits.dart';
@@ -23,7 +23,7 @@ class MandalaHeartsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(
+    return BlocBuilder<AppLifeCycleBloc, AppLifeCycleState>(
       builder: (context, state) {
         return state.maybeWhen(
           unauthenticated: () => OnBoardingScreen(),

@@ -9,14 +9,13 @@ import 'package:mandalahearts/core/widgets/basic_profile_view.dart';
 import 'package:mandalahearts/core/widgets/custom_network_image.dart';
 import 'package:mandalahearts/core/widgets/spiritual_master_view.dart';
 import 'package:mandalahearts/enums/profile_mode.dart';
-import 'package:mandalahearts/features/auth/bloc/auth_bloc.dart';
-import 'package:mandalahearts/features/auth/bloc/auth_event.dart';
 import 'package:mandalahearts/features/post_feed/cubit/private_post_feed_cubit.dart';
 import 'package:mandalahearts/features/post_feed/state/post_feed_state.dart';
 import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_cubit.dart';
 import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_state.dart';
 import 'package:mandalahearts/features/spiritual_masters/add/cubit/add_spiritual_master_cubit.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
+import 'package:mandalahearts/repository/auth_repository.dart';
 import 'package:mandalahearts/repository/post_repository.dart';
 import 'package:mandalahearts/repository/spiritual_master_repository.dart';
 
@@ -67,7 +66,7 @@ class ProfileViewScreen extends StatelessWidget {
                       icon: const Icon(Icons.more_vert),
                       onSelected: (value) {
                         if (value == 'logout') {
-                          context.read<AuthBloc>().add(AuthEvent.signOut());
+                          context.read<AuthRepository>().signOut();
                           Navigator.of(context).pop();
                         }
                       },

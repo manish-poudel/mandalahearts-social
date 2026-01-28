@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'auth_state.dart';
+part of 'app_lifecycle_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,7 +12,7 @@ part of 'auth_state.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$AuthState {
+mixin _$AppLifeCycleState {
 
 
 
@@ -20,7 +20,7 @@ mixin _$AuthState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthState);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppLifeCycleState);
 }
 
 
@@ -29,20 +29,20 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'AuthState()';
+  return 'AppLifeCycleState()';
 }
 
 
 }
 
 /// @nodoc
-class $AuthStateCopyWith<$Res>  {
-$AuthStateCopyWith(AuthState _, $Res Function(AuthState) __);
+class $AppLifeCycleStateCopyWith<$Res>  {
+$AppLifeCycleStateCopyWith(AppLifeCycleState _, $Res Function(AppLifeCycleState) __);
 }
 
 
-/// Adds pattern-matching-related methods to [AuthState].
-extension AuthStatePatterns on AuthState {
+/// Adds pattern-matching-related methods to [AppLifeCycleState].
+extension AppLifeCycleStatePatterns on AppLifeCycleState {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -192,7 +192,7 @@ return unauthenticated();case _:
 /// @nodoc
 
 
-class _Initial implements AuthState {
+class _Initial implements AppLifeCycleState {
   const _Initial();
   
 
@@ -212,7 +212,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'AuthState.initial()';
+  return 'AppLifeCycleState.initial()';
 }
 
 
@@ -224,7 +224,7 @@ String toString() {
 /// @nodoc
 
 
-class _Loading implements AuthState {
+class _Loading implements AppLifeCycleState {
   const _Loading();
   
 
@@ -244,7 +244,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'AuthState.loading()';
+  return 'AppLifeCycleState.loading()';
 }
 
 
@@ -256,13 +256,13 @@ String toString() {
 /// @nodoc
 
 
-class _Authenticated implements AuthState {
+class _Authenticated implements AppLifeCycleState {
   const _Authenticated({required this.profileState});
   
 
  final  UserProfileState profileState;
 
-/// Create a copy of AuthState
+/// Create a copy of AppLifeCycleState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
@@ -281,14 +281,14 @@ int get hashCode => Object.hash(runtimeType,profileState);
 
 @override
 String toString() {
-  return 'AuthState.authenticated(profileState: $profileState)';
+  return 'AppLifeCycleState.authenticated(profileState: $profileState)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$AuthenticatedCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
+abstract mixin class _$AuthenticatedCopyWith<$Res> implements $AppLifeCycleStateCopyWith<$Res> {
   factory _$AuthenticatedCopyWith(_Authenticated value, $Res Function(_Authenticated) _then) = __$AuthenticatedCopyWithImpl;
 @useResult
 $Res call({
@@ -307,7 +307,7 @@ class __$AuthenticatedCopyWithImpl<$Res>
   final _Authenticated _self;
   final $Res Function(_Authenticated) _then;
 
-/// Create a copy of AuthState
+/// Create a copy of AppLifeCycleState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? profileState = null,}) {
   return _then(_Authenticated(
@@ -322,7 +322,7 @@ as UserProfileState,
 /// @nodoc
 
 
-class _Unauthenticated implements AuthState {
+class _Unauthenticated implements AppLifeCycleState {
   const _Unauthenticated();
   
 
@@ -342,7 +342,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'AuthState.unauthenticated()';
+  return 'AppLifeCycleState.unauthenticated()';
 }
 
 

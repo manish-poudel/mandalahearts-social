@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'auth_event.dart';
+part of 'app_lifecycle_event.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,7 +12,7 @@ part of 'auth_event.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$AuthEvent {
+mixin _$AppLifeCycleEvent {
 
 
 
@@ -20,7 +20,7 @@ mixin _$AuthEvent {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthEvent);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppLifeCycleEvent);
 }
 
 
@@ -29,20 +29,20 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'AuthEvent()';
+  return 'AppLifeCycleEvent()';
 }
 
 
 }
 
 /// @nodoc
-class $AuthEventCopyWith<$Res>  {
-$AuthEventCopyWith(AuthEvent _, $Res Function(AuthEvent) __);
+class $AppLifeCycleEventCopyWith<$Res>  {
+$AppLifeCycleEventCopyWith(AppLifeCycleEvent _, $Res Function(AppLifeCycleEvent) __);
 }
 
 
-/// Adds pattern-matching-related methods to [AuthEvent].
-extension AuthEventPatterns on AuthEvent {
+/// Adds pattern-matching-related methods to [AppLifeCycleEvent].
+extension AppLifeCycleEventPatterns on AppLifeCycleEvent {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -55,13 +55,12 @@ extension AuthEventPatterns on AuthEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( Started value)?  started,TResult Function( _OnAuthStateChange value)?  onAuthStateChange,TResult Function( _SignOut value)?  signOut,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( Started value)?  started,TResult Function( _OnAuthStateChange value)?  onAuthStateChange,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case Started() when started != null:
 return started(_that);case _OnAuthStateChange() when onAuthStateChange != null:
-return onAuthStateChange(_that);case _SignOut() when signOut != null:
-return signOut(_that);case _:
+return onAuthStateChange(_that);case _:
   return orElse();
 
 }
@@ -79,13 +78,12 @@ return signOut(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( Started value)  started,required TResult Function( _OnAuthStateChange value)  onAuthStateChange,required TResult Function( _SignOut value)  signOut,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( Started value)  started,required TResult Function( _OnAuthStateChange value)  onAuthStateChange,}){
 final _that = this;
 switch (_that) {
 case Started():
 return started(_that);case _OnAuthStateChange():
-return onAuthStateChange(_that);case _SignOut():
-return signOut(_that);case _:
+return onAuthStateChange(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -102,13 +100,12 @@ return signOut(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( Started value)?  started,TResult? Function( _OnAuthStateChange value)?  onAuthStateChange,TResult? Function( _SignOut value)?  signOut,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( Started value)?  started,TResult? Function( _OnAuthStateChange value)?  onAuthStateChange,}){
 final _that = this;
 switch (_that) {
 case Started() when started != null:
 return started(_that);case _OnAuthStateChange() when onAuthStateChange != null:
-return onAuthStateChange(_that);case _SignOut() when signOut != null:
-return signOut(_that);case _:
+return onAuthStateChange(_that);case _:
   return null;
 
 }
@@ -125,12 +122,11 @@ return signOut(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( User? user)?  onAuthStateChange,TResult Function()?  signOut,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( User? user)?  onAuthStateChange,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case Started() when started != null:
 return started();case _OnAuthStateChange() when onAuthStateChange != null:
-return onAuthStateChange(_that.user);case _SignOut() when signOut != null:
-return signOut();case _:
+return onAuthStateChange(_that.user);case _:
   return orElse();
 
 }
@@ -148,12 +144,11 @@ return signOut();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( User? user)  onAuthStateChange,required TResult Function()  signOut,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( User? user)  onAuthStateChange,}) {final _that = this;
 switch (_that) {
 case Started():
 return started();case _OnAuthStateChange():
-return onAuthStateChange(_that.user);case _SignOut():
-return signOut();case _:
+return onAuthStateChange(_that.user);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -170,12 +165,11 @@ return signOut();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( User? user)?  onAuthStateChange,TResult? Function()?  signOut,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( User? user)?  onAuthStateChange,}) {final _that = this;
 switch (_that) {
 case Started() when started != null:
 return started();case _OnAuthStateChange() when onAuthStateChange != null:
-return onAuthStateChange(_that.user);case _SignOut() when signOut != null:
-return signOut();case _:
+return onAuthStateChange(_that.user);case _:
   return null;
 
 }
@@ -186,7 +180,7 @@ return signOut();case _:
 /// @nodoc
 
 
-class Started implements AuthEvent {
+class Started implements AppLifeCycleEvent {
   const Started();
   
 
@@ -206,7 +200,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'AuthEvent.started()';
+  return 'AppLifeCycleEvent.started()';
 }
 
 
@@ -218,13 +212,13 @@ String toString() {
 /// @nodoc
 
 
-class _OnAuthStateChange implements AuthEvent {
+class _OnAuthStateChange implements AppLifeCycleEvent {
   const _OnAuthStateChange({this.user});
   
 
  final  User? user;
 
-/// Create a copy of AuthEvent
+/// Create a copy of AppLifeCycleEvent
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
@@ -243,14 +237,14 @@ int get hashCode => Object.hash(runtimeType,user);
 
 @override
 String toString() {
-  return 'AuthEvent.onAuthStateChange(user: $user)';
+  return 'AppLifeCycleEvent.onAuthStateChange(user: $user)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$OnAuthStateChangeCopyWith<$Res> implements $AuthEventCopyWith<$Res> {
+abstract mixin class _$OnAuthStateChangeCopyWith<$Res> implements $AppLifeCycleEventCopyWith<$Res> {
   factory _$OnAuthStateChangeCopyWith(_OnAuthStateChange value, $Res Function(_OnAuthStateChange) _then) = __$OnAuthStateChangeCopyWithImpl;
 @useResult
 $Res call({
@@ -269,7 +263,7 @@ class __$OnAuthStateChangeCopyWithImpl<$Res>
   final _OnAuthStateChange _self;
   final $Res Function(_OnAuthStateChange) _then;
 
-/// Create a copy of AuthEvent
+/// Create a copy of AppLifeCycleEvent
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? user = freezed,}) {
   return _then(_OnAuthStateChange(
@@ -280,37 +274,5 @@ as User?,
 
 
 }
-
-/// @nodoc
-
-
-class _SignOut implements AuthEvent {
-  const _SignOut();
-  
-
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SignOut);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'AuthEvent.signOut()';
-}
-
-
-}
-
-
-
 
 // dart format on
