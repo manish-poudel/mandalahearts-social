@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mandalahearts/models/app_user/app_user.dart';
 import 'package:mandalahearts/models/async/async_state.dart';
+import 'package:mandalahearts/repository/app_config_repository.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
 import 'package:mandalahearts/repository/spiritual_master_repository.dart';
 import 'add_spiritual_master_state.dart';
@@ -8,9 +9,11 @@ import 'add_spiritual_master_state.dart';
 class AddSpiritualMasterCubit extends Cubit<AddSpiritualMasterState> {
   final SpiritualMasterRepository repository;
   final AppUserRepository appUserRepository;
+  final AppConfigRepository appConfigRepository;
   AddSpiritualMasterCubit({
     required this.repository,
     required this.appUserRepository,
+    required this.appConfigRepository,
   }) : super(const AddSpiritualMasterState.loading());
 
   Future<void> loadMasters() async {
@@ -69,6 +72,20 @@ class AddSpiritualMasterCubit extends Cubit<AddSpiritualMasterState> {
             appUser.spiritualMasters ?? [],
           );
 
+          final limit = await appConfigRepository
+              .getCreateSpiritualMastersLimit(forceRefresh: false);
+          if (limit != null) {
+            if (spiritualMasters.length >= limit) {
+              emit(
+                current.copyWith(
+                  saveState: AsyncState.error(
+                    'You have reached the limit of $limit spiritual masters.',
+                  ),
+                ),
+              );
+              return;
+            }
+          }
           // Check if already added
           if (spiritualMasters.any(
             (s) => s.name.toLowerCase() == spiritualMaster.name.toLowerCase(),

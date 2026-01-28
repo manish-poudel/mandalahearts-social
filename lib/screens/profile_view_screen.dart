@@ -14,6 +14,7 @@ import 'package:mandalahearts/features/post_feed/state/post_feed_state.dart';
 import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_cubit.dart';
 import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_state.dart';
 import 'package:mandalahearts/features/spiritual_masters/add/cubit/add_spiritual_master_cubit.dart';
+import 'package:mandalahearts/repository/app_config_repository.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
 import 'package:mandalahearts/repository/auth_repository.dart';
 import 'package:mandalahearts/repository/post_repository.dart';
@@ -40,6 +41,7 @@ class ProfileViewScreen extends StatelessWidget {
             create: (_) => AddSpiritualMasterCubit(
               repository: context.read<SpiritualMasterRepository>(),
               appUserRepository: context.read<AppUserRepository>(),
+              appConfigRepository: context.read<AppConfigRepository>(),
             )..loadMasters(),
             child: const AddSpiritualMaster(),
           ),
