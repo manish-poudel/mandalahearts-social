@@ -103,7 +103,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   AgreeToSignUp(textAlign: TextAlign.start),
                   const SizedBox(height: 16),
 
-                  /// ✅ BUTTON (FIXED)
                   BlocBuilder<SignUpCubit, SignUpState>(
                     builder: (context, state) {
                       final isLoading = state.maybeWhen(

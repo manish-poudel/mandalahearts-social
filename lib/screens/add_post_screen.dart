@@ -6,6 +6,7 @@ import 'package:mandalahearts/core/widgets/progress_dialog_box.dart';
 import 'package:mandalahearts/features/add_post/cubits/add_post_cubit.dart';
 import 'package:mandalahearts/features/add_post/cubits/add_post_state.dart';
 import 'package:mandalahearts/models/async/async_state.dart';
+import 'package:mandalahearts/repository/app_config_repository.dart';
 import 'package:mandalahearts/repository/auth_repository.dart';
 import 'package:mandalahearts/repository/post_repository.dart';
 
@@ -25,6 +26,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
     final colorScheme = Theme.of(context).colorScheme;
     return BlocProvider(
       create: (_) => AddPostCubit(
+        appConfigRepository: context.read<AppConfigRepository>(),
         postRepository: context.read<PostRepository>(),
         creatorId: context.read<AuthRepository>().currentUser!.uid,
       ),

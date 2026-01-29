@@ -1,18 +1,24 @@
 import 'dart:typed_data';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mandalahearts/core/services/compressor/image_compressor.dart';
 import 'package:mandalahearts/core/widgets/photo/interactive_image_viewer.dart';
 import 'package:mandalahearts/features/add_post/cubits/add_post_state.dart';
 import 'package:mandalahearts/models/async/async_state.dart';
+import 'package:mandalahearts/repository/app_config_repository.dart';
 import 'package:mandalahearts/repository/post_repository.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 class AddPostCubit extends Cubit<AddPostState> {
-  AddPostCubit({required this.creatorId, required this.postRepository})
-    : super(const AddPostState());
+  AddPostCubit({
+    required this.creatorId,
+    required this.postRepository,
+    required this.appConfigRepository,
+  }) : super(const AddPostState());
 
   final PostRepository postRepository;
+  final AppConfigRepository appConfigRepository;
   final String creatorId;
 
   void selectImage(AssetEntity image) {
@@ -59,12 +65,39 @@ class AddPostCubit extends Cubit<AddPostState> {
 
     emit(state.copyWith(postState: const AsyncState.loading()));
 
-    final compressedBytes = await ImageCompressor.compress(
-      state.capturedBytes!,
-      quality: 60,
-    );
-
     try {
+      final appConfig = await appConfigRepository.getAppConfig();
+
+      // Check if verification is required
+      if (appConfig.restrictions?.post?.requireVerifiedAccount ?? false) {
+        final user = FirebaseAuth.instance.currentUser;
+
+        if (user != null) {
+          // Force a refresh of the user profile to get the latest verification status
+          await user.reload();
+
+          // Re-fetch the user instance after reload
+          final refreshedUser = FirebaseAuth.instance.currentUser;
+
+          if (refreshedUser != null && !refreshedUser.emailVerified) {
+            emit(
+              state.copyWith(
+                postState: const AsyncState.error(
+                  'Your account must be verified to post.',
+                ),
+              ),
+            );
+            return; // Stop the execution here
+          }
+        }
+      }
+
+      // Proceed with compression only if verification check passes
+      final compressedBytes = await ImageCompressor.compress(
+        state.capturedBytes!,
+        quality: 60,
+      );
+
       await postRepository.createPost(
         creatorId: creatorId,
         imageBytes: compressedBytes,
@@ -75,7 +108,7 @@ class AddPostCubit extends Cubit<AddPostState> {
     } catch (e) {
       emit(
         state.copyWith(
-          postState: AsyncState.error("Something went wrong.Try again"),
+          postState: AsyncState.error("Something went wrong. Try again"),
         ),
       );
     }

@@ -151,9 +151,10 @@ List<RouteBase> appRoutes = <RouteBase>[
     builder: (context, state) {
       final userId = context.read<AppUserRepository>().currentUser!.uid;
       return BlocProvider(
-        create: (context) =>
-            ProfileViewCubit(context.read<AppUserRepository>())
-              ..init(userId: userId, mode: ProfileMode.currentUser),
+        create: (context) => ProfileViewCubit(
+          context.read<AppUserRepository>(),
+          authRepository: context.read<AuthRepository>(),
+        )..init(userId: userId, mode: ProfileMode.currentUser),
         child: const ProfileViewScreen(),
       );
     },

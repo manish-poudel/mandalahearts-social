@@ -1,15 +1,19 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mandalahearts/enums/profile_mode.dart';
 import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_state.dart';
 import 'package:mandalahearts/models/app_user/app_user.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
+import 'package:mandalahearts/repository/auth_repository.dart';
 
 class ProfileViewCubit extends Cubit<ProfileViewState> {
-  ProfileViewCubit(this._repo) : super(const ProfileViewState.loading());
+  ProfileViewCubit(this._repo, {this.authRepository})
+    : super(const ProfileViewState.loading());
 
   final AppUserRepository _repo;
+  final AuthRepository? authRepository;
   StreamSubscription<AppUser?>? _sub;
 
   Future<void> init({required String userId, required ProfileMode mode}) async {
@@ -32,7 +36,15 @@ class ProfileViewCubit extends Cubit<ProfileViewState> {
               emit(const ProfileViewState.error('User not found'));
               return;
             }
-            emit(ProfileViewState.loaded(user: user, mode: mode));
+            final emailVerified =
+                authRepository?.currentUser?.emailVerified ?? true;
+            emit(
+              ProfileViewState.loaded(
+                user: user,
+                mode: mode,
+                isAccountVerfied: emailVerified,
+              ),
+            );
           },
           onError: (e) {
             emit(ProfileViewState.error(e.toString()));
@@ -56,7 +68,7 @@ class ProfileViewCubit extends Cubit<ProfileViewState> {
 
   void deleteSpiritualMaster(SpiritualMaster master) {
     state.whenOrNull(
-      loaded: (user, mode) async {
+      loaded: (user, mode, _) async {
         try {
           final oldMasters = user.spiritualMasters ?? [];
           final updatedMasters = List<SpiritualMaster>.from(oldMasters)

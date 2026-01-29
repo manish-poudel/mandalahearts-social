@@ -9,6 +9,7 @@ abstract class ProfileViewState with _$ProfileViewState {
   const factory ProfileViewState.loaded({
     required AppUser user,
     required ProfileMode mode,
+    @Default(true) isAccountVerfied,
   }) = _Loaded;
   const factory ProfileViewState.error(String message) = _Error;
 }
