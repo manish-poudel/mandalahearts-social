@@ -40,11 +40,12 @@ class AppLifeCycleBloc extends Bloc<AppLifeCycleEvent, AppLifeCycleState> {
 
         // Check if app needs force update
         if (await _checkIfNeedsForceUpdate()) {
-          final forceUpdate = await appConfigRepository.getForceUpdate();
+          final appConfig = await appConfigRepository.getAppConfig();
+
           emit(
             AppLifeCycleState.forceUpdate(
-              message: forceUpdate?.messages ?? "",
-              link: forceUpdate?.updateLink ?? "",
+              message: appConfig.app?.forceUpdateMessage ?? "",
+              link: appConfig.app?.forceUpdateLink ?? "",
             ),
           );
           return;
@@ -99,10 +100,12 @@ class AppLifeCycleBloc extends Bloc<AppLifeCycleEvent, AppLifeCycleState> {
 
   Future<bool> _checkIfNeedsForceUpdate() async {
     try {
-      final forceUpdate = await appConfigRepository.getForceUpdate();
+      final appConfig = await appConfigRepository.getAppConfig(
+        forceRefresh: true,
+      );
 
       // If forceUpdate or versions is null/empty, no update needed
-      final versions = forceUpdate?.versions;
+      final versions = appConfig.app?.forceUpdateVersions;
       if (versions == null || versions.isEmpty) return false;
 
       // Get current app version

@@ -6,59 +6,62 @@ part 'app_config.g.dart';
 @Freezed(toJson: true)
 abstract class AppConfig with _$AppConfig {
   const factory AppConfig({
-    required ForceUpdate? forceUpdate,
+    required AppInfo? app,
     required Versions? versions,
-    required PasswordReset? passwordReset,
+    required Restrictions? restrictions,
   }) = _AppConfig;
 
   factory AppConfig.fromJson(Map<String, dynamic> json) =>
       _$AppConfigFromJson(json);
 }
 
+/// ------------------- App Info -------------------
 @freezed
-abstract class ForceUpdate with _$ForceUpdate {
-  const factory ForceUpdate({
-    required List<String>? versions,
-    required String? messages,
-    required String? updateLink,
-  }) = _ForceUpdate;
+abstract class AppInfo with _$AppInfo {
+  const factory AppInfo({
+    required List<String>? forceUpdateVersions,
+    required String? forceUpdateMessage,
+    required String? forceUpdateLink,
+    required String? privacyPolicyLink,
+    required String? termsAndConditionsLink,
+  }) = _AppInfo;
 
-  factory ForceUpdate.fromJson(Map<String, dynamic> json) =>
-      _$ForceUpdateFromJson(json);
+  factory AppInfo.fromJson(Map<String, dynamic> json) =>
+      _$AppInfoFromJson(json);
 }
 
+/// ------------------- Versions -------------------
 @freezed
 abstract class Versions with _$Versions {
-  const factory Versions({required Basics? basics}) = _Versions;
+  const factory Versions({required PlanLimits? basics}) = _Versions;
 
   factory Versions.fromJson(Map<String, dynamic> json) =>
       _$VersionsFromJson(json);
 }
 
 @freezed
-abstract class Basics with _$Basics {
-  const factory Basics({required Limits? limits}) = _Basics;
+abstract class PlanLimits with _$PlanLimits {
+  const factory PlanLimits({required int? createSpiritualMasters}) =
+      _PlanLimits;
 
-  factory Basics.fromJson(Map<String, dynamic> json) => _$BasicsFromJson(json);
+  factory PlanLimits.fromJson(Map<String, dynamic> json) =>
+      _$PlanLimitsFromJson(json);
+}
+
+/// ------------------- Restrictions -------------------
+@freezed
+abstract class Restrictions with _$Restrictions {
+  const factory Restrictions({required PostRestrictions? post}) = _Restrictions;
+
+  factory Restrictions.fromJson(Map<String, dynamic> json) =>
+      _$RestrictionsFromJson(json);
 }
 
 @freezed
-abstract class Limits with _$Limits {
-  const factory Limits({
-    @JsonKey(name: 'create_spiritual_masters')
-    required int? createSpiritualMasters,
-  }) = _Limits;
+abstract class PostRestrictions with _$PostRestrictions {
+  const factory PostRestrictions({required bool? requireVerifiedAccount}) =
+      _PostRestrictions;
 
-  factory Limits.fromJson(Map<String, dynamic> json) => _$LimitsFromJson(json);
-}
-
-@freezed
-abstract class PasswordReset with _$PasswordReset {
-  const factory PasswordReset({
-    required bool handleCodeInApp,
-    required String passwordResetUrl,
-  }) = _PasswordReset;
-
-  factory PasswordReset.fromJson(Map<String, dynamic> json) =>
-      _$PasswordResetFromJson(json);
+  factory PostRestrictions.fromJson(Map<String, dynamic> json) =>
+      _$PostRestrictionsFromJson(json);
 }

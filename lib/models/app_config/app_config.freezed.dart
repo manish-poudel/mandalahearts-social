@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppConfig {
 
- ForceUpdate? get forceUpdate; Versions? get versions; PasswordReset? get passwordReset;
+ AppInfo? get app; Versions? get versions; Restrictions? get restrictions;
 /// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $AppConfigCopyWith<AppConfig> get copyWith => _$AppConfigCopyWithImpl<AppConfig>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppConfig&&(identical(other.forceUpdate, forceUpdate) || other.forceUpdate == forceUpdate)&&(identical(other.versions, versions) || other.versions == versions)&&(identical(other.passwordReset, passwordReset) || other.passwordReset == passwordReset));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppConfig&&(identical(other.app, app) || other.app == app)&&(identical(other.versions, versions) || other.versions == versions)&&(identical(other.restrictions, restrictions) || other.restrictions == restrictions));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,forceUpdate,versions,passwordReset);
+int get hashCode => Object.hash(runtimeType,app,versions,restrictions);
 
 @override
 String toString() {
-  return 'AppConfig(forceUpdate: $forceUpdate, versions: $versions, passwordReset: $passwordReset)';
+  return 'AppConfig(app: $app, versions: $versions, restrictions: $restrictions)';
 }
 
 
@@ -48,11 +48,11 @@ abstract mixin class $AppConfigCopyWith<$Res>  {
   factory $AppConfigCopyWith(AppConfig value, $Res Function(AppConfig) _then) = _$AppConfigCopyWithImpl;
 @useResult
 $Res call({
- ForceUpdate? forceUpdate, Versions? versions, PasswordReset? passwordReset
+ AppInfo? app, Versions? versions, Restrictions? restrictions
 });
 
 
-$ForceUpdateCopyWith<$Res>? get forceUpdate;$VersionsCopyWith<$Res>? get versions;$PasswordResetCopyWith<$Res>? get passwordReset;
+$AppInfoCopyWith<$Res>? get app;$VersionsCopyWith<$Res>? get versions;$RestrictionsCopyWith<$Res>? get restrictions;
 
 }
 /// @nodoc
@@ -65,25 +65,25 @@ class _$AppConfigCopyWithImpl<$Res>
 
 /// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? forceUpdate = freezed,Object? versions = freezed,Object? passwordReset = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? app = freezed,Object? versions = freezed,Object? restrictions = freezed,}) {
   return _then(_self.copyWith(
-forceUpdate: freezed == forceUpdate ? _self.forceUpdate : forceUpdate // ignore: cast_nullable_to_non_nullable
-as ForceUpdate?,versions: freezed == versions ? _self.versions : versions // ignore: cast_nullable_to_non_nullable
-as Versions?,passwordReset: freezed == passwordReset ? _self.passwordReset : passwordReset // ignore: cast_nullable_to_non_nullable
-as PasswordReset?,
+app: freezed == app ? _self.app : app // ignore: cast_nullable_to_non_nullable
+as AppInfo?,versions: freezed == versions ? _self.versions : versions // ignore: cast_nullable_to_non_nullable
+as Versions?,restrictions: freezed == restrictions ? _self.restrictions : restrictions // ignore: cast_nullable_to_non_nullable
+as Restrictions?,
   ));
 }
 /// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$ForceUpdateCopyWith<$Res>? get forceUpdate {
-    if (_self.forceUpdate == null) {
+$AppInfoCopyWith<$Res>? get app {
+    if (_self.app == null) {
     return null;
   }
 
-  return $ForceUpdateCopyWith<$Res>(_self.forceUpdate!, (value) {
-    return _then(_self.copyWith(forceUpdate: value));
+  return $AppInfoCopyWith<$Res>(_self.app!, (value) {
+    return _then(_self.copyWith(app: value));
   });
 }/// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
@@ -101,13 +101,13 @@ $VersionsCopyWith<$Res>? get versions {
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$PasswordResetCopyWith<$Res>? get passwordReset {
-    if (_self.passwordReset == null) {
+$RestrictionsCopyWith<$Res>? get restrictions {
+    if (_self.restrictions == null) {
     return null;
   }
 
-  return $PasswordResetCopyWith<$Res>(_self.passwordReset!, (value) {
-    return _then(_self.copyWith(passwordReset: value));
+  return $RestrictionsCopyWith<$Res>(_self.restrictions!, (value) {
+    return _then(_self.copyWith(restrictions: value));
   });
 }
 }
@@ -191,10 +191,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ForceUpdate? forceUpdate,  Versions? versions,  PasswordReset? passwordReset)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( AppInfo? app,  Versions? versions,  Restrictions? restrictions)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppConfig() when $default != null:
-return $default(_that.forceUpdate,_that.versions,_that.passwordReset);case _:
+return $default(_that.app,_that.versions,_that.restrictions);case _:
   return orElse();
 
 }
@@ -212,10 +212,10 @@ return $default(_that.forceUpdate,_that.versions,_that.passwordReset);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ForceUpdate? forceUpdate,  Versions? versions,  PasswordReset? passwordReset)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( AppInfo? app,  Versions? versions,  Restrictions? restrictions)  $default,) {final _that = this;
 switch (_that) {
 case _AppConfig():
-return $default(_that.forceUpdate,_that.versions,_that.passwordReset);case _:
+return $default(_that.app,_that.versions,_that.restrictions);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -232,10 +232,10 @@ return $default(_that.forceUpdate,_that.versions,_that.passwordReset);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ForceUpdate? forceUpdate,  Versions? versions,  PasswordReset? passwordReset)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( AppInfo? app,  Versions? versions,  Restrictions? restrictions)?  $default,) {final _that = this;
 switch (_that) {
 case _AppConfig() when $default != null:
-return $default(_that.forceUpdate,_that.versions,_that.passwordReset);case _:
+return $default(_that.app,_that.versions,_that.restrictions);case _:
   return null;
 
 }
@@ -247,12 +247,12 @@ return $default(_that.forceUpdate,_that.versions,_that.passwordReset);case _:
 @JsonSerializable()
 
 class _AppConfig implements AppConfig {
-  const _AppConfig({required this.forceUpdate, required this.versions, required this.passwordReset});
+  const _AppConfig({required this.app, required this.versions, required this.restrictions});
   factory _AppConfig.fromJson(Map<String, dynamic> json) => _$AppConfigFromJson(json);
 
-@override final  ForceUpdate? forceUpdate;
+@override final  AppInfo? app;
 @override final  Versions? versions;
-@override final  PasswordReset? passwordReset;
+@override final  Restrictions? restrictions;
 
 /// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
@@ -267,16 +267,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppConfig&&(identical(other.forceUpdate, forceUpdate) || other.forceUpdate == forceUpdate)&&(identical(other.versions, versions) || other.versions == versions)&&(identical(other.passwordReset, passwordReset) || other.passwordReset == passwordReset));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppConfig&&(identical(other.app, app) || other.app == app)&&(identical(other.versions, versions) || other.versions == versions)&&(identical(other.restrictions, restrictions) || other.restrictions == restrictions));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,forceUpdate,versions,passwordReset);
+int get hashCode => Object.hash(runtimeType,app,versions,restrictions);
 
 @override
 String toString() {
-  return 'AppConfig(forceUpdate: $forceUpdate, versions: $versions, passwordReset: $passwordReset)';
+  return 'AppConfig(app: $app, versions: $versions, restrictions: $restrictions)';
 }
 
 
@@ -287,11 +287,11 @@ abstract mixin class _$AppConfigCopyWith<$Res> implements $AppConfigCopyWith<$Re
   factory _$AppConfigCopyWith(_AppConfig value, $Res Function(_AppConfig) _then) = __$AppConfigCopyWithImpl;
 @override @useResult
 $Res call({
- ForceUpdate? forceUpdate, Versions? versions, PasswordReset? passwordReset
+ AppInfo? app, Versions? versions, Restrictions? restrictions
 });
 
 
-@override $ForceUpdateCopyWith<$Res>? get forceUpdate;@override $VersionsCopyWith<$Res>? get versions;@override $PasswordResetCopyWith<$Res>? get passwordReset;
+@override $AppInfoCopyWith<$Res>? get app;@override $VersionsCopyWith<$Res>? get versions;@override $RestrictionsCopyWith<$Res>? get restrictions;
 
 }
 /// @nodoc
@@ -304,12 +304,12 @@ class __$AppConfigCopyWithImpl<$Res>
 
 /// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? forceUpdate = freezed,Object? versions = freezed,Object? passwordReset = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? app = freezed,Object? versions = freezed,Object? restrictions = freezed,}) {
   return _then(_AppConfig(
-forceUpdate: freezed == forceUpdate ? _self.forceUpdate : forceUpdate // ignore: cast_nullable_to_non_nullable
-as ForceUpdate?,versions: freezed == versions ? _self.versions : versions // ignore: cast_nullable_to_non_nullable
-as Versions?,passwordReset: freezed == passwordReset ? _self.passwordReset : passwordReset // ignore: cast_nullable_to_non_nullable
-as PasswordReset?,
+app: freezed == app ? _self.app : app // ignore: cast_nullable_to_non_nullable
+as AppInfo?,versions: freezed == versions ? _self.versions : versions // ignore: cast_nullable_to_non_nullable
+as Versions?,restrictions: freezed == restrictions ? _self.restrictions : restrictions // ignore: cast_nullable_to_non_nullable
+as Restrictions?,
   ));
 }
 
@@ -317,13 +317,13 @@ as PasswordReset?,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$ForceUpdateCopyWith<$Res>? get forceUpdate {
-    if (_self.forceUpdate == null) {
+$AppInfoCopyWith<$Res>? get app {
+    if (_self.app == null) {
     return null;
   }
 
-  return $ForceUpdateCopyWith<$Res>(_self.forceUpdate!, (value) {
-    return _then(_self.copyWith(forceUpdate: value));
+  return $AppInfoCopyWith<$Res>(_self.app!, (value) {
+    return _then(_self.copyWith(app: value));
   });
 }/// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
@@ -341,55 +341,55 @@ $VersionsCopyWith<$Res>? get versions {
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$PasswordResetCopyWith<$Res>? get passwordReset {
-    if (_self.passwordReset == null) {
+$RestrictionsCopyWith<$Res>? get restrictions {
+    if (_self.restrictions == null) {
     return null;
   }
 
-  return $PasswordResetCopyWith<$Res>(_self.passwordReset!, (value) {
-    return _then(_self.copyWith(passwordReset: value));
+  return $RestrictionsCopyWith<$Res>(_self.restrictions!, (value) {
+    return _then(_self.copyWith(restrictions: value));
   });
 }
 }
 
 
 /// @nodoc
-mixin _$ForceUpdate {
+mixin _$AppInfo {
 
- List<String>? get versions; String? get messages; String? get updateLink;
-/// Create a copy of ForceUpdate
+ List<String>? get forceUpdateVersions; String? get forceUpdateMessage; String? get forceUpdateLink; String? get privacyPolicyLink; String? get termsAndConditionsLink;
+/// Create a copy of AppInfo
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$ForceUpdateCopyWith<ForceUpdate> get copyWith => _$ForceUpdateCopyWithImpl<ForceUpdate>(this as ForceUpdate, _$identity);
+$AppInfoCopyWith<AppInfo> get copyWith => _$AppInfoCopyWithImpl<AppInfo>(this as AppInfo, _$identity);
 
-  /// Serializes this ForceUpdate to a JSON map.
+  /// Serializes this AppInfo to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ForceUpdate&&const DeepCollectionEquality().equals(other.versions, versions)&&(identical(other.messages, messages) || other.messages == messages)&&(identical(other.updateLink, updateLink) || other.updateLink == updateLink));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppInfo&&const DeepCollectionEquality().equals(other.forceUpdateVersions, forceUpdateVersions)&&(identical(other.forceUpdateMessage, forceUpdateMessage) || other.forceUpdateMessage == forceUpdateMessage)&&(identical(other.forceUpdateLink, forceUpdateLink) || other.forceUpdateLink == forceUpdateLink)&&(identical(other.privacyPolicyLink, privacyPolicyLink) || other.privacyPolicyLink == privacyPolicyLink)&&(identical(other.termsAndConditionsLink, termsAndConditionsLink) || other.termsAndConditionsLink == termsAndConditionsLink));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(versions),messages,updateLink);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(forceUpdateVersions),forceUpdateMessage,forceUpdateLink,privacyPolicyLink,termsAndConditionsLink);
 
 @override
 String toString() {
-  return 'ForceUpdate(versions: $versions, messages: $messages, updateLink: $updateLink)';
+  return 'AppInfo(forceUpdateVersions: $forceUpdateVersions, forceUpdateMessage: $forceUpdateMessage, forceUpdateLink: $forceUpdateLink, privacyPolicyLink: $privacyPolicyLink, termsAndConditionsLink: $termsAndConditionsLink)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $ForceUpdateCopyWith<$Res>  {
-  factory $ForceUpdateCopyWith(ForceUpdate value, $Res Function(ForceUpdate) _then) = _$ForceUpdateCopyWithImpl;
+abstract mixin class $AppInfoCopyWith<$Res>  {
+  factory $AppInfoCopyWith(AppInfo value, $Res Function(AppInfo) _then) = _$AppInfoCopyWithImpl;
 @useResult
 $Res call({
- List<String>? versions, String? messages, String? updateLink
+ List<String>? forceUpdateVersions, String? forceUpdateMessage, String? forceUpdateLink, String? privacyPolicyLink, String? termsAndConditionsLink
 });
 
 
@@ -397,20 +397,22 @@ $Res call({
 
 }
 /// @nodoc
-class _$ForceUpdateCopyWithImpl<$Res>
-    implements $ForceUpdateCopyWith<$Res> {
-  _$ForceUpdateCopyWithImpl(this._self, this._then);
+class _$AppInfoCopyWithImpl<$Res>
+    implements $AppInfoCopyWith<$Res> {
+  _$AppInfoCopyWithImpl(this._self, this._then);
 
-  final ForceUpdate _self;
-  final $Res Function(ForceUpdate) _then;
+  final AppInfo _self;
+  final $Res Function(AppInfo) _then;
 
-/// Create a copy of ForceUpdate
+/// Create a copy of AppInfo
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? versions = freezed,Object? messages = freezed,Object? updateLink = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? forceUpdateVersions = freezed,Object? forceUpdateMessage = freezed,Object? forceUpdateLink = freezed,Object? privacyPolicyLink = freezed,Object? termsAndConditionsLink = freezed,}) {
   return _then(_self.copyWith(
-versions: freezed == versions ? _self.versions : versions // ignore: cast_nullable_to_non_nullable
-as List<String>?,messages: freezed == messages ? _self.messages : messages // ignore: cast_nullable_to_non_nullable
-as String?,updateLink: freezed == updateLink ? _self.updateLink : updateLink // ignore: cast_nullable_to_non_nullable
+forceUpdateVersions: freezed == forceUpdateVersions ? _self.forceUpdateVersions : forceUpdateVersions // ignore: cast_nullable_to_non_nullable
+as List<String>?,forceUpdateMessage: freezed == forceUpdateMessage ? _self.forceUpdateMessage : forceUpdateMessage // ignore: cast_nullable_to_non_nullable
+as String?,forceUpdateLink: freezed == forceUpdateLink ? _self.forceUpdateLink : forceUpdateLink // ignore: cast_nullable_to_non_nullable
+as String?,privacyPolicyLink: freezed == privacyPolicyLink ? _self.privacyPolicyLink : privacyPolicyLink // ignore: cast_nullable_to_non_nullable
+as String?,termsAndConditionsLink: freezed == termsAndConditionsLink ? _self.termsAndConditionsLink : termsAndConditionsLink // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -418,8 +420,8 @@ as String?,
 }
 
 
-/// Adds pattern-matching-related methods to [ForceUpdate].
-extension ForceUpdatePatterns on ForceUpdate {
+/// Adds pattern-matching-related methods to [AppInfo].
+extension AppInfoPatterns on AppInfo {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -432,10 +434,10 @@ extension ForceUpdatePatterns on ForceUpdate {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ForceUpdate value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AppInfo value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _ForceUpdate() when $default != null:
+case _AppInfo() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -454,10 +456,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ForceUpdate value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AppInfo value)  $default,){
 final _that = this;
 switch (_that) {
-case _ForceUpdate():
+case _AppInfo():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -475,10 +477,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ForceUpdate value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AppInfo value)?  $default,){
 final _that = this;
 switch (_that) {
-case _ForceUpdate() when $default != null:
+case _AppInfo() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -496,10 +498,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<String>? versions,  String? messages,  String? updateLink)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<String>? forceUpdateVersions,  String? forceUpdateMessage,  String? forceUpdateLink,  String? privacyPolicyLink,  String? termsAndConditionsLink)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _ForceUpdate() when $default != null:
-return $default(_that.versions,_that.messages,_that.updateLink);case _:
+case _AppInfo() when $default != null:
+return $default(_that.forceUpdateVersions,_that.forceUpdateMessage,_that.forceUpdateLink,_that.privacyPolicyLink,_that.termsAndConditionsLink);case _:
   return orElse();
 
 }
@@ -517,10 +519,10 @@ return $default(_that.versions,_that.messages,_that.updateLink);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<String>? versions,  String? messages,  String? updateLink)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<String>? forceUpdateVersions,  String? forceUpdateMessage,  String? forceUpdateLink,  String? privacyPolicyLink,  String? termsAndConditionsLink)  $default,) {final _that = this;
 switch (_that) {
-case _ForceUpdate():
-return $default(_that.versions,_that.messages,_that.updateLink);case _:
+case _AppInfo():
+return $default(_that.forceUpdateVersions,_that.forceUpdateMessage,_that.forceUpdateLink,_that.privacyPolicyLink,_that.termsAndConditionsLink);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -537,10 +539,10 @@ return $default(_that.versions,_that.messages,_that.updateLink);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<String>? versions,  String? messages,  String? updateLink)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<String>? forceUpdateVersions,  String? forceUpdateMessage,  String? forceUpdateLink,  String? privacyPolicyLink,  String? termsAndConditionsLink)?  $default,) {final _that = this;
 switch (_that) {
-case _ForceUpdate() when $default != null:
-return $default(_that.versions,_that.messages,_that.updateLink);case _:
+case _AppInfo() when $default != null:
+return $default(_that.forceUpdateVersions,_that.forceUpdateMessage,_that.forceUpdateLink,_that.privacyPolicyLink,_that.termsAndConditionsLink);case _:
   return null;
 
 }
@@ -551,56 +553,58 @@ return $default(_that.versions,_that.messages,_that.updateLink);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _ForceUpdate implements ForceUpdate {
-  const _ForceUpdate({required final  List<String>? versions, required this.messages, required this.updateLink}): _versions = versions;
-  factory _ForceUpdate.fromJson(Map<String, dynamic> json) => _$ForceUpdateFromJson(json);
+class _AppInfo implements AppInfo {
+  const _AppInfo({required final  List<String>? forceUpdateVersions, required this.forceUpdateMessage, required this.forceUpdateLink, required this.privacyPolicyLink, required this.termsAndConditionsLink}): _forceUpdateVersions = forceUpdateVersions;
+  factory _AppInfo.fromJson(Map<String, dynamic> json) => _$AppInfoFromJson(json);
 
- final  List<String>? _versions;
-@override List<String>? get versions {
-  final value = _versions;
+ final  List<String>? _forceUpdateVersions;
+@override List<String>? get forceUpdateVersions {
+  final value = _forceUpdateVersions;
   if (value == null) return null;
-  if (_versions is EqualUnmodifiableListView) return _versions;
+  if (_forceUpdateVersions is EqualUnmodifiableListView) return _forceUpdateVersions;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(value);
 }
 
-@override final  String? messages;
-@override final  String? updateLink;
+@override final  String? forceUpdateMessage;
+@override final  String? forceUpdateLink;
+@override final  String? privacyPolicyLink;
+@override final  String? termsAndConditionsLink;
 
-/// Create a copy of ForceUpdate
+/// Create a copy of AppInfo
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$ForceUpdateCopyWith<_ForceUpdate> get copyWith => __$ForceUpdateCopyWithImpl<_ForceUpdate>(this, _$identity);
+_$AppInfoCopyWith<_AppInfo> get copyWith => __$AppInfoCopyWithImpl<_AppInfo>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$ForceUpdateToJson(this, );
+  return _$AppInfoToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ForceUpdate&&const DeepCollectionEquality().equals(other._versions, _versions)&&(identical(other.messages, messages) || other.messages == messages)&&(identical(other.updateLink, updateLink) || other.updateLink == updateLink));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppInfo&&const DeepCollectionEquality().equals(other._forceUpdateVersions, _forceUpdateVersions)&&(identical(other.forceUpdateMessage, forceUpdateMessage) || other.forceUpdateMessage == forceUpdateMessage)&&(identical(other.forceUpdateLink, forceUpdateLink) || other.forceUpdateLink == forceUpdateLink)&&(identical(other.privacyPolicyLink, privacyPolicyLink) || other.privacyPolicyLink == privacyPolicyLink)&&(identical(other.termsAndConditionsLink, termsAndConditionsLink) || other.termsAndConditionsLink == termsAndConditionsLink));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_versions),messages,updateLink);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_forceUpdateVersions),forceUpdateMessage,forceUpdateLink,privacyPolicyLink,termsAndConditionsLink);
 
 @override
 String toString() {
-  return 'ForceUpdate(versions: $versions, messages: $messages, updateLink: $updateLink)';
+  return 'AppInfo(forceUpdateVersions: $forceUpdateVersions, forceUpdateMessage: $forceUpdateMessage, forceUpdateLink: $forceUpdateLink, privacyPolicyLink: $privacyPolicyLink, termsAndConditionsLink: $termsAndConditionsLink)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$ForceUpdateCopyWith<$Res> implements $ForceUpdateCopyWith<$Res> {
-  factory _$ForceUpdateCopyWith(_ForceUpdate value, $Res Function(_ForceUpdate) _then) = __$ForceUpdateCopyWithImpl;
+abstract mixin class _$AppInfoCopyWith<$Res> implements $AppInfoCopyWith<$Res> {
+  factory _$AppInfoCopyWith(_AppInfo value, $Res Function(_AppInfo) _then) = __$AppInfoCopyWithImpl;
 @override @useResult
 $Res call({
- List<String>? versions, String? messages, String? updateLink
+ List<String>? forceUpdateVersions, String? forceUpdateMessage, String? forceUpdateLink, String? privacyPolicyLink, String? termsAndConditionsLink
 });
 
 
@@ -608,20 +612,22 @@ $Res call({
 
 }
 /// @nodoc
-class __$ForceUpdateCopyWithImpl<$Res>
-    implements _$ForceUpdateCopyWith<$Res> {
-  __$ForceUpdateCopyWithImpl(this._self, this._then);
+class __$AppInfoCopyWithImpl<$Res>
+    implements _$AppInfoCopyWith<$Res> {
+  __$AppInfoCopyWithImpl(this._self, this._then);
 
-  final _ForceUpdate _self;
-  final $Res Function(_ForceUpdate) _then;
+  final _AppInfo _self;
+  final $Res Function(_AppInfo) _then;
 
-/// Create a copy of ForceUpdate
+/// Create a copy of AppInfo
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? versions = freezed,Object? messages = freezed,Object? updateLink = freezed,}) {
-  return _then(_ForceUpdate(
-versions: freezed == versions ? _self._versions : versions // ignore: cast_nullable_to_non_nullable
-as List<String>?,messages: freezed == messages ? _self.messages : messages // ignore: cast_nullable_to_non_nullable
-as String?,updateLink: freezed == updateLink ? _self.updateLink : updateLink // ignore: cast_nullable_to_non_nullable
+@override @pragma('vm:prefer-inline') $Res call({Object? forceUpdateVersions = freezed,Object? forceUpdateMessage = freezed,Object? forceUpdateLink = freezed,Object? privacyPolicyLink = freezed,Object? termsAndConditionsLink = freezed,}) {
+  return _then(_AppInfo(
+forceUpdateVersions: freezed == forceUpdateVersions ? _self._forceUpdateVersions : forceUpdateVersions // ignore: cast_nullable_to_non_nullable
+as List<String>?,forceUpdateMessage: freezed == forceUpdateMessage ? _self.forceUpdateMessage : forceUpdateMessage // ignore: cast_nullable_to_non_nullable
+as String?,forceUpdateLink: freezed == forceUpdateLink ? _self.forceUpdateLink : forceUpdateLink // ignore: cast_nullable_to_non_nullable
+as String?,privacyPolicyLink: freezed == privacyPolicyLink ? _self.privacyPolicyLink : privacyPolicyLink // ignore: cast_nullable_to_non_nullable
+as String?,termsAndConditionsLink: freezed == termsAndConditionsLink ? _self.termsAndConditionsLink : termsAndConditionsLink // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -633,7 +639,7 @@ as String?,
 /// @nodoc
 mixin _$Versions {
 
- Basics? get basics;
+ PlanLimits? get basics;
 /// Create a copy of Versions
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -666,11 +672,11 @@ abstract mixin class $VersionsCopyWith<$Res>  {
   factory $VersionsCopyWith(Versions value, $Res Function(Versions) _then) = _$VersionsCopyWithImpl;
 @useResult
 $Res call({
- Basics? basics
+ PlanLimits? basics
 });
 
 
-$BasicsCopyWith<$Res>? get basics;
+$PlanLimitsCopyWith<$Res>? get basics;
 
 }
 /// @nodoc
@@ -686,19 +692,19 @@ class _$VersionsCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? basics = freezed,}) {
   return _then(_self.copyWith(
 basics: freezed == basics ? _self.basics : basics // ignore: cast_nullable_to_non_nullable
-as Basics?,
+as PlanLimits?,
   ));
 }
 /// Create a copy of Versions
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$BasicsCopyWith<$Res>? get basics {
+$PlanLimitsCopyWith<$Res>? get basics {
     if (_self.basics == null) {
     return null;
   }
 
-  return $BasicsCopyWith<$Res>(_self.basics!, (value) {
+  return $PlanLimitsCopyWith<$Res>(_self.basics!, (value) {
     return _then(_self.copyWith(basics: value));
   });
 }
@@ -783,7 +789,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Basics? basics)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( PlanLimits? basics)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Versions() when $default != null:
 return $default(_that.basics);case _:
@@ -804,7 +810,7 @@ return $default(_that.basics);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Basics? basics)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( PlanLimits? basics)  $default,) {final _that = this;
 switch (_that) {
 case _Versions():
 return $default(_that.basics);case _:
@@ -824,7 +830,7 @@ return $default(_that.basics);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Basics? basics)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( PlanLimits? basics)?  $default,) {final _that = this;
 switch (_that) {
 case _Versions() when $default != null:
 return $default(_that.basics);case _:
@@ -842,7 +848,7 @@ class _Versions implements Versions {
   const _Versions({required this.basics});
   factory _Versions.fromJson(Map<String, dynamic> json) => _$VersionsFromJson(json);
 
-@override final  Basics? basics;
+@override final  PlanLimits? basics;
 
 /// Create a copy of Versions
 /// with the given fields replaced by the non-null parameter values.
@@ -877,11 +883,11 @@ abstract mixin class _$VersionsCopyWith<$Res> implements $VersionsCopyWith<$Res>
   factory _$VersionsCopyWith(_Versions value, $Res Function(_Versions) _then) = __$VersionsCopyWithImpl;
 @override @useResult
 $Res call({
- Basics? basics
+ PlanLimits? basics
 });
 
 
-@override $BasicsCopyWith<$Res>? get basics;
+@override $PlanLimitsCopyWith<$Res>? get basics;
 
 }
 /// @nodoc
@@ -897,7 +903,7 @@ class __$VersionsCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? basics = freezed,}) {
   return _then(_Versions(
 basics: freezed == basics ? _self.basics : basics // ignore: cast_nullable_to_non_nullable
-as Basics?,
+as PlanLimits?,
   ));
 }
 
@@ -905,12 +911,12 @@ as Basics?,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$BasicsCopyWith<$Res>? get basics {
+$PlanLimitsCopyWith<$Res>? get basics {
     if (_self.basics == null) {
     return null;
   }
 
-  return $BasicsCopyWith<$Res>(_self.basics!, (value) {
+  return $PlanLimitsCopyWith<$Res>(_self.basics!, (value) {
     return _then(_self.copyWith(basics: value));
   });
 }
@@ -918,309 +924,22 @@ $BasicsCopyWith<$Res>? get basics {
 
 
 /// @nodoc
-mixin _$Basics {
+mixin _$PlanLimits {
 
- Limits? get limits;
-/// Create a copy of Basics
+ int? get createSpiritualMasters;
+/// Create a copy of PlanLimits
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$BasicsCopyWith<Basics> get copyWith => _$BasicsCopyWithImpl<Basics>(this as Basics, _$identity);
+$PlanLimitsCopyWith<PlanLimits> get copyWith => _$PlanLimitsCopyWithImpl<PlanLimits>(this as PlanLimits, _$identity);
 
-  /// Serializes this Basics to a JSON map.
+  /// Serializes this PlanLimits to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Basics&&(identical(other.limits, limits) || other.limits == limits));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,limits);
-
-@override
-String toString() {
-  return 'Basics(limits: $limits)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $BasicsCopyWith<$Res>  {
-  factory $BasicsCopyWith(Basics value, $Res Function(Basics) _then) = _$BasicsCopyWithImpl;
-@useResult
-$Res call({
- Limits? limits
-});
-
-
-$LimitsCopyWith<$Res>? get limits;
-
-}
-/// @nodoc
-class _$BasicsCopyWithImpl<$Res>
-    implements $BasicsCopyWith<$Res> {
-  _$BasicsCopyWithImpl(this._self, this._then);
-
-  final Basics _self;
-  final $Res Function(Basics) _then;
-
-/// Create a copy of Basics
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? limits = freezed,}) {
-  return _then(_self.copyWith(
-limits: freezed == limits ? _self.limits : limits // ignore: cast_nullable_to_non_nullable
-as Limits?,
-  ));
-}
-/// Create a copy of Basics
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$LimitsCopyWith<$Res>? get limits {
-    if (_self.limits == null) {
-    return null;
-  }
-
-  return $LimitsCopyWith<$Res>(_self.limits!, (value) {
-    return _then(_self.copyWith(limits: value));
-  });
-}
-}
-
-
-/// Adds pattern-matching-related methods to [Basics].
-extension BasicsPatterns on Basics {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Basics value)?  $default,{required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case _Basics() when $default != null:
-return $default(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Basics value)  $default,){
-final _that = this;
-switch (_that) {
-case _Basics():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Basics value)?  $default,){
-final _that = this;
-switch (_that) {
-case _Basics() when $default != null:
-return $default(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Limits? limits)?  $default,{required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case _Basics() when $default != null:
-return $default(_that.limits);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Limits? limits)  $default,) {final _that = this;
-switch (_that) {
-case _Basics():
-return $default(_that.limits);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Limits? limits)?  $default,) {final _that = this;
-switch (_that) {
-case _Basics() when $default != null:
-return $default(_that.limits);case _:
-  return null;
-
-}
-}
-
-}
-
-/// @nodoc
-@JsonSerializable()
-
-class _Basics implements Basics {
-  const _Basics({required this.limits});
-  factory _Basics.fromJson(Map<String, dynamic> json) => _$BasicsFromJson(json);
-
-@override final  Limits? limits;
-
-/// Create a copy of Basics
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$BasicsCopyWith<_Basics> get copyWith => __$BasicsCopyWithImpl<_Basics>(this, _$identity);
-
-@override
-Map<String, dynamic> toJson() {
-  return _$BasicsToJson(this, );
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Basics&&(identical(other.limits, limits) || other.limits == limits));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,limits);
-
-@override
-String toString() {
-  return 'Basics(limits: $limits)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$BasicsCopyWith<$Res> implements $BasicsCopyWith<$Res> {
-  factory _$BasicsCopyWith(_Basics value, $Res Function(_Basics) _then) = __$BasicsCopyWithImpl;
-@override @useResult
-$Res call({
- Limits? limits
-});
-
-
-@override $LimitsCopyWith<$Res>? get limits;
-
-}
-/// @nodoc
-class __$BasicsCopyWithImpl<$Res>
-    implements _$BasicsCopyWith<$Res> {
-  __$BasicsCopyWithImpl(this._self, this._then);
-
-  final _Basics _self;
-  final $Res Function(_Basics) _then;
-
-/// Create a copy of Basics
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? limits = freezed,}) {
-  return _then(_Basics(
-limits: freezed == limits ? _self.limits : limits // ignore: cast_nullable_to_non_nullable
-as Limits?,
-  ));
-}
-
-/// Create a copy of Basics
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$LimitsCopyWith<$Res>? get limits {
-    if (_self.limits == null) {
-    return null;
-  }
-
-  return $LimitsCopyWith<$Res>(_self.limits!, (value) {
-    return _then(_self.copyWith(limits: value));
-  });
-}
-}
-
-
-/// @nodoc
-mixin _$Limits {
-
-@JsonKey(name: 'create_spiritual_masters') int? get createSpiritualMasters;
-/// Create a copy of Limits
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$LimitsCopyWith<Limits> get copyWith => _$LimitsCopyWithImpl<Limits>(this as Limits, _$identity);
-
-  /// Serializes this Limits to a JSON map.
-  Map<String, dynamic> toJson();
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Limits&&(identical(other.createSpiritualMasters, createSpiritualMasters) || other.createSpiritualMasters == createSpiritualMasters));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PlanLimits&&(identical(other.createSpiritualMasters, createSpiritualMasters) || other.createSpiritualMasters == createSpiritualMasters));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1229,18 +948,18 @@ int get hashCode => Object.hash(runtimeType,createSpiritualMasters);
 
 @override
 String toString() {
-  return 'Limits(createSpiritualMasters: $createSpiritualMasters)';
+  return 'PlanLimits(createSpiritualMasters: $createSpiritualMasters)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $LimitsCopyWith<$Res>  {
-  factory $LimitsCopyWith(Limits value, $Res Function(Limits) _then) = _$LimitsCopyWithImpl;
+abstract mixin class $PlanLimitsCopyWith<$Res>  {
+  factory $PlanLimitsCopyWith(PlanLimits value, $Res Function(PlanLimits) _then) = _$PlanLimitsCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'create_spiritual_masters') int? createSpiritualMasters
+ int? createSpiritualMasters
 });
 
 
@@ -1248,14 +967,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$LimitsCopyWithImpl<$Res>
-    implements $LimitsCopyWith<$Res> {
-  _$LimitsCopyWithImpl(this._self, this._then);
+class _$PlanLimitsCopyWithImpl<$Res>
+    implements $PlanLimitsCopyWith<$Res> {
+  _$PlanLimitsCopyWithImpl(this._self, this._then);
 
-  final Limits _self;
-  final $Res Function(Limits) _then;
+  final PlanLimits _self;
+  final $Res Function(PlanLimits) _then;
 
-/// Create a copy of Limits
+/// Create a copy of PlanLimits
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? createSpiritualMasters = freezed,}) {
   return _then(_self.copyWith(
@@ -1267,8 +986,8 @@ as int?,
 }
 
 
-/// Adds pattern-matching-related methods to [Limits].
-extension LimitsPatterns on Limits {
+/// Adds pattern-matching-related methods to [PlanLimits].
+extension PlanLimitsPatterns on PlanLimits {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -1281,10 +1000,10 @@ extension LimitsPatterns on Limits {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Limits value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PlanLimits value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _Limits() when $default != null:
+case _PlanLimits() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -1303,10 +1022,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Limits value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PlanLimits value)  $default,){
 final _that = this;
 switch (_that) {
-case _Limits():
+case _PlanLimits():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -1324,10 +1043,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Limits value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PlanLimits value)?  $default,){
 final _that = this;
 switch (_that) {
-case _Limits() when $default != null:
+case _PlanLimits() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -1345,9 +1064,9 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'create_spiritual_masters')  int? createSpiritualMasters)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? createSpiritualMasters)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _Limits() when $default != null:
+case _PlanLimits() when $default != null:
 return $default(_that.createSpiritualMasters);case _:
   return orElse();
 
@@ -1366,9 +1085,9 @@ return $default(_that.createSpiritualMasters);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'create_spiritual_masters')  int? createSpiritualMasters)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? createSpiritualMasters)  $default,) {final _that = this;
 switch (_that) {
-case _Limits():
+case _PlanLimits():
 return $default(_that.createSpiritualMasters);case _:
   throw StateError('Unexpected subclass');
 
@@ -1386,9 +1105,9 @@ return $default(_that.createSpiritualMasters);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'create_spiritual_masters')  int? createSpiritualMasters)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? createSpiritualMasters)?  $default,) {final _that = this;
 switch (_that) {
-case _Limits() when $default != null:
+case _PlanLimits() when $default != null:
 return $default(_that.createSpiritualMasters);case _:
   return null;
 
@@ -1400,26 +1119,26 @@ return $default(_that.createSpiritualMasters);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _Limits implements Limits {
-  const _Limits({@JsonKey(name: 'create_spiritual_masters') required this.createSpiritualMasters});
-  factory _Limits.fromJson(Map<String, dynamic> json) => _$LimitsFromJson(json);
+class _PlanLimits implements PlanLimits {
+  const _PlanLimits({required this.createSpiritualMasters});
+  factory _PlanLimits.fromJson(Map<String, dynamic> json) => _$PlanLimitsFromJson(json);
 
-@override@JsonKey(name: 'create_spiritual_masters') final  int? createSpiritualMasters;
+@override final  int? createSpiritualMasters;
 
-/// Create a copy of Limits
+/// Create a copy of PlanLimits
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$LimitsCopyWith<_Limits> get copyWith => __$LimitsCopyWithImpl<_Limits>(this, _$identity);
+_$PlanLimitsCopyWith<_PlanLimits> get copyWith => __$PlanLimitsCopyWithImpl<_PlanLimits>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$LimitsToJson(this, );
+  return _$PlanLimitsToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Limits&&(identical(other.createSpiritualMasters, createSpiritualMasters) || other.createSpiritualMasters == createSpiritualMasters));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PlanLimits&&(identical(other.createSpiritualMasters, createSpiritualMasters) || other.createSpiritualMasters == createSpiritualMasters));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1428,18 +1147,18 @@ int get hashCode => Object.hash(runtimeType,createSpiritualMasters);
 
 @override
 String toString() {
-  return 'Limits(createSpiritualMasters: $createSpiritualMasters)';
+  return 'PlanLimits(createSpiritualMasters: $createSpiritualMasters)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$LimitsCopyWith<$Res> implements $LimitsCopyWith<$Res> {
-  factory _$LimitsCopyWith(_Limits value, $Res Function(_Limits) _then) = __$LimitsCopyWithImpl;
+abstract mixin class _$PlanLimitsCopyWith<$Res> implements $PlanLimitsCopyWith<$Res> {
+  factory _$PlanLimitsCopyWith(_PlanLimits value, $Res Function(_PlanLimits) _then) = __$PlanLimitsCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'create_spiritual_masters') int? createSpiritualMasters
+ int? createSpiritualMasters
 });
 
 
@@ -1447,17 +1166,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$LimitsCopyWithImpl<$Res>
-    implements _$LimitsCopyWith<$Res> {
-  __$LimitsCopyWithImpl(this._self, this._then);
+class __$PlanLimitsCopyWithImpl<$Res>
+    implements _$PlanLimitsCopyWith<$Res> {
+  __$PlanLimitsCopyWithImpl(this._self, this._then);
 
-  final _Limits _self;
-  final $Res Function(_Limits) _then;
+  final _PlanLimits _self;
+  final $Res Function(_PlanLimits) _then;
 
-/// Create a copy of Limits
+/// Create a copy of PlanLimits
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? createSpiritualMasters = freezed,}) {
-  return _then(_Limits(
+  return _then(_PlanLimits(
 createSpiritualMasters: freezed == createSpiritualMasters ? _self.createSpiritualMasters : createSpiritualMasters // ignore: cast_nullable_to_non_nullable
 as int?,
   ));
@@ -1468,71 +1187,82 @@ as int?,
 
 
 /// @nodoc
-mixin _$PasswordReset {
+mixin _$Restrictions {
 
- bool get handleCodeInApp; String get passwordResetUrl;
-/// Create a copy of PasswordReset
+ PostRestrictions? get post;
+/// Create a copy of Restrictions
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$PasswordResetCopyWith<PasswordReset> get copyWith => _$PasswordResetCopyWithImpl<PasswordReset>(this as PasswordReset, _$identity);
+$RestrictionsCopyWith<Restrictions> get copyWith => _$RestrictionsCopyWithImpl<Restrictions>(this as Restrictions, _$identity);
 
-  /// Serializes this PasswordReset to a JSON map.
+  /// Serializes this Restrictions to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PasswordReset&&(identical(other.handleCodeInApp, handleCodeInApp) || other.handleCodeInApp == handleCodeInApp)&&(identical(other.passwordResetUrl, passwordResetUrl) || other.passwordResetUrl == passwordResetUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Restrictions&&(identical(other.post, post) || other.post == post));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,handleCodeInApp,passwordResetUrl);
+int get hashCode => Object.hash(runtimeType,post);
 
 @override
 String toString() {
-  return 'PasswordReset(handleCodeInApp: $handleCodeInApp, passwordResetUrl: $passwordResetUrl)';
+  return 'Restrictions(post: $post)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $PasswordResetCopyWith<$Res>  {
-  factory $PasswordResetCopyWith(PasswordReset value, $Res Function(PasswordReset) _then) = _$PasswordResetCopyWithImpl;
+abstract mixin class $RestrictionsCopyWith<$Res>  {
+  factory $RestrictionsCopyWith(Restrictions value, $Res Function(Restrictions) _then) = _$RestrictionsCopyWithImpl;
 @useResult
 $Res call({
- bool handleCodeInApp, String passwordResetUrl
+ PostRestrictions? post
 });
 
 
-
+$PostRestrictionsCopyWith<$Res>? get post;
 
 }
 /// @nodoc
-class _$PasswordResetCopyWithImpl<$Res>
-    implements $PasswordResetCopyWith<$Res> {
-  _$PasswordResetCopyWithImpl(this._self, this._then);
+class _$RestrictionsCopyWithImpl<$Res>
+    implements $RestrictionsCopyWith<$Res> {
+  _$RestrictionsCopyWithImpl(this._self, this._then);
 
-  final PasswordReset _self;
-  final $Res Function(PasswordReset) _then;
+  final Restrictions _self;
+  final $Res Function(Restrictions) _then;
 
-/// Create a copy of PasswordReset
+/// Create a copy of Restrictions
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? handleCodeInApp = null,Object? passwordResetUrl = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? post = freezed,}) {
   return _then(_self.copyWith(
-handleCodeInApp: null == handleCodeInApp ? _self.handleCodeInApp : handleCodeInApp // ignore: cast_nullable_to_non_nullable
-as bool,passwordResetUrl: null == passwordResetUrl ? _self.passwordResetUrl : passwordResetUrl // ignore: cast_nullable_to_non_nullable
-as String,
+post: freezed == post ? _self.post : post // ignore: cast_nullable_to_non_nullable
+as PostRestrictions?,
   ));
 }
+/// Create a copy of Restrictions
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PostRestrictionsCopyWith<$Res>? get post {
+    if (_self.post == null) {
+    return null;
+  }
 
+  return $PostRestrictionsCopyWith<$Res>(_self.post!, (value) {
+    return _then(_self.copyWith(post: value));
+  });
+}
 }
 
 
-/// Adds pattern-matching-related methods to [PasswordReset].
-extension PasswordResetPatterns on PasswordReset {
+/// Adds pattern-matching-related methods to [Restrictions].
+extension RestrictionsPatterns on Restrictions {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -1545,10 +1275,10 @@ extension PasswordResetPatterns on PasswordReset {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PasswordReset value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Restrictions value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _PasswordReset() when $default != null:
+case _Restrictions() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -1567,10 +1297,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PasswordReset value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Restrictions value)  $default,){
 final _that = this;
 switch (_that) {
-case _PasswordReset():
+case _Restrictions():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -1588,10 +1318,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PasswordReset value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Restrictions value)?  $default,){
 final _that = this;
 switch (_that) {
-case _PasswordReset() when $default != null:
+case _Restrictions() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -1609,10 +1339,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool handleCodeInApp,  String passwordResetUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( PostRestrictions? post)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _PasswordReset() when $default != null:
-return $default(_that.handleCodeInApp,_that.passwordResetUrl);case _:
+case _Restrictions() when $default != null:
+return $default(_that.post);case _:
   return orElse();
 
 }
@@ -1630,10 +1360,10 @@ return $default(_that.handleCodeInApp,_that.passwordResetUrl);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool handleCodeInApp,  String passwordResetUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( PostRestrictions? post)  $default,) {final _that = this;
 switch (_that) {
-case _PasswordReset():
-return $default(_that.handleCodeInApp,_that.passwordResetUrl);case _:
+case _Restrictions():
+return $default(_that.post);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1650,10 +1380,10 @@ return $default(_that.handleCodeInApp,_that.passwordResetUrl);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool handleCodeInApp,  String passwordResetUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( PostRestrictions? post)?  $default,) {final _that = this;
 switch (_that) {
-case _PasswordReset() when $default != null:
-return $default(_that.handleCodeInApp,_that.passwordResetUrl);case _:
+case _Restrictions() when $default != null:
+return $default(_that.post);case _:
   return null;
 
 }
@@ -1664,47 +1394,122 @@ return $default(_that.handleCodeInApp,_that.passwordResetUrl);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _PasswordReset implements PasswordReset {
-  const _PasswordReset({required this.handleCodeInApp, required this.passwordResetUrl});
-  factory _PasswordReset.fromJson(Map<String, dynamic> json) => _$PasswordResetFromJson(json);
+class _Restrictions implements Restrictions {
+  const _Restrictions({required this.post});
+  factory _Restrictions.fromJson(Map<String, dynamic> json) => _$RestrictionsFromJson(json);
 
-@override final  bool handleCodeInApp;
-@override final  String passwordResetUrl;
+@override final  PostRestrictions? post;
 
-/// Create a copy of PasswordReset
+/// Create a copy of Restrictions
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$PasswordResetCopyWith<_PasswordReset> get copyWith => __$PasswordResetCopyWithImpl<_PasswordReset>(this, _$identity);
+_$RestrictionsCopyWith<_Restrictions> get copyWith => __$RestrictionsCopyWithImpl<_Restrictions>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$PasswordResetToJson(this, );
+  return _$RestrictionsToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PasswordReset&&(identical(other.handleCodeInApp, handleCodeInApp) || other.handleCodeInApp == handleCodeInApp)&&(identical(other.passwordResetUrl, passwordResetUrl) || other.passwordResetUrl == passwordResetUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Restrictions&&(identical(other.post, post) || other.post == post));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,handleCodeInApp,passwordResetUrl);
+int get hashCode => Object.hash(runtimeType,post);
 
 @override
 String toString() {
-  return 'PasswordReset(handleCodeInApp: $handleCodeInApp, passwordResetUrl: $passwordResetUrl)';
+  return 'Restrictions(post: $post)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$PasswordResetCopyWith<$Res> implements $PasswordResetCopyWith<$Res> {
-  factory _$PasswordResetCopyWith(_PasswordReset value, $Res Function(_PasswordReset) _then) = __$PasswordResetCopyWithImpl;
+abstract mixin class _$RestrictionsCopyWith<$Res> implements $RestrictionsCopyWith<$Res> {
+  factory _$RestrictionsCopyWith(_Restrictions value, $Res Function(_Restrictions) _then) = __$RestrictionsCopyWithImpl;
 @override @useResult
 $Res call({
- bool handleCodeInApp, String passwordResetUrl
+ PostRestrictions? post
+});
+
+
+@override $PostRestrictionsCopyWith<$Res>? get post;
+
+}
+/// @nodoc
+class __$RestrictionsCopyWithImpl<$Res>
+    implements _$RestrictionsCopyWith<$Res> {
+  __$RestrictionsCopyWithImpl(this._self, this._then);
+
+  final _Restrictions _self;
+  final $Res Function(_Restrictions) _then;
+
+/// Create a copy of Restrictions
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? post = freezed,}) {
+  return _then(_Restrictions(
+post: freezed == post ? _self.post : post // ignore: cast_nullable_to_non_nullable
+as PostRestrictions?,
+  ));
+}
+
+/// Create a copy of Restrictions
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PostRestrictionsCopyWith<$Res>? get post {
+    if (_self.post == null) {
+    return null;
+  }
+
+  return $PostRestrictionsCopyWith<$Res>(_self.post!, (value) {
+    return _then(_self.copyWith(post: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$PostRestrictions {
+
+ bool? get requireVerifiedAccount;
+/// Create a copy of PostRestrictions
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$PostRestrictionsCopyWith<PostRestrictions> get copyWith => _$PostRestrictionsCopyWithImpl<PostRestrictions>(this as PostRestrictions, _$identity);
+
+  /// Serializes this PostRestrictions to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PostRestrictions&&(identical(other.requireVerifiedAccount, requireVerifiedAccount) || other.requireVerifiedAccount == requireVerifiedAccount));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,requireVerifiedAccount);
+
+@override
+String toString() {
+  return 'PostRestrictions(requireVerifiedAccount: $requireVerifiedAccount)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $PostRestrictionsCopyWith<$Res>  {
+  factory $PostRestrictionsCopyWith(PostRestrictions value, $Res Function(PostRestrictions) _then) = _$PostRestrictionsCopyWithImpl;
+@useResult
+$Res call({
+ bool? requireVerifiedAccount
 });
 
 
@@ -1712,20 +1517,218 @@ $Res call({
 
 }
 /// @nodoc
-class __$PasswordResetCopyWithImpl<$Res>
-    implements _$PasswordResetCopyWith<$Res> {
-  __$PasswordResetCopyWithImpl(this._self, this._then);
+class _$PostRestrictionsCopyWithImpl<$Res>
+    implements $PostRestrictionsCopyWith<$Res> {
+  _$PostRestrictionsCopyWithImpl(this._self, this._then);
 
-  final _PasswordReset _self;
-  final $Res Function(_PasswordReset) _then;
+  final PostRestrictions _self;
+  final $Res Function(PostRestrictions) _then;
 
-/// Create a copy of PasswordReset
+/// Create a copy of PostRestrictions
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? handleCodeInApp = null,Object? passwordResetUrl = null,}) {
-  return _then(_PasswordReset(
-handleCodeInApp: null == handleCodeInApp ? _self.handleCodeInApp : handleCodeInApp // ignore: cast_nullable_to_non_nullable
-as bool,passwordResetUrl: null == passwordResetUrl ? _self.passwordResetUrl : passwordResetUrl // ignore: cast_nullable_to_non_nullable
-as String,
+@pragma('vm:prefer-inline') @override $Res call({Object? requireVerifiedAccount = freezed,}) {
+  return _then(_self.copyWith(
+requireVerifiedAccount: freezed == requireVerifiedAccount ? _self.requireVerifiedAccount : requireVerifiedAccount // ignore: cast_nullable_to_non_nullable
+as bool?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [PostRestrictions].
+extension PostRestrictionsPatterns on PostRestrictions {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PostRestrictions value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _PostRestrictions() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PostRestrictions value)  $default,){
+final _that = this;
+switch (_that) {
+case _PostRestrictions():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PostRestrictions value)?  $default,){
+final _that = this;
+switch (_that) {
+case _PostRestrictions() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool? requireVerifiedAccount)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _PostRestrictions() when $default != null:
+return $default(_that.requireVerifiedAccount);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool? requireVerifiedAccount)  $default,) {final _that = this;
+switch (_that) {
+case _PostRestrictions():
+return $default(_that.requireVerifiedAccount);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool? requireVerifiedAccount)?  $default,) {final _that = this;
+switch (_that) {
+case _PostRestrictions() when $default != null:
+return $default(_that.requireVerifiedAccount);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _PostRestrictions implements PostRestrictions {
+  const _PostRestrictions({required this.requireVerifiedAccount});
+  factory _PostRestrictions.fromJson(Map<String, dynamic> json) => _$PostRestrictionsFromJson(json);
+
+@override final  bool? requireVerifiedAccount;
+
+/// Create a copy of PostRestrictions
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$PostRestrictionsCopyWith<_PostRestrictions> get copyWith => __$PostRestrictionsCopyWithImpl<_PostRestrictions>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$PostRestrictionsToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PostRestrictions&&(identical(other.requireVerifiedAccount, requireVerifiedAccount) || other.requireVerifiedAccount == requireVerifiedAccount));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,requireVerifiedAccount);
+
+@override
+String toString() {
+  return 'PostRestrictions(requireVerifiedAccount: $requireVerifiedAccount)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$PostRestrictionsCopyWith<$Res> implements $PostRestrictionsCopyWith<$Res> {
+  factory _$PostRestrictionsCopyWith(_PostRestrictions value, $Res Function(_PostRestrictions) _then) = __$PostRestrictionsCopyWithImpl;
+@override @useResult
+$Res call({
+ bool? requireVerifiedAccount
+});
+
+
+
+
+}
+/// @nodoc
+class __$PostRestrictionsCopyWithImpl<$Res>
+    implements _$PostRestrictionsCopyWith<$Res> {
+  __$PostRestrictionsCopyWithImpl(this._self, this._then);
+
+  final _PostRestrictions _self;
+  final $Res Function(_PostRestrictions) _then;
+
+/// Create a copy of PostRestrictions
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? requireVerifiedAccount = freezed,}) {
+  return _then(_PostRestrictions(
+requireVerifiedAccount: freezed == requireVerifiedAccount ? _self.requireVerifiedAccount : requireVerifiedAccount // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 

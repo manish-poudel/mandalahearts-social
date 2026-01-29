@@ -15,7 +15,6 @@ import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_
 import 'package:mandalahearts/features/username/cubits/username_cubits.dart';
 import 'package:mandalahearts/features/view_post/cubit/post_view_cubit.dart';
 import 'package:mandalahearts/models/post_feed_item/post_feed_item.dart';
-import 'package:mandalahearts/repository/app_config_repository.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
 import 'package:mandalahearts/repository/post_repository.dart';
 import 'package:mandalahearts/screens/add_post_screen.dart';
@@ -89,10 +88,7 @@ List<RouteBase> appRoutes = <RouteBase>[
     path: AppRoute.passwordResetScreen.path,
     builder: (context, state) {
       return BlocProvider(
-        create: (_) => PasswordResetCubit(
-          context.read<AuthRepository>(),
-          context.read<AppConfigRepository>(),
-        ),
+        create: (_) => PasswordResetCubit(context.read<AuthRepository>()),
         child: const PasswordResetScreen(),
       );
     },

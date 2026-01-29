@@ -67,12 +67,25 @@ class ProfileViewScreen extends StatelessWidget {
                     return PopupMenuButton<String>(
                       icon: const Icon(Icons.more_vert),
                       onSelected: (value) {
+                        if (value == 'reset-password') {
+                          context.push(AppRoute.passwordResetScreen.path);
+                        }
                         if (value == 'logout') {
                           context.read<AuthRepository>().signOut();
                           Navigator.of(context).pop();
                         }
                       },
                       itemBuilder: (context) => const [
+                        PopupMenuItem<String>(
+                          value: 'reset-password',
+                          child: Row(
+                            children: [
+                              Icon(Icons.password_sharp, size: 18),
+                              SizedBox(width: 8),
+                              Text('Reset password'),
+                            ],
+                          ),
+                        ),
                         PopupMenuItem<String>(
                           value: 'logout',
                           child: Row(

@@ -48,18 +48,8 @@ class AuthRepository {
     await Future.wait([_auth.signOut(), _googleSignIn.signOut()]);
   }
 
-  Future<void> sendPasswordResetEmail(
-    String email,
-    String url,
-    bool handleCodeInApp,
-  ) {
-    return _auth.sendPasswordResetEmail(
-      email: email.trim(),
-      // actionCodeSettings: ActionCodeSettings(
-      //   url: url,
-      //   handleCodeInApp: handleCodeInApp,
-      // ),
-    );
+  Future<void> sendPasswordResetEmail(String email) {
+    return _auth.sendPasswordResetEmail(email: email.trim());
   }
 
   User? get currentUser => _auth.currentUser;

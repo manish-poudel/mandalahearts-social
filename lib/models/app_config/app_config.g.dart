@@ -7,75 +7,77 @@ part of 'app_config.dart';
 // **************************************************************************
 
 _AppConfig _$AppConfigFromJson(Map<String, dynamic> json) => _AppConfig(
-  forceUpdate: json['forceUpdate'] == null
+  app: json['app'] == null
       ? null
-      : ForceUpdate.fromJson(json['forceUpdate'] as Map<String, dynamic>),
+      : AppInfo.fromJson(json['app'] as Map<String, dynamic>),
   versions: json['versions'] == null
       ? null
       : Versions.fromJson(json['versions'] as Map<String, dynamic>),
-  passwordReset: json['passwordReset'] == null
+  restrictions: json['restrictions'] == null
       ? null
-      : PasswordReset.fromJson(json['passwordReset'] as Map<String, dynamic>),
+      : Restrictions.fromJson(json['restrictions'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$AppConfigToJson(_AppConfig instance) =>
     <String, dynamic>{
-      'forceUpdate': instance.forceUpdate?.toJson(),
+      'app': instance.app?.toJson(),
       'versions': instance.versions?.toJson(),
-      'passwordReset': instance.passwordReset?.toJson(),
+      'restrictions': instance.restrictions?.toJson(),
     };
 
-_ForceUpdate _$ForceUpdateFromJson(Map<String, dynamic> json) => _ForceUpdate(
-  versions: (json['versions'] as List<dynamic>?)
+_AppInfo _$AppInfoFromJson(Map<String, dynamic> json) => _AppInfo(
+  forceUpdateVersions: (json['forceUpdateVersions'] as List<dynamic>?)
       ?.map((e) => e as String)
       .toList(),
-  messages: json['messages'] as String?,
-  updateLink: json['updateLink'] as String?,
+  forceUpdateMessage: json['forceUpdateMessage'] as String?,
+  forceUpdateLink: json['forceUpdateLink'] as String?,
+  privacyPolicyLink: json['privacyPolicyLink'] as String?,
+  termsAndConditionsLink: json['termsAndConditionsLink'] as String?,
 );
 
-Map<String, dynamic> _$ForceUpdateToJson(_ForceUpdate instance) =>
-    <String, dynamic>{
-      'versions': instance.versions,
-      'messages': instance.messages,
-      'updateLink': instance.updateLink,
-    };
+Map<String, dynamic> _$AppInfoToJson(_AppInfo instance) => <String, dynamic>{
+  'forceUpdateVersions': instance.forceUpdateVersions,
+  'forceUpdateMessage': instance.forceUpdateMessage,
+  'forceUpdateLink': instance.forceUpdateLink,
+  'privacyPolicyLink': instance.privacyPolicyLink,
+  'termsAndConditionsLink': instance.termsAndConditionsLink,
+};
 
 _Versions _$VersionsFromJson(Map<String, dynamic> json) => _Versions(
   basics: json['basics'] == null
       ? null
-      : Basics.fromJson(json['basics'] as Map<String, dynamic>),
+      : PlanLimits.fromJson(json['basics'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$VersionsToJson(_Versions instance) => <String, dynamic>{
   'basics': instance.basics?.toJson(),
 };
 
-_Basics _$BasicsFromJson(Map<String, dynamic> json) => _Basics(
-  limits: json['limits'] == null
-      ? null
-      : Limits.fromJson(json['limits'] as Map<String, dynamic>),
+_PlanLimits _$PlanLimitsFromJson(Map<String, dynamic> json) => _PlanLimits(
+  createSpiritualMasters: (json['createSpiritualMasters'] as num?)?.toInt(),
 );
 
-Map<String, dynamic> _$BasicsToJson(_Basics instance) => <String, dynamic>{
-  'limits': instance.limits?.toJson(),
-};
+Map<String, dynamic> _$PlanLimitsToJson(_PlanLimits instance) =>
+    <String, dynamic>{
+      'createSpiritualMasters': instance.createSpiritualMasters,
+    };
 
-_Limits _$LimitsFromJson(Map<String, dynamic> json) => _Limits(
-  createSpiritualMasters: (json['create_spiritual_masters'] as num?)?.toInt(),
-);
-
-Map<String, dynamic> _$LimitsToJson(_Limits instance) => <String, dynamic>{
-  'create_spiritual_masters': instance.createSpiritualMasters,
-};
-
-_PasswordReset _$PasswordResetFromJson(Map<String, dynamic> json) =>
-    _PasswordReset(
-      handleCodeInApp: json['handleCodeInApp'] as bool,
-      passwordResetUrl: json['passwordResetUrl'] as String,
+_Restrictions _$RestrictionsFromJson(Map<String, dynamic> json) =>
+    _Restrictions(
+      post: json['post'] == null
+          ? null
+          : PostRestrictions.fromJson(json['post'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$PasswordResetToJson(_PasswordReset instance) =>
+Map<String, dynamic> _$RestrictionsToJson(_Restrictions instance) =>
+    <String, dynamic>{'post': instance.post?.toJson()};
+
+_PostRestrictions _$PostRestrictionsFromJson(Map<String, dynamic> json) =>
+    _PostRestrictions(
+      requireVerifiedAccount: json['requireVerifiedAccount'] as bool?,
+    );
+
+Map<String, dynamic> _$PostRestrictionsToJson(_PostRestrictions instance) =>
     <String, dynamic>{
-      'handleCodeInApp': instance.handleCodeInApp,
-      'passwordResetUrl': instance.passwordResetUrl,
+      'requireVerifiedAccount': instance.requireVerifiedAccount,
     };

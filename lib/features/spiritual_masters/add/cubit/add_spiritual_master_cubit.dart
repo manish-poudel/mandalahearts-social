@@ -72,8 +72,8 @@ class AddSpiritualMasterCubit extends Cubit<AddSpiritualMasterState> {
             appUser.spiritualMasters ?? [],
           );
 
-          final limit = await appConfigRepository
-              .getCreateSpiritualMastersLimit(forceRefresh: false);
+          final appConfig = await appConfigRepository.getAppConfig();
+          final limit = appConfig.versions?.basics?.createSpiritualMasters;
           if (limit != null) {
             if (spiritualMasters.length >= limit) {
               emit(
