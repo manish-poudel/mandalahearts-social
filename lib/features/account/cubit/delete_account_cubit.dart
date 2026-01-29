@@ -22,14 +22,13 @@ class DeleteAccountCubit extends Cubit<DeleteAccountState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   static const genericErrorMessage =
-      'If the issue persists, contact us at admin@mandalahearts.com '
-      'or click "Report Issue" and we will assist you in completing the deletion process.';
+      "If you have trouble deleting your account, please contact us at admin@mandalahearts.com or tap “Contact Us” in Settings, and we’ll be happy to help you complete the process.";
 
   AsyncState _appendGenericMessage(String? message) {
     if (message == null || message.isEmpty) {
       return AsyncState.error(genericErrorMessage);
     }
-    return AsyncState.error('$message\n$genericErrorMessage');
+    return AsyncState.error('$message\n\n$genericErrorMessage');
   }
 
   /// ---------- INIT ----------
