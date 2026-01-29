@@ -33,6 +33,9 @@ _AppInfo _$AppInfoFromJson(Map<String, dynamic> json) => _AppInfo(
   forceUpdateLink: json['forceUpdateLink'] as String?,
   privacyPolicyLink: json['privacyPolicyLink'] as String?,
   termsAndConditionsLink: json['termsAndConditionsLink'] as String?,
+  feedbackLink: json['feedbackLink'] as String?,
+  contactUsLink: json['contactUsLink'] as String?,
+  aboutLink: json['aboutLink'] as String?,
 );
 
 Map<String, dynamic> _$AppInfoToJson(_AppInfo instance) => <String, dynamic>{
@@ -41,6 +44,9 @@ Map<String, dynamic> _$AppInfoToJson(_AppInfo instance) => <String, dynamic>{
   'forceUpdateLink': instance.forceUpdateLink,
   'privacyPolicyLink': instance.privacyPolicyLink,
   'termsAndConditionsLink': instance.termsAndConditionsLink,
+  'feedbackLink': instance.feedbackLink,
+  'contactUsLink': instance.contactUsLink,
+  'aboutLink': instance.aboutLink,
 };
 
 _Versions _$VersionsFromJson(Map<String, dynamic> json) => _Versions(

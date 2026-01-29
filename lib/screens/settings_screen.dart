@@ -43,15 +43,29 @@ class SettingsScreen extends StatelessWidget {
               icon: Icons.chat_bubble_outline_rounded,
               title: 'Give feedback',
               external: true,
-              onTap: () =>
-                  _launch(context, 'https://mandalahearts.com/feedback'),
+              onTap: () => _launch(
+                context,
+                context
+                        .read<AppConfigRepository>()
+                        .cachedConfig
+                        ?.app
+                        ?.feedbackLink ??
+                    "https://mandalahearts.com/feedback",
+              ),
             ),
             _Item(
               icon: Icons.alternate_email_rounded,
               title: 'Contact us',
               external: true,
-              onTap: () =>
-                  _launch(context, 'https://mandalahearts.com/contact'),
+              onTap: () => _launch(
+                context,
+                context
+                        .read<AppConfigRepository>()
+                        .cachedConfig
+                        ?.app
+                        ?.contactUsLink ??
+                    "https://mandalahearts.com/contact-us",
+              ),
             ),
 
             const SizedBox(height: 28),
@@ -74,7 +88,15 @@ class SettingsScreen extends StatelessWidget {
               icon: Icons.info_outline_rounded,
               title: 'About MandalaHearts',
               external: true,
-              onTap: () => _launch(context, 'https://mandalahearts.com/about'),
+              onTap: () => _launch(
+                context,
+                context
+                        .read<AppConfigRepository>()
+                        .cachedConfig
+                        ?.app
+                        ?.aboutLink ??
+                    "https://mandalahearts.com/",
+              ),
             ),
 
             const SizedBox(height: 36),

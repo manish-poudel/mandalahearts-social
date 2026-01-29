@@ -24,6 +24,9 @@ abstract class AppInfo with _$AppInfo {
     required String? forceUpdateLink,
     required String? privacyPolicyLink,
     required String? termsAndConditionsLink,
+    required String? feedbackLink,
+    required String? contactUsLink,
+    required String? aboutLink,
   }) = _AppInfo;
 
   factory AppInfo.fromJson(Map<String, dynamic> json) =>

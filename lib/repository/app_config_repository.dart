@@ -39,6 +39,9 @@ class AppConfigRepository {
         privacyPolicyLink: 'https://mandalahearts.com/privacy-policy',
         termsAndConditionsLink:
             'https://mandalahearts.com/terms-and-conditions',
+        feedbackLink: 'https://mandalahearts.com/feedback',
+        contactUsLink: 'https://mandalahearts.com/contact-us',
+        aboutLink: 'https://mandalahearts.com',
       ),
       versions: Versions(basics: PlanLimits(createSpiritualMasters: 5)),
       restrictions: Restrictions(

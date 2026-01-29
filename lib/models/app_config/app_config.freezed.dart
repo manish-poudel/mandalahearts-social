@@ -356,7 +356,7 @@ $RestrictionsCopyWith<$Res>? get restrictions {
 /// @nodoc
 mixin _$AppInfo {
 
- List<String>? get forceUpdateVersions; String? get forceUpdateMessage; String? get forceUpdateLink; String? get privacyPolicyLink; String? get termsAndConditionsLink;
+ List<String>? get forceUpdateVersions; String? get forceUpdateMessage; String? get forceUpdateLink; String? get privacyPolicyLink; String? get termsAndConditionsLink; String? get feedbackLink; String? get contactUsLink; String? get aboutLink;
 /// Create a copy of AppInfo
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -369,16 +369,16 @@ $AppInfoCopyWith<AppInfo> get copyWith => _$AppInfoCopyWithImpl<AppInfo>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppInfo&&const DeepCollectionEquality().equals(other.forceUpdateVersions, forceUpdateVersions)&&(identical(other.forceUpdateMessage, forceUpdateMessage) || other.forceUpdateMessage == forceUpdateMessage)&&(identical(other.forceUpdateLink, forceUpdateLink) || other.forceUpdateLink == forceUpdateLink)&&(identical(other.privacyPolicyLink, privacyPolicyLink) || other.privacyPolicyLink == privacyPolicyLink)&&(identical(other.termsAndConditionsLink, termsAndConditionsLink) || other.termsAndConditionsLink == termsAndConditionsLink));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppInfo&&const DeepCollectionEquality().equals(other.forceUpdateVersions, forceUpdateVersions)&&(identical(other.forceUpdateMessage, forceUpdateMessage) || other.forceUpdateMessage == forceUpdateMessage)&&(identical(other.forceUpdateLink, forceUpdateLink) || other.forceUpdateLink == forceUpdateLink)&&(identical(other.privacyPolicyLink, privacyPolicyLink) || other.privacyPolicyLink == privacyPolicyLink)&&(identical(other.termsAndConditionsLink, termsAndConditionsLink) || other.termsAndConditionsLink == termsAndConditionsLink)&&(identical(other.feedbackLink, feedbackLink) || other.feedbackLink == feedbackLink)&&(identical(other.contactUsLink, contactUsLink) || other.contactUsLink == contactUsLink)&&(identical(other.aboutLink, aboutLink) || other.aboutLink == aboutLink));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(forceUpdateVersions),forceUpdateMessage,forceUpdateLink,privacyPolicyLink,termsAndConditionsLink);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(forceUpdateVersions),forceUpdateMessage,forceUpdateLink,privacyPolicyLink,termsAndConditionsLink,feedbackLink,contactUsLink,aboutLink);
 
 @override
 String toString() {
-  return 'AppInfo(forceUpdateVersions: $forceUpdateVersions, forceUpdateMessage: $forceUpdateMessage, forceUpdateLink: $forceUpdateLink, privacyPolicyLink: $privacyPolicyLink, termsAndConditionsLink: $termsAndConditionsLink)';
+  return 'AppInfo(forceUpdateVersions: $forceUpdateVersions, forceUpdateMessage: $forceUpdateMessage, forceUpdateLink: $forceUpdateLink, privacyPolicyLink: $privacyPolicyLink, termsAndConditionsLink: $termsAndConditionsLink, feedbackLink: $feedbackLink, contactUsLink: $contactUsLink, aboutLink: $aboutLink)';
 }
 
 
@@ -389,7 +389,7 @@ abstract mixin class $AppInfoCopyWith<$Res>  {
   factory $AppInfoCopyWith(AppInfo value, $Res Function(AppInfo) _then) = _$AppInfoCopyWithImpl;
 @useResult
 $Res call({
- List<String>? forceUpdateVersions, String? forceUpdateMessage, String? forceUpdateLink, String? privacyPolicyLink, String? termsAndConditionsLink
+ List<String>? forceUpdateVersions, String? forceUpdateMessage, String? forceUpdateLink, String? privacyPolicyLink, String? termsAndConditionsLink, String? feedbackLink, String? contactUsLink, String? aboutLink
 });
 
 
@@ -406,13 +406,16 @@ class _$AppInfoCopyWithImpl<$Res>
 
 /// Create a copy of AppInfo
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? forceUpdateVersions = freezed,Object? forceUpdateMessage = freezed,Object? forceUpdateLink = freezed,Object? privacyPolicyLink = freezed,Object? termsAndConditionsLink = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? forceUpdateVersions = freezed,Object? forceUpdateMessage = freezed,Object? forceUpdateLink = freezed,Object? privacyPolicyLink = freezed,Object? termsAndConditionsLink = freezed,Object? feedbackLink = freezed,Object? contactUsLink = freezed,Object? aboutLink = freezed,}) {
   return _then(_self.copyWith(
 forceUpdateVersions: freezed == forceUpdateVersions ? _self.forceUpdateVersions : forceUpdateVersions // ignore: cast_nullable_to_non_nullable
 as List<String>?,forceUpdateMessage: freezed == forceUpdateMessage ? _self.forceUpdateMessage : forceUpdateMessage // ignore: cast_nullable_to_non_nullable
 as String?,forceUpdateLink: freezed == forceUpdateLink ? _self.forceUpdateLink : forceUpdateLink // ignore: cast_nullable_to_non_nullable
 as String?,privacyPolicyLink: freezed == privacyPolicyLink ? _self.privacyPolicyLink : privacyPolicyLink // ignore: cast_nullable_to_non_nullable
 as String?,termsAndConditionsLink: freezed == termsAndConditionsLink ? _self.termsAndConditionsLink : termsAndConditionsLink // ignore: cast_nullable_to_non_nullable
+as String?,feedbackLink: freezed == feedbackLink ? _self.feedbackLink : feedbackLink // ignore: cast_nullable_to_non_nullable
+as String?,contactUsLink: freezed == contactUsLink ? _self.contactUsLink : contactUsLink // ignore: cast_nullable_to_non_nullable
+as String?,aboutLink: freezed == aboutLink ? _self.aboutLink : aboutLink // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -498,10 +501,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<String>? forceUpdateVersions,  String? forceUpdateMessage,  String? forceUpdateLink,  String? privacyPolicyLink,  String? termsAndConditionsLink)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<String>? forceUpdateVersions,  String? forceUpdateMessage,  String? forceUpdateLink,  String? privacyPolicyLink,  String? termsAndConditionsLink,  String? feedbackLink,  String? contactUsLink,  String? aboutLink)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppInfo() when $default != null:
-return $default(_that.forceUpdateVersions,_that.forceUpdateMessage,_that.forceUpdateLink,_that.privacyPolicyLink,_that.termsAndConditionsLink);case _:
+return $default(_that.forceUpdateVersions,_that.forceUpdateMessage,_that.forceUpdateLink,_that.privacyPolicyLink,_that.termsAndConditionsLink,_that.feedbackLink,_that.contactUsLink,_that.aboutLink);case _:
   return orElse();
 
 }
@@ -519,10 +522,10 @@ return $default(_that.forceUpdateVersions,_that.forceUpdateMessage,_that.forceUp
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<String>? forceUpdateVersions,  String? forceUpdateMessage,  String? forceUpdateLink,  String? privacyPolicyLink,  String? termsAndConditionsLink)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<String>? forceUpdateVersions,  String? forceUpdateMessage,  String? forceUpdateLink,  String? privacyPolicyLink,  String? termsAndConditionsLink,  String? feedbackLink,  String? contactUsLink,  String? aboutLink)  $default,) {final _that = this;
 switch (_that) {
 case _AppInfo():
-return $default(_that.forceUpdateVersions,_that.forceUpdateMessage,_that.forceUpdateLink,_that.privacyPolicyLink,_that.termsAndConditionsLink);case _:
+return $default(_that.forceUpdateVersions,_that.forceUpdateMessage,_that.forceUpdateLink,_that.privacyPolicyLink,_that.termsAndConditionsLink,_that.feedbackLink,_that.contactUsLink,_that.aboutLink);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -539,10 +542,10 @@ return $default(_that.forceUpdateVersions,_that.forceUpdateMessage,_that.forceUp
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<String>? forceUpdateVersions,  String? forceUpdateMessage,  String? forceUpdateLink,  String? privacyPolicyLink,  String? termsAndConditionsLink)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<String>? forceUpdateVersions,  String? forceUpdateMessage,  String? forceUpdateLink,  String? privacyPolicyLink,  String? termsAndConditionsLink,  String? feedbackLink,  String? contactUsLink,  String? aboutLink)?  $default,) {final _that = this;
 switch (_that) {
 case _AppInfo() when $default != null:
-return $default(_that.forceUpdateVersions,_that.forceUpdateMessage,_that.forceUpdateLink,_that.privacyPolicyLink,_that.termsAndConditionsLink);case _:
+return $default(_that.forceUpdateVersions,_that.forceUpdateMessage,_that.forceUpdateLink,_that.privacyPolicyLink,_that.termsAndConditionsLink,_that.feedbackLink,_that.contactUsLink,_that.aboutLink);case _:
   return null;
 
 }
@@ -554,7 +557,7 @@ return $default(_that.forceUpdateVersions,_that.forceUpdateMessage,_that.forceUp
 @JsonSerializable()
 
 class _AppInfo implements AppInfo {
-  const _AppInfo({required final  List<String>? forceUpdateVersions, required this.forceUpdateMessage, required this.forceUpdateLink, required this.privacyPolicyLink, required this.termsAndConditionsLink}): _forceUpdateVersions = forceUpdateVersions;
+  const _AppInfo({required final  List<String>? forceUpdateVersions, required this.forceUpdateMessage, required this.forceUpdateLink, required this.privacyPolicyLink, required this.termsAndConditionsLink, required this.feedbackLink, required this.contactUsLink, required this.aboutLink}): _forceUpdateVersions = forceUpdateVersions;
   factory _AppInfo.fromJson(Map<String, dynamic> json) => _$AppInfoFromJson(json);
 
  final  List<String>? _forceUpdateVersions;
@@ -570,6 +573,9 @@ class _AppInfo implements AppInfo {
 @override final  String? forceUpdateLink;
 @override final  String? privacyPolicyLink;
 @override final  String? termsAndConditionsLink;
+@override final  String? feedbackLink;
+@override final  String? contactUsLink;
+@override final  String? aboutLink;
 
 /// Create a copy of AppInfo
 /// with the given fields replaced by the non-null parameter values.
@@ -584,16 +590,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppInfo&&const DeepCollectionEquality().equals(other._forceUpdateVersions, _forceUpdateVersions)&&(identical(other.forceUpdateMessage, forceUpdateMessage) || other.forceUpdateMessage == forceUpdateMessage)&&(identical(other.forceUpdateLink, forceUpdateLink) || other.forceUpdateLink == forceUpdateLink)&&(identical(other.privacyPolicyLink, privacyPolicyLink) || other.privacyPolicyLink == privacyPolicyLink)&&(identical(other.termsAndConditionsLink, termsAndConditionsLink) || other.termsAndConditionsLink == termsAndConditionsLink));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppInfo&&const DeepCollectionEquality().equals(other._forceUpdateVersions, _forceUpdateVersions)&&(identical(other.forceUpdateMessage, forceUpdateMessage) || other.forceUpdateMessage == forceUpdateMessage)&&(identical(other.forceUpdateLink, forceUpdateLink) || other.forceUpdateLink == forceUpdateLink)&&(identical(other.privacyPolicyLink, privacyPolicyLink) || other.privacyPolicyLink == privacyPolicyLink)&&(identical(other.termsAndConditionsLink, termsAndConditionsLink) || other.termsAndConditionsLink == termsAndConditionsLink)&&(identical(other.feedbackLink, feedbackLink) || other.feedbackLink == feedbackLink)&&(identical(other.contactUsLink, contactUsLink) || other.contactUsLink == contactUsLink)&&(identical(other.aboutLink, aboutLink) || other.aboutLink == aboutLink));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_forceUpdateVersions),forceUpdateMessage,forceUpdateLink,privacyPolicyLink,termsAndConditionsLink);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_forceUpdateVersions),forceUpdateMessage,forceUpdateLink,privacyPolicyLink,termsAndConditionsLink,feedbackLink,contactUsLink,aboutLink);
 
 @override
 String toString() {
-  return 'AppInfo(forceUpdateVersions: $forceUpdateVersions, forceUpdateMessage: $forceUpdateMessage, forceUpdateLink: $forceUpdateLink, privacyPolicyLink: $privacyPolicyLink, termsAndConditionsLink: $termsAndConditionsLink)';
+  return 'AppInfo(forceUpdateVersions: $forceUpdateVersions, forceUpdateMessage: $forceUpdateMessage, forceUpdateLink: $forceUpdateLink, privacyPolicyLink: $privacyPolicyLink, termsAndConditionsLink: $termsAndConditionsLink, feedbackLink: $feedbackLink, contactUsLink: $contactUsLink, aboutLink: $aboutLink)';
 }
 
 
@@ -604,7 +610,7 @@ abstract mixin class _$AppInfoCopyWith<$Res> implements $AppInfoCopyWith<$Res> {
   factory _$AppInfoCopyWith(_AppInfo value, $Res Function(_AppInfo) _then) = __$AppInfoCopyWithImpl;
 @override @useResult
 $Res call({
- List<String>? forceUpdateVersions, String? forceUpdateMessage, String? forceUpdateLink, String? privacyPolicyLink, String? termsAndConditionsLink
+ List<String>? forceUpdateVersions, String? forceUpdateMessage, String? forceUpdateLink, String? privacyPolicyLink, String? termsAndConditionsLink, String? feedbackLink, String? contactUsLink, String? aboutLink
 });
 
 
@@ -621,13 +627,16 @@ class __$AppInfoCopyWithImpl<$Res>
 
 /// Create a copy of AppInfo
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? forceUpdateVersions = freezed,Object? forceUpdateMessage = freezed,Object? forceUpdateLink = freezed,Object? privacyPolicyLink = freezed,Object? termsAndConditionsLink = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? forceUpdateVersions = freezed,Object? forceUpdateMessage = freezed,Object? forceUpdateLink = freezed,Object? privacyPolicyLink = freezed,Object? termsAndConditionsLink = freezed,Object? feedbackLink = freezed,Object? contactUsLink = freezed,Object? aboutLink = freezed,}) {
   return _then(_AppInfo(
 forceUpdateVersions: freezed == forceUpdateVersions ? _self._forceUpdateVersions : forceUpdateVersions // ignore: cast_nullable_to_non_nullable
 as List<String>?,forceUpdateMessage: freezed == forceUpdateMessage ? _self.forceUpdateMessage : forceUpdateMessage // ignore: cast_nullable_to_non_nullable
 as String?,forceUpdateLink: freezed == forceUpdateLink ? _self.forceUpdateLink : forceUpdateLink // ignore: cast_nullable_to_non_nullable
 as String?,privacyPolicyLink: freezed == privacyPolicyLink ? _self.privacyPolicyLink : privacyPolicyLink // ignore: cast_nullable_to_non_nullable
 as String?,termsAndConditionsLink: freezed == termsAndConditionsLink ? _self.termsAndConditionsLink : termsAndConditionsLink // ignore: cast_nullable_to_non_nullable
+as String?,feedbackLink: freezed == feedbackLink ? _self.feedbackLink : feedbackLink // ignore: cast_nullable_to_non_nullable
+as String?,contactUsLink: freezed == contactUsLink ? _self.contactUsLink : contactUsLink // ignore: cast_nullable_to_non_nullable
+as String?,aboutLink: freezed == aboutLink ? _self.aboutLink : aboutLink // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
