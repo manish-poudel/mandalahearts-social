@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mandalahearts/core/services/database/post_db.dart';
 import 'package:mandalahearts/core/services/database/user_db.dart';
 import 'package:mandalahearts/core/services/storage/file_storage.dart';
@@ -143,12 +144,10 @@ class PostRepository {
       _hasMore = false;
       return;
     }
-
-    final feedItems = await _buildFeedItems(posts);
-
-    _cachedPublicFeed.addAll(feedItems);
     _newestPostTime = posts.first.createdAt;
     _oldestPostTime = posts.last.createdAt;
+    final feedItems = await _buildFeedItems(posts);
+    _cachedPublicFeed.addAll(feedItems);
   }
 
   Future<void> loadMorePublicPosts() async {
@@ -163,12 +162,11 @@ class PostRepository {
       _hasMore = false;
       return;
     }
-
+    _oldestPostTime = posts.last.createdAt;
     final feedItems = await _buildFeedItems(posts);
     final uniqueItems = _dedupe(_cachedPublicFeed, feedItems);
 
     _cachedPublicFeed.addAll(uniqueItems);
-    _oldestPostTime = _cachedPublicFeed.last.post.createdAt;
   }
 
   Future<void> refreshPublicPosts() async {
@@ -190,10 +188,6 @@ class PostRepository {
     _cachedPublicFeed.insertAll(0, uniqueItems);
     _newestPostTime = _cachedPublicFeed.first.post.createdAt;
   }
-
-  /* -------------------------------------------------------------------------- */
-  /*                             PRIVATE FEED METHODS (LIMIT PARAM)             */
-  /* -------------------------------------------------------------------------- */
 
   Future<void> loadInitialPrivatePosts(
     String creatorId, {
@@ -327,6 +321,9 @@ class PostRepository {
 
       final user = AppUser.fromJson(data);
 
+      // Skip caching deleted users
+      if (user.status == 'deleted') continue;
+
       _creatorCache[creatorId] = PostCreatorCache(
         id: user.uid,
         name:
@@ -340,16 +337,23 @@ class PostRepository {
       );
     }
 
-    return posts.map((post) {
-      final creator = _creatorCache[post.creatorId]!;
+    return posts
+        .where((post) {
+          final creator = _creatorCache[post.creatorId];
+          // Only include posts if creator exists in cache (not deleted)
+          return creator != null;
+        })
+        .map((post) {
+          final creator = _creatorCache[post.creatorId]!;
 
-      return PostFeedItem(
-        post: post,
-        creatorId: creator.id,
-        creatorName: creator.name,
-        creatorProfileImageUrl: creator.profileImageUrl,
-      );
-    }).toList();
+          return PostFeedItem(
+            post: post,
+            creatorId: creator.id,
+            creatorName: creator.name,
+            creatorProfileImageUrl: creator.profileImageUrl,
+          );
+        })
+        .toList();
   }
 
   List<PostFeedItem> _dedupe(
@@ -361,5 +365,40 @@ class PostRepository {
     return incoming
         .where((item) => !existingIds.contains(item.post.id))
         .toList();
+  }
+
+  /// Deletes up to [limit] latest posts of a creator, fire-and-forget style.
+  Future<bool> deletePostsByCreatorBatch(
+    String creatorId, {
+    int limit = 500,
+  }) async {
+    try {
+      final posts = await _postDb.fetchAllPostsByCreator(
+        creatorId,
+        limit: limit,
+      );
+
+      if (posts.isEmpty) {
+        return true;
+      }
+
+      final batch = FirebaseFirestore.instance.batch();
+
+      for (final post in posts) {
+        final docRef = FirebaseFirestore.instance
+            .collection('user_posts')
+            .doc(post.id);
+        batch.delete(docRef);
+        // Also optionally remove from local cache immediately
+        _cachedPublicFeed.removeWhere((e) => e.post.id == post.id);
+        _cachedPrivateFeed.removeWhere((e) => e.post.id == post.id);
+      }
+
+      await batch.commit();
+      return true;
+    } catch (e) {
+      // You can log errors, but won't fail other operations
+      return false;
+    }
   }
 }

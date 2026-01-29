@@ -95,4 +95,18 @@ class FirestoreUserPostService implements PostDb {
       throw Exception('Failed to delete post: $e');
     }
   }
+
+  @override
+  Future<List<UserPost>> fetchAllPostsByCreator(
+    String creatorId, {
+    int limit = 21,
+  }) async {
+    final snapshot = await _firestore
+        .collection(_collection)
+        .where('creatorId', isEqualTo: creatorId)
+        .orderBy('createdAt', descending: true)
+        .limit(limit)
+        .get();
+    return snapshot.docs.map((doc) => UserPost.fromJson(doc.data())).toList();
+  }
 }

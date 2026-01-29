@@ -77,6 +77,8 @@ class ProfileDetailsCubit extends Cubit<ProfileDetailsState> {
             dob: dob,
             country: countryName,
           ),
+          createdAt: DateTime.now(),
+          status: "active",
         );
       }
       await _userRepository.updateUser(user!);

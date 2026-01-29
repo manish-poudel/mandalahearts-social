@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mandalahearts/features/username/cubits/username_cubits.dart';
 
 class AuthRepository {
   final FirebaseAuth _auth;
@@ -44,6 +45,25 @@ class AuthRepository {
     return await _auth.signInWithCredential(credential);
   }
 
+  Future<UserCredential?> reauthenticateWithGoogle() async {
+    const List<String> scopes = <String>[
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ];
+    final user = _auth.currentUser;
+    await _googleSignIn.initialize();
+    final GoogleSignInAccount? googleUser = await _googleSignIn
+        .attemptLightweightAuthentication();
+    final GoogleSignInClientAuthorization? authorization = await googleUser
+        ?.authorizationClient
+        .authorizationForScopes(scopes);
+    final accessToken = authorization?.accessToken;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: accessToken,
+      idToken: googleUser?.authentication.idToken,
+    );
+    return await user?.reauthenticateWithCredential(credential);
+  }
+
   Future<void> signOut() async {
     await Future.wait([_auth.signOut(), _googleSignIn.signOut()]);
   }
@@ -61,5 +81,18 @@ class AuthRepository {
 
   Future<void> refresh() async {
     await currentUser?.reload();
+  }
+
+  Future<bool> deleteAccount() async {
+    final user = _auth.currentUser;
+    if (user == null) return false;
+    try {
+      await user.delete();
+      return true;
+    } on FirebaseAuthException {
+      return false;
+    } catch (e) {
+      return false;
+    }
   }
 }

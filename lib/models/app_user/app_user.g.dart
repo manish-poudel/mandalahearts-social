@@ -9,6 +9,7 @@ part of 'app_user.dart';
 _AppUser _$AppUserFromJson(Map<String, dynamic> json) => _AppUser(
   uid: json['uid'] as String,
   username: json['username'] as String,
+  status: json['status'] as String?,
   basicDetails: json['basicDetails'] == null
       ? null
       : BasicDetails.fromJson(json['basicDetails'] as Map<String, dynamic>),
@@ -16,17 +17,36 @@ _AppUser _$AppUserFromJson(Map<String, dynamic> json) => _AppUser(
   spiritualMasters: (json['spiritualMasters'] as List<dynamic>?)
       ?.map((e) => SpiritualMaster.fromJson(e as Map<String, dynamic>))
       .toList(),
+  createdAt: _$JsonConverterFromJson<Object, DateTime>(
+    json['createdAt'],
+    const FirestoreDateTimeConverter().fromJson,
+  ),
 );
 
 Map<String, dynamic> _$AppUserToJson(_AppUser instance) => <String, dynamic>{
   'uid': instance.uid,
   'username': instance.username,
+  'status': instance.status,
   'basicDetails': instance.basicDetails?.toJson(),
   'bio': instance.bio,
   'spiritualMasters': instance.spiritualMasters
       ?.map((e) => e.toJson())
       .toList(),
+  'createdAt': _$JsonConverterToJson<Object, DateTime>(
+    instance.createdAt,
+    const FirestoreDateTimeConverter().toJson,
+  ),
 };
+
+Value? _$JsonConverterFromJson<Json, Value>(
+  Object? json,
+  Value? Function(Json json) fromJson,
+) => json == null ? null : fromJson(json as Json);
+
+Json? _$JsonConverterToJson<Json, Value>(
+  Value? value,
+  Json? Function(Value value) toJson,
+) => value == null ? null : toJson(value);
 
 _BasicDetails _$BasicDetailsFromJson(Map<String, dynamic> json) =>
     _BasicDetails(

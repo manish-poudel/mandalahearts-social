@@ -126,7 +126,49 @@ class AppUserRepository {
     _storage.deleteFile(bucket: _postImageBucket, filePath: filePath);
   }
 
-  /* -------------------- CLEAR -------------------- */
+  Future<bool> deleteAccount() async {
+    final user = currentUser;
+    if (user == null) return false;
+
+    try {
+      final profileUrl = user.basicDetails?.profilePictureUrl;
+      final hasProfileImage = profileUrl != null;
+      final userId = user.uid;
+
+      final deletedUser = user.copyWith(
+        username: 'unknown',
+        status: "deleted",
+        bio: "",
+        spiritualMasters: [],
+        createdAt: user.createdAt,
+        basicDetails: user.basicDetails != null
+            ? user.basicDetails!.copyWith(
+                firstName: 'Unknown',
+                secondName: 'Unknown',
+                dob: DateTime.now(),
+                profilePictureUrl: null,
+                country: "unknown",
+              )
+            : BasicDetails(
+                firstName: 'Unknown',
+                secondName: 'Unknown',
+                dob: DateTime.now(),
+                country: "unknown",
+                profilePictureUrl: null,
+              ),
+      );
+
+      await updateUser(deletedUser);
+
+      if (hasProfileImage) {
+        final filePath = '$userId.png';
+        await _storage.deleteFile(bucket: _postImageBucket, filePath: filePath);
+      }
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 
   void clearCache() {
     _setUser(null);

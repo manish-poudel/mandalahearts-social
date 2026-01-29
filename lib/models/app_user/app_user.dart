@@ -9,9 +9,11 @@ abstract class AppUser with _$AppUser {
   const factory AppUser({
     required String uid,
     required String username,
+    required String? status,
     BasicDetails? basicDetails,
     String? bio,
     List<SpiritualMaster>? spiritualMasters,
+    @FirestoreDateTimeConverter() required DateTime? createdAt,
   }) = _AppUser;
 
   factory AppUser.fromJson(Map<String, dynamic> json) =>

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppUser {
 
- String get uid; String get username; BasicDetails? get basicDetails; String? get bio; List<SpiritualMaster>? get spiritualMasters;
+ String get uid; String get username; String? get status; BasicDetails? get basicDetails; String? get bio; List<SpiritualMaster>? get spiritualMasters;@FirestoreDateTimeConverter() DateTime? get createdAt;
 /// Create a copy of AppUser
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $AppUserCopyWith<AppUser> get copyWith => _$AppUserCopyWithImpl<AppUser>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppUser&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.username, username) || other.username == username)&&(identical(other.basicDetails, basicDetails) || other.basicDetails == basicDetails)&&(identical(other.bio, bio) || other.bio == bio)&&const DeepCollectionEquality().equals(other.spiritualMasters, spiritualMasters));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppUser&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.username, username) || other.username == username)&&(identical(other.status, status) || other.status == status)&&(identical(other.basicDetails, basicDetails) || other.basicDetails == basicDetails)&&(identical(other.bio, bio) || other.bio == bio)&&const DeepCollectionEquality().equals(other.spiritualMasters, spiritualMasters)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,uid,username,basicDetails,bio,const DeepCollectionEquality().hash(spiritualMasters));
+int get hashCode => Object.hash(runtimeType,uid,username,status,basicDetails,bio,const DeepCollectionEquality().hash(spiritualMasters),createdAt);
 
 @override
 String toString() {
-  return 'AppUser(uid: $uid, username: $username, basicDetails: $basicDetails, bio: $bio, spiritualMasters: $spiritualMasters)';
+  return 'AppUser(uid: $uid, username: $username, status: $status, basicDetails: $basicDetails, bio: $bio, spiritualMasters: $spiritualMasters, createdAt: $createdAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $AppUserCopyWith<$Res>  {
   factory $AppUserCopyWith(AppUser value, $Res Function(AppUser) _then) = _$AppUserCopyWithImpl;
 @useResult
 $Res call({
- String uid, String username, BasicDetails? basicDetails, String? bio, List<SpiritualMaster>? spiritualMasters
+ String uid, String username, String? status, BasicDetails? basicDetails, String? bio, List<SpiritualMaster>? spiritualMasters,@FirestoreDateTimeConverter() DateTime? createdAt
 });
 
 
@@ -65,14 +65,16 @@ class _$AppUserCopyWithImpl<$Res>
 
 /// Create a copy of AppUser
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? uid = null,Object? username = null,Object? basicDetails = freezed,Object? bio = freezed,Object? spiritualMasters = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? uid = null,Object? username = null,Object? status = freezed,Object? basicDetails = freezed,Object? bio = freezed,Object? spiritualMasters = freezed,Object? createdAt = freezed,}) {
   return _then(_self.copyWith(
 uid: null == uid ? _self.uid : uid // ignore: cast_nullable_to_non_nullable
 as String,username: null == username ? _self.username : username // ignore: cast_nullable_to_non_nullable
-as String,basicDetails: freezed == basicDetails ? _self.basicDetails : basicDetails // ignore: cast_nullable_to_non_nullable
+as String,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String?,basicDetails: freezed == basicDetails ? _self.basicDetails : basicDetails // ignore: cast_nullable_to_non_nullable
 as BasicDetails?,bio: freezed == bio ? _self.bio : bio // ignore: cast_nullable_to_non_nullable
 as String?,spiritualMasters: freezed == spiritualMasters ? _self.spiritualMasters : spiritualMasters // ignore: cast_nullable_to_non_nullable
-as List<SpiritualMaster>?,
+as List<SpiritualMaster>?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 /// Create a copy of AppUser
@@ -169,10 +171,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String uid,  String username,  BasicDetails? basicDetails,  String? bio,  List<SpiritualMaster>? spiritualMasters)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String uid,  String username,  String? status,  BasicDetails? basicDetails,  String? bio,  List<SpiritualMaster>? spiritualMasters, @FirestoreDateTimeConverter()  DateTime? createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppUser() when $default != null:
-return $default(_that.uid,_that.username,_that.basicDetails,_that.bio,_that.spiritualMasters);case _:
+return $default(_that.uid,_that.username,_that.status,_that.basicDetails,_that.bio,_that.spiritualMasters,_that.createdAt);case _:
   return orElse();
 
 }
@@ -190,10 +192,10 @@ return $default(_that.uid,_that.username,_that.basicDetails,_that.bio,_that.spir
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String uid,  String username,  BasicDetails? basicDetails,  String? bio,  List<SpiritualMaster>? spiritualMasters)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String uid,  String username,  String? status,  BasicDetails? basicDetails,  String? bio,  List<SpiritualMaster>? spiritualMasters, @FirestoreDateTimeConverter()  DateTime? createdAt)  $default,) {final _that = this;
 switch (_that) {
 case _AppUser():
-return $default(_that.uid,_that.username,_that.basicDetails,_that.bio,_that.spiritualMasters);case _:
+return $default(_that.uid,_that.username,_that.status,_that.basicDetails,_that.bio,_that.spiritualMasters,_that.createdAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -210,10 +212,10 @@ return $default(_that.uid,_that.username,_that.basicDetails,_that.bio,_that.spir
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String uid,  String username,  BasicDetails? basicDetails,  String? bio,  List<SpiritualMaster>? spiritualMasters)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String uid,  String username,  String? status,  BasicDetails? basicDetails,  String? bio,  List<SpiritualMaster>? spiritualMasters, @FirestoreDateTimeConverter()  DateTime? createdAt)?  $default,) {final _that = this;
 switch (_that) {
 case _AppUser() when $default != null:
-return $default(_that.uid,_that.username,_that.basicDetails,_that.bio,_that.spiritualMasters);case _:
+return $default(_that.uid,_that.username,_that.status,_that.basicDetails,_that.bio,_that.spiritualMasters,_that.createdAt);case _:
   return null;
 
 }
@@ -225,11 +227,12 @@ return $default(_that.uid,_that.username,_that.basicDetails,_that.bio,_that.spir
 @JsonSerializable()
 
 class _AppUser implements AppUser {
-  const _AppUser({required this.uid, required this.username, this.basicDetails, this.bio, final  List<SpiritualMaster>? spiritualMasters}): _spiritualMasters = spiritualMasters;
+  const _AppUser({required this.uid, required this.username, required this.status, this.basicDetails, this.bio, final  List<SpiritualMaster>? spiritualMasters, @FirestoreDateTimeConverter() required this.createdAt}): _spiritualMasters = spiritualMasters;
   factory _AppUser.fromJson(Map<String, dynamic> json) => _$AppUserFromJson(json);
 
 @override final  String uid;
 @override final  String username;
+@override final  String? status;
 @override final  BasicDetails? basicDetails;
 @override final  String? bio;
  final  List<SpiritualMaster>? _spiritualMasters;
@@ -241,6 +244,7 @@ class _AppUser implements AppUser {
   return EqualUnmodifiableListView(value);
 }
 
+@override@FirestoreDateTimeConverter() final  DateTime? createdAt;
 
 /// Create a copy of AppUser
 /// with the given fields replaced by the non-null parameter values.
@@ -255,16 +259,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppUser&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.username, username) || other.username == username)&&(identical(other.basicDetails, basicDetails) || other.basicDetails == basicDetails)&&(identical(other.bio, bio) || other.bio == bio)&&const DeepCollectionEquality().equals(other._spiritualMasters, _spiritualMasters));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppUser&&(identical(other.uid, uid) || other.uid == uid)&&(identical(other.username, username) || other.username == username)&&(identical(other.status, status) || other.status == status)&&(identical(other.basicDetails, basicDetails) || other.basicDetails == basicDetails)&&(identical(other.bio, bio) || other.bio == bio)&&const DeepCollectionEquality().equals(other._spiritualMasters, _spiritualMasters)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,uid,username,basicDetails,bio,const DeepCollectionEquality().hash(_spiritualMasters));
+int get hashCode => Object.hash(runtimeType,uid,username,status,basicDetails,bio,const DeepCollectionEquality().hash(_spiritualMasters),createdAt);
 
 @override
 String toString() {
-  return 'AppUser(uid: $uid, username: $username, basicDetails: $basicDetails, bio: $bio, spiritualMasters: $spiritualMasters)';
+  return 'AppUser(uid: $uid, username: $username, status: $status, basicDetails: $basicDetails, bio: $bio, spiritualMasters: $spiritualMasters, createdAt: $createdAt)';
 }
 
 
@@ -275,7 +279,7 @@ abstract mixin class _$AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
   factory _$AppUserCopyWith(_AppUser value, $Res Function(_AppUser) _then) = __$AppUserCopyWithImpl;
 @override @useResult
 $Res call({
- String uid, String username, BasicDetails? basicDetails, String? bio, List<SpiritualMaster>? spiritualMasters
+ String uid, String username, String? status, BasicDetails? basicDetails, String? bio, List<SpiritualMaster>? spiritualMasters,@FirestoreDateTimeConverter() DateTime? createdAt
 });
 
 
@@ -292,14 +296,16 @@ class __$AppUserCopyWithImpl<$Res>
 
 /// Create a copy of AppUser
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? uid = null,Object? username = null,Object? basicDetails = freezed,Object? bio = freezed,Object? spiritualMasters = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? uid = null,Object? username = null,Object? status = freezed,Object? basicDetails = freezed,Object? bio = freezed,Object? spiritualMasters = freezed,Object? createdAt = freezed,}) {
   return _then(_AppUser(
 uid: null == uid ? _self.uid : uid // ignore: cast_nullable_to_non_nullable
 as String,username: null == username ? _self.username : username // ignore: cast_nullable_to_non_nullable
-as String,basicDetails: freezed == basicDetails ? _self.basicDetails : basicDetails // ignore: cast_nullable_to_non_nullable
+as String,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String?,basicDetails: freezed == basicDetails ? _self.basicDetails : basicDetails // ignore: cast_nullable_to_non_nullable
 as BasicDetails?,bio: freezed == bio ? _self.bio : bio // ignore: cast_nullable_to_non_nullable
 as String?,spiritualMasters: freezed == spiritualMasters ? _self._spiritualMasters : spiritualMasters // ignore: cast_nullable_to_non_nullable
-as List<SpiritualMaster>?,
+as List<SpiritualMaster>?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 

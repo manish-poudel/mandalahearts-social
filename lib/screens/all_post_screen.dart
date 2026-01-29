@@ -22,6 +22,7 @@ class _AllPostScreenState extends State<AllPostScreen> {
     super.initState();
 
     _scrollController.addListener(() {
+      // Auto-load more when near the bottom
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent - 300) {
         context.read<PublicPostFeedCubit>().loadMore();
@@ -63,7 +64,6 @@ class _AllPostScreenState extends State<AllPostScreen> {
 
             loading: () {
               final count = _skeletonCount(context);
-
               return ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: count,
@@ -74,56 +74,89 @@ class _AllPostScreenState extends State<AllPostScreen> {
             initialError: (msg) =>
                 Center(child: Text(msg, textAlign: TextAlign.center)),
 
-            loaded:
-                (items, hasMore, isLoadingMore, isRefreshing, loadMoreError) {
-                  return RefreshIndicator(
-                    onRefresh: () =>
-                        context.read<PublicPostFeedCubit>().refresh(),
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      itemCount: items.length + (isLoadingMore ? 1 : 0),
-                      itemBuilder: (context, index) {
-                        /// Pagination loader
-                        // todo: circular progress theme
-                        if (index >= items.length) {
-                          return Padding(
-                            padding: EdgeInsets.all(16),
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                strokeWidth: 1,
-                                color: Colors.grey,
+            loaded: (items, hasMore, isLoadingMore, isRefreshing, loadMoreError) {
+              // Show "Load More" button if items < 2 or there are more posts
+              final showLoadMoreButton = items.length < 2 || hasMore;
+
+              return RefreshIndicator(
+                onRefresh: () => context.read<PublicPostFeedCubit>().refresh(),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: constraints.maxHeight,
+                      ),
+                      child: ListView.builder(
+                        controller: _scrollController,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemCount: items.length + (showLoadMoreButton ? 1 : 0),
+                        itemBuilder: (context, index) {
+                          if (index < items.length) {
+                            final item = items[index];
+                            final post = item.post;
+
+                            return GestureDetector(
+                              onTap: () async {
+                                final deleted = await context.push(
+                                  AppRoute.postViewScreen.path,
+                                  extra: item,
+                                );
+                                if (deleted == true) refresh();
+                              },
+                              child: PostCard(
+                                userId: item.creatorId,
+                                username: item.creatorName,
+                                profileImageUrl: item.creatorProfileImageUrl,
+                                imageUrl: post.imageUrl,
+                                caption: post.caption,
+                                createdAt: post.createdAt,
                               ),
-                            ),
-                          );
-                        }
-
-                        final item = items[index];
-                        final post = item.post;
-
-                        return GestureDetector(
-                          onTap: () async {
-                            final deleted = await context.push(
-                              AppRoute.postViewScreen.path,
-                              extra: item,
                             );
-                            if (deleted == true) {
-                              refresh();
-                            }
-                          },
-                          child: PostCard(
-                            userId: item.creatorId,
-                            username: item.creatorName,
-                            profileImageUrl: item.creatorProfileImageUrl,
-                            imageUrl: post.imageUrl,
-                            caption: post.caption,
-                            createdAt: post.createdAt,
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                },
+                          } else {
+                            // Always show "Load More" button at the bottom if needed
+                            return isLoadingMore
+                                ? Padding(
+                                    padding: EdgeInsets.all(16),
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 1,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  )
+                                : GestureDetector(
+                                    onTap: () {
+                                      context
+                                          .read<PublicPostFeedCubit>()
+                                          .loadMore();
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsetsGeometry.all(16),
+                                      child: Container(
+                                        width: 40,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: Colors.grey.shade400,
+                                          ),
+                                        ),
+                                        child: const Icon(
+                                          Icons.add,
+                                          size: 20,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                          }
+                        },
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
           );
         },
       ),

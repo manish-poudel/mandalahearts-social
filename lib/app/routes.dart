@@ -18,11 +18,13 @@ import 'package:mandalahearts/models/post_feed_item/post_feed_item.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
 import 'package:mandalahearts/repository/post_repository.dart';
 import 'package:mandalahearts/screens/add_post_screen.dart';
+import 'package:mandalahearts/screens/delete_account_screen.dart';
 import 'package:mandalahearts/screens/edit_profile_screen.dart';
 import 'package:mandalahearts/screens/password_reset_screen.dart';
 import 'package:mandalahearts/screens/photo_picker_screen.dart';
 import 'package:mandalahearts/screens/post_view_screen.dart';
 import 'package:mandalahearts/screens/profile_view_screen.dart';
+import 'package:mandalahearts/screens/settings_screen.dart';
 
 import 'package:mandalahearts/screens/sign_in_screen.dart';
 import 'package:mandalahearts/screens/sign_up_screen.dart';
@@ -192,6 +194,22 @@ List<RouteBase> appRoutes = <RouteBase>[
     path: AppRoute.addSpiritualMater.path,
     pageBuilder: (context, state) {
       return MaterialPage(child: SpiritualMasterScreen.add());
+    },
+  ),
+
+  GoRoute(
+    name: AppRoute.deleteAccountScreen.name,
+    path: AppRoute.deleteAccountScreen.path,
+    builder: (context, state) {
+      return DeleteAccountScreen();
+    },
+  ),
+
+  GoRoute(
+    name: AppRoute.settingScreen.name,
+    path: AppRoute.settingScreen.path,
+    builder: (context, state) {
+      return SettingsScreen();
     },
   ),
 

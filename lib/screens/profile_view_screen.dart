@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mandalahearts/app/app_routes.dart';
 import 'package:mandalahearts/core/widgets/add_spiritual_master.dart';
+import 'package:mandalahearts/core/widgets/app_tooltip.dart';
 import 'package:mandalahearts/core/widgets/basic_profile_view.dart';
 import 'package:mandalahearts/core/widgets/custom_network_image.dart';
-import 'package:mandalahearts/core/widgets/settings_sheet.dart';
 import 'package:mandalahearts/core/widgets/spiritual_master_view.dart';
 import 'package:mandalahearts/core/widgets/verification_banner.dart';
 import 'package:mandalahearts/enums/profile_mode.dart';
@@ -39,7 +39,9 @@ class ProfileViewScreen extends StatelessWidget {
                   if (mode == ProfileMode.currentUser) {
                     return IconButton(
                       icon: const Icon(Icons.settings_outlined),
-                      onPressed: () => _showSettingsBottomSheet(context),
+                      onPressed: () {
+                        context.push(AppRoute.settingScreen.path);
+                      },
                     );
                   }
                   return const SizedBox.shrink();
@@ -142,6 +144,20 @@ class ProfileViewScreen extends StatelessWidget {
                                         ?.copyWith(fontWeight: FontWeight.w600),
                                   ),
                                 ),
+
+                                if (mode == ProfileMode.currentUser)
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8),
+                                    child: InfoTooltip(
+                                      durationSeconds: 3,
+                                      message:
+                                          'Adding spiritual masters can help personalize your feed and let others understand your journey better.',
+                                      child: const Icon(
+                                        Icons.info_outline,
+                                        size: 20,
+                                      ),
+                                    ),
+                                  ),
                                 if (mode == ProfileMode.currentUser)
                                   IconButton(
                                     icon: const Icon(
@@ -170,8 +186,137 @@ class ProfileViewScreen extends StatelessWidget {
 
                     const SizedBox(height: 32),
 
-                    /// --- 5. Posts Grid ---
-                    _buildPostGrid(context, user, mode),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 21),
+                      child: BlocProvider(
+                        create: (_) => CreatorPostFeedCubit(
+                          creatorId: user.uid,
+                          repository: context.read<PostRepository>(),
+                          profileMode: mode,
+                        )..loadInitial(),
+                        child: BlocBuilder<CreatorPostFeedCubit, PostFeedState>(
+                          builder: (context, state) {
+                            final cubit = context.read<CreatorPostFeedCubit>();
+
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Posts',
+                                  style: theme.textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                const SizedBox(height: 16),
+
+                                if (state is PostFeedLoading)
+                                  const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+
+                                if (state is PostFeedLoaded &&
+                                    state.items.isNotEmpty)
+                                  Column(
+                                    children: [
+                                      GridView.builder(
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemCount: state.items.length,
+                                        gridDelegate:
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 3,
+                                              mainAxisSpacing: 6,
+                                              crossAxisSpacing: 6,
+                                            ),
+                                        itemBuilder: (_, index) {
+                                          final post = state.items[index].post;
+                                          return GestureDetector(
+                                            onTap: () async {
+                                              final deleted = await context
+                                                  .push(
+                                                    AppRoute
+                                                        .postViewScreen
+                                                        .path,
+                                                    extra: state.items[index],
+                                                  );
+                                              if (deleted == true) {
+                                                cubit.removePost(post.id);
+                                              }
+                                            },
+                                            child: CustomNetworkImage(
+                                              imageUrl: post.imageUrl,
+                                            ),
+                                          );
+                                        },
+                                      ),
+
+                                      const SizedBox(height: 12),
+
+                                      if (state.hasMore)
+                                        Center(
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              cubit.loadMore();
+                                            },
+
+                                            child: state.isLoadingMore
+                                                ? const Padding(
+                                                    padding: EdgeInsets.all(6),
+                                                    child:
+                                                        CircularProgressIndicator(),
+                                                  )
+                                                : Container(
+                                                    width: 40,
+                                                    height: 40,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
+                                                        color: Colors
+                                                            .grey
+                                                            .shade400,
+                                                      ),
+                                                    ),
+                                                    child: const Icon(
+                                                      Icons.add,
+                                                      size: 20,
+                                                      color: Colors.grey,
+                                                    ),
+                                                  ),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+
+                                if (state is PostFeedLoaded &&
+                                    state.items.isEmpty)
+                                  Align(
+                                    alignment: AlignmentGeometry.center,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 16,
+                                      ),
+                                      child: Text(
+                                        'No posts yet.',
+                                        textAlign: TextAlign.center,
+                                        style: theme.textTheme.bodyMedium
+                                            ?.copyWith(
+                                              color: theme
+                                                  .colorScheme
+                                                  .onSurfaceVariant
+                                                  .withAlpha(140),
+                                              height: 1.4,
+                                            ),
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ),
 
                     const SizedBox(height: 24),
                   ],
@@ -181,89 +326,6 @@ class ProfileViewScreen extends StatelessWidget {
           },
         ),
       ),
-    );
-  }
-
-  Widget _buildPostGrid(BuildContext context, user, mode) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 21),
-      child: BlocProvider(
-        create: (_) => CreatorPostFeedCubit(
-          creatorId: user.uid,
-          repository: context.read<PostRepository>(),
-          profileMode: mode,
-        )..loadInitial(),
-        child: BlocBuilder<CreatorPostFeedCubit, PostFeedState>(
-          builder: (context, state) {
-            final cubit = context.read<CreatorPostFeedCubit>();
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Posts',
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                if (state is PostFeedLoaded && state.items.isNotEmpty)
-                  GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: state.items.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          mainAxisSpacing: 6,
-                          crossAxisSpacing: 6,
-                        ),
-                    itemBuilder: (_, index) {
-                      return GestureDetector(
-                        onTap: () async {
-                          final deleted = await context.push(
-                            AppRoute.postViewScreen.path,
-                            extra: state.items[index],
-                          );
-                          if (deleted == true)
-                            cubit.removePost(state.items[index].post.id);
-                        },
-                        child: CustomNetworkImage(
-                          imageUrl: state.items[index].post.imageUrl,
-                        ),
-                      );
-                    },
-                  ),
-                if (state is PostFeedLoaded && state.items.isEmpty)
-                  const Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(20.0),
-                      child: Text('No posts yet'),
-                    ),
-                  ),
-              ],
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  void _showSettingsBottomSheet(BuildContext parentContext) {
-    showModalBottomSheet(
-      context: parentContext,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.95,
-          decoration: BoxDecoration(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          child: SettingsSheet(parentContext: parentContext),
-        );
-      },
     );
   }
 

@@ -15,5 +15,10 @@ abstract class PostDb {
     DateTime? newerThan,
   });
 
+  Future<List<UserPost>> fetchAllPostsByCreator(
+    String creatorId, {
+    int limit = 100,
+  });
+
   Future<void> deletePost(String postId);
 }
