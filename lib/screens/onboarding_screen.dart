@@ -46,13 +46,6 @@ class OnBoardingScreen extends StatelessWidget {
                           style: textTheme.titleLarge?.copyWith(fontSize: 19),
                         ),
                         const SizedBox(height: 8),
-                        // Text(
-                        //   'Meditative Posts • Spiritual News • Tools & Support',
-                        //   textAlign: TextAlign.center,
-                        //   style: textTheme.bodySmall?.copyWith(
-                        //     color: Colors.grey,
-                        //   ),
-                        // ),
                       ],
                     ),
                   ],
