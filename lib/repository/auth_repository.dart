@@ -52,5 +52,14 @@ class AuthRepository {
     return _auth.sendPasswordResetEmail(email: email.trim());
   }
 
+  Future<void> sendVerification() async {
+    final user = FirebaseAuth.instance.currentUser;
+    await user?.sendEmailVerification();
+  }
+
   User? get currentUser => _auth.currentUser;
+
+  Future<void> refresh() async {
+    await currentUser?.reload();
+  }
 }

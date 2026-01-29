@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mandalahearts/enums/profile_mode.dart';
 import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_state.dart';
@@ -31,13 +30,17 @@ class ProfileViewCubit extends Cubit<ProfileViewState> {
     _sub = _repo
         .streamUser(userId)
         .listen(
-          (user) {
+          (user) async {
             if (user == null) {
               emit(const ProfileViewState.error('User not found'));
               return;
             }
-            final emailVerified =
+            bool emailVerified =
                 authRepository?.currentUser?.emailVerified ?? true;
+            if (!emailVerified) {
+              await authRepository?.refresh();
+            }
+            emailVerified = authRepository?.currentUser?.emailVerified ?? true;
             emit(
               ProfileViewState.loaded(
                 user: user,
@@ -81,6 +84,10 @@ class ProfileViewCubit extends Cubit<ProfileViewState> {
         }
       },
     );
+  }
+
+  Future<void> sendVerificationEmail() async {
+    await authRepository?.sendVerification();
   }
 
   @override

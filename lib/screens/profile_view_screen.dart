@@ -16,6 +16,7 @@ import 'package:mandalahearts/features/profile/view_profile/cubits/profile_view_
 import 'package:mandalahearts/features/spiritual_masters/add/cubit/add_spiritual_master_cubit.dart';
 import 'package:mandalahearts/repository/app_config_repository.dart';
 import 'package:mandalahearts/repository/app_user_repository.dart';
+import 'package:mandalahearts/repository/auth_repository.dart';
 import 'package:mandalahearts/repository/post_repository.dart';
 import 'package:mandalahearts/repository/spiritual_master_repository.dart';
 
@@ -83,23 +84,26 @@ class ProfileViewScreen extends StatelessWidget {
 
                     /// --- 3. Edit Profile Action ---
                     if (mode == ProfileMode.currentUser)
-                      Align(
-                        alignment: AlignmentGeometry.center,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 32),
-                          child: OutlinedButton(
-                            onPressed: () =>
-                                context.push(AppRoute.editProfileScreen.path),
-                            style: OutlinedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 16,
-                                horizontal: 64,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                          alignment: AlignmentGeometry.center,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 32),
+                            child: OutlinedButton(
+                              onPressed: () =>
+                                  context.push(AppRoute.editProfileScreen.path),
+                              style: OutlinedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                  horizontal: 64,
+                                ),
+                                minimumSize: Size.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                visualDensity: VisualDensity.compact,
                               ),
-                              minimumSize: Size.zero,
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              visualDensity: VisualDensity.compact,
+                              child: const Text('Edit profile'),
                             ),
-                            child: const Text('Edit profile'),
                           ),
                         ),
                       ),
@@ -111,11 +115,13 @@ class ProfileViewScreen extends StatelessWidget {
                         isAccountVerified == false)
                       VerificationBanner(
                         onResend: () {
-                          // TODO: Call your resend logic here
+                          context.read<AuthRepository>().sendVerification();
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               behavior: SnackBarBehavior.floating,
-                              content: Text('Verification email sent!'),
+                              content: Text(
+                                'Verification link has been sent to your email!',
+                              ),
                             ),
                           );
                         },
@@ -250,7 +256,7 @@ class ProfileViewScreen extends StatelessWidget {
       backgroundColor: Colors.transparent,
       builder: (context) {
         return Container(
-          height: MediaQuery.of(context).size.height * 0.8,
+          height: MediaQuery.of(context).size.height * 0.95,
           decoration: BoxDecoration(
             color: Theme.of(context).scaffoldBackgroundColor,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),

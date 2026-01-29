@@ -64,7 +64,10 @@ class _VerificationBannerState extends State<VerificationBanner> {
           Align(
             alignment: Alignment.centerLeft,
             child: TextButton.icon(
-              onPressed: widget.onResend,
+              onPressed: () {
+                setState(() => _isVisible = false);
+                widget.onResend();
+              },
               icon: const Icon(Icons.send_rounded, size: 14),
               label: const Text(
                 'Send verification link',
