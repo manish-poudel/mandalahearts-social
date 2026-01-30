@@ -86,7 +86,9 @@ class _AllPostScreenState extends State<AllPostScreen> {
                       constraints: BoxConstraints(
                         minHeight: constraints.maxHeight,
                       ),
+
                       child: ListView.builder(
+                        padding: EdgeInsets.all(8),
                         controller: _scrollController,
                         physics: const AlwaysScrollableScrollPhysics(),
                         itemCount: items.length + (showLoadMoreButton ? 1 : 0),

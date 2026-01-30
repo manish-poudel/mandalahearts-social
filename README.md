@@ -1,16 +1,63 @@
-# mandalahearts
+# MandalaHearts
 
-A new Flutter project.
+A Flutter social app focused on community engagement, user profiles, spiritual content, and post sharing.
+
+## Overview
+
+MandalaHearts is a mobile-first application built to support:
+
+- user sign-in and account management
+- profile creation and customization
+- creating and viewing posts
+- social feed interaction
+- spiritual master discovery and content access
+- app configuration and remote updates
+
+## Tech Stack
+
+- Flutter
+- Dart
+- Firebase Authentication + Firestore + Remote Config
+- Supabase for media/storage
+- BLoC for state management
+- Go Router for navigation
+- Shared preferences and app configuration services
+
+## Architecture
+
+The app follows a clean feature-based structure with a layered architecture:
+
+- Features: separate modules such as auth, profile, feed, posts, and onboarding
+- BLoC: handles UI state and business logic inside each feature
+- Repository layer: abstracts data access and keeps screens independent from storage logic
+- Services: Firebase and Supabase integrations are isolated for easier maintenance
+- App config and environment setup: managed separately for scaling and deployment
+
+This keeps the project easy to extend as new features are added.
+
+## Project Structure
+
+- lib/features: feature-based screens and BLoC logic
+- lib/repository: repository classes for app data access
+- lib/core: shared utilities, services, validators, and widgets
+- lib/models: app data models
+- lib/screens: app screens and navigation entry points
+
+## Notes for Recruiters
+
+This project demonstrates practical mobile app development with:
+
+- scalable Flutter architecture
+- state management using BLoC
+- repository-based data flow
+- real backend integrations with Firebase and Supabase
+- clean folder organization for feature development
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+```bash
+flutter pub get
+flutter run
+```
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Make sure Firebase and Supabase environment values are configured before running the app.

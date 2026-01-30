@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mandalahearts/app/app_routes.dart';
 import 'package:mandalahearts/core/widgets/add_spiritual_master.dart';
-import 'package:mandalahearts/core/widgets/app_tooltip.dart';
 import 'package:mandalahearts/core/widgets/basic_profile_view.dart';
 import 'package:mandalahearts/core/widgets/custom_network_image.dart';
 import 'package:mandalahearts/core/widgets/spiritual_master_view.dart';

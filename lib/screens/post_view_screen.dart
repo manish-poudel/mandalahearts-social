@@ -28,17 +28,18 @@ class PostViewScreen extends StatelessWidget {
       },
       builder: (context, state) {
         return Scaffold(
+          backgroundColor: Colors.white,
           appBar: AppBar(
             title: const Text('Post'),
             actions: [
               state.maybeWhen(
-                loaded: (postFeedItem, canDelete, deleteState) {
+                loaded: (_, canDelete, deleteState) {
                   if (!canDelete) return const SizedBox.shrink();
 
                   return deleteState.maybeWhen(
-                    loading: () => Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: const SizedBox(
+                    loading: () => const Padding(
+                      padding: EdgeInsets.all(12),
+                      child: SizedBox(
                         width: 20,
                         height: 20,
                         child: CircularProgressIndicator(strokeWidth: 2),
@@ -76,37 +77,49 @@ class PostViewScreen extends StatelessWidget {
           body: state.when(
             loading: () => const Center(child: CircularProgressIndicator()),
             deleted: () => const SizedBox.shrink(),
-            loaded: (postFeedItem, _, __) => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Post image
-                AspectRatio(
-                  aspectRatio: 1,
-                  child: Image.network(
-                    postFeedItem.post.imageUrl,
-                    fit: BoxFit.cover,
-                    loadingBuilder: (context, child, progress) {
-                      if (progress == null) return child;
-                      return Container(color: Colors.grey.shade300);
-                    },
-                    errorBuilder: (_, __, ___) => Container(
-                      color: Colors.grey.shade200,
-                      child: const Icon(Icons.broken_image),
+            loaded: (postFeedItem, _, __) {
+              return SingleChildScrollView(
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 600),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        /// ── IMAGE (FULLY VISIBLE, NO CROP) ──
+                        Image.network(
+                          postFeedItem.post.imageUrl,
+                          fit: BoxFit.contain, // 👈 IMPORTANT
+                          width: double.infinity,
+                          loadingBuilder: (context, child, progress) {
+                            if (progress == null) return child;
+                            return Container(
+                              height: 300,
+                              color: Colors.grey.shade300,
+                            );
+                          },
+                          errorBuilder: (_, __, ___) => Container(
+                            height: 300,
+                            color: Colors.grey.shade200,
+                            alignment: Alignment.center,
+                            child: const Icon(Icons.broken_image),
+                          ),
+                        ),
+
+                        /// ── CAPTION ───────────────────────
+                        if (postFeedItem.post.caption.isNotEmpty)
+                          Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Text(
+                              postFeedItem.post.caption,
+                              style: const TextStyle(fontSize: 15, height: 1.5),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
                 ),
-
-                // Caption
-                if (postFeedItem.post.caption.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text(
-                      postFeedItem.post.caption,
-                      style: const TextStyle(fontSize: 15),
-                    ),
-                  ),
-              ],
-            ),
+              );
+            },
           ),
         );
       },

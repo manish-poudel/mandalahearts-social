@@ -96,7 +96,8 @@ class _InteractiveImageViewerState extends State<InteractiveImageViewer> {
     // Bound inside square
     return LayoutBuilder(
       builder: (context, constraints) {
-        final size = constraints.maxWidth; // square aspect
+        final maxSize = constraints.maxWidth;
+        final size = maxSize > 600 ? 480.0 : maxSize;
         return SizedBox(width: size, height: size, child: content);
       },
     );
