@@ -145,19 +145,19 @@ class ProfileViewScreen extends StatelessWidget {
                                   ),
                                 ),
 
-                                if (mode == ProfileMode.currentUser)
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8),
-                                    child: InfoTooltip(
-                                      durationSeconds: 3,
-                                      message:
-                                          'Adding spiritual masters can help personalize your feed and let others understand your journey better.',
-                                      child: const Icon(
-                                        Icons.info_outline,
-                                        size: 20,
-                                      ),
-                                    ),
-                                  ),
+                                // if (mode == ProfileMode.currentUser)
+                                //   Padding(
+                                //     padding: const EdgeInsets.only(right: 8),
+                                //     child: InfoTooltip(
+                                //       durationSeconds: 3,
+                                //       message:
+                                //           'Adding spiritual masters can help personalize your feed and let others understand your journey better.',
+                                //       child: const Icon(
+                                //         Icons.info_outline,
+                                //         size: 20,
+                                //       ),
+                                //     ),
+                                //   ),
                                 if (mode == ProfileMode.currentUser)
                                   IconButton(
                                     icon: const Icon(
