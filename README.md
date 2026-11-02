@@ -43,15 +43,6 @@ This keeps the project easy to extend as new features are added.
 - lib/models: app data models
 - lib/screens: app screens and navigation entry points
 
-## Notes for Recruiters
-
-This project demonstrates practical mobile app development with:
-
-- scalable Flutter architecture
-- state management using BLoC
-- repository-based data flow
-- real backend integrations with Firebase and Supabase
-- clean folder organization for feature development
 
 ## Getting Started
 
