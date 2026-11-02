@@ -1,62 +1,56 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
-.DS_Store
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
-migrate_working_dir/
-
-# IntelliJ related
-*.iml
-*.ipr
-*.iws
-.idea/
-
-# Editor / local environment
-.vscode/
-.idea/
-.env
-.fvm/
-
-# Flutter / Dart build artifacts
-**/doc/api/
-**/ios/Flutter/.last_build_id
+# Flutter / Dart
 .dart_tool/
-.flutter-plugins-dependencies
-.pub-cache/
+.packages
 .pub/
-/build/
-/coverage/
+.pub-cache/
+.flutter-plugins
+.flutter-plugins-dependencies
+build/
+coverage/
 
-# OS / editor noise
-.DS_Store
-*.log
+# IDE
+.idea/
+.vscode/
+*.iml
 *.swp
 
-# Symbolication / obfuscation
-app.*.symbols
-app.*.map.json
+# Environment and secrets
+.env
+.env.*
+!.env.example
+google_Service.json
+google-services.json
+GoogleService-Info.plist
+firebase_app_id_file.json
+*.jks
+*.keystore
+key.properties
+local.properties
 
-# Android build output
-/android/app/debug
-/android/app/profile
-/android/app/release
+# Android
+android/.gradle/
+android/captures/
+android/local.properties
+android/key.properties
+android/app/debug/
+android/app/profile/
+android/app/release/
 
-# Web / generated output
-/web/.dart_tool/
-/web/build/
+# iOS
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/ephemeral/
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+ios/Runner/GeneratedPluginRegistrant.*
 
-# Keep important project files tracked
-# lib/
-# android/
-# ios/
-# macos/
-# windows/
-# assets/
-# test/
+# macOS
+macos/Pods/
+
+# Linux / Windows generated files
+linux/flutter/ephemeral/
+windows/flutter/ephemeral/
+
+# OS files
+.DS_Store
+Thumbs.db
