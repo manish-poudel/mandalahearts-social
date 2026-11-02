@@ -18,14 +18,27 @@ coverage/
 .env
 .env.*
 !.env.example
-google_Service.json
-google-services.json
-GoogleService-Info.plist
-firebase_app_id_file.json
+**/google-services.json
+**/GoogleService-Info.plist
+**/firebase_app_id_file.json
+**/google_Service.json
 *.jks
 *.keystore
 key.properties
 local.properties
+
+# Generated native build outputs
+**/build/
+**/ios/Pods/
+**/ios/DerivedData/
+**/android/.gradle/
+**/android/app/release/
+**/android/app/debug/
+**/android/app/profile/
+**/android/captures/
+**/macos/Build/
+**/linux/flutter/ephemeral/
+**/windows/flutter/ephemeral/
 
 # Android
 android/.gradle/
